@@ -1,0 +1,96 @@
+@import url("https://rsms.me/inter/inter.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        font-family: "Inter", sans-serif;
+    }
+    html,
+    body {
+        @apply bg-[#FFFFFF] text-black h-full w-full text-xl cursor-none;
+    }
+
+    .font-exo {
+        font-family: "Exo 2", sans-serif;
+    }
+
+    #__next {
+        @apply isolate flex min-h-full flex-col slashed-zero;
+    }
+}
+
+@layer components {
+    .app-section {
+        @apply px-2 md:px-[30px] lg:px-[60px] xl:px-[120px];
+    }
+
+    .app-section > * {
+        @apply mx-auto w-full max-w-6xl;
+    }
+
+    .btn-header {
+        @apply py-1 hover:underline;
+    }
+
+    .layout-base {
+        @apply app-section mx-auto mt-14 flex w-full flex-col items-center space-y-6 pb-8;
+    }
+    .btns-rounded {
+        @apply rounded border-purple border-[2.25px] items-center p-3 text-black hover:bg-btnHover hover:text-white active:text-white active:bg-btnActive;
+    }
+    .secondary-button {
+        @apply whitespace-nowrap bg-purple text-white font-medium h-10 rounded-full text-sm hover:bg-btnHover active:bg-btnActive disabled:cursor-not-allowed;
+    }
+
+    .custom-cursor {
+        @apply cursor-none;
+    }
+}
+
+.mask-content {
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    font-size: 7.8vw;
+    line-height: 11.13vw;
+    box-sizing: border-box;
+}
+
+.mask {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 115%;
+    transform-origin: 100% 50%;
+    transform: translateZ(0);
+    opacity: 0.65;
+    background: #FFFFFF;
+}
+
+.loading {
+    filter: blur(10px);
+}
+
+.loaded {
+    filter: blur(0);
+    transition: filter 0.3s linear;
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
