@@ -70,7 +70,7 @@ export function Sidebar({ children }: ILayoutProps) {
                 className={classNames(
                   "flex flex-col items-center justify-center",
                   "text-black2Color",
-                  "group cursor-pointer rounded-2xl py-2 text-xs font-medium hover:text-[#8d6eec]",
+                  "group cursor-pointer rounded-2xl py-2 font-medium hover:text-[#8d6eec]",
                   font_montserrat.className,
                 )}
               >
@@ -82,7 +82,7 @@ export function Sidebar({ children }: ILayoutProps) {
                 className={classNames(
                   "flex flex-col items-center justify-center",
                   "text-black2Color",
-                  "group cursor-pointer rounded-2xl py-2 text-xs font-medium hover:fill-[#6ea0ec] hover:text-[#6ea0ec] group-hover:text-[#6ea0ec]",
+                  "group cursor-pointer rounded-2xl py-2 font-medium hover:fill-[#6ea0ec] hover:text-[#6ea0ec] group-hover:text-[#6ea0ec]",
                   font_montserrat.className,
                 )}
               >
