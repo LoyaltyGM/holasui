@@ -26,20 +26,20 @@ export const ProjectCard = ({
           </div>
           <button
             onClick={() => setOpenRules(true)}
-            className={classNames("text-md mr-2 font-light text-black2Color hover:underline")}
+            className={classNames("text-md mr-2 font-medium text-black2Color hover:underline")}
           >
             FAQs
           </button>
         </div>
         <div className="mt-4 h-24 justify-between gap-4 md:flex">
-          <div className="text flex w-full content-center justify-between rounded-xl bg-[#5A5A95] px-3 py-4 text-start text-white md:w-1/4 md:flex-col md:justify-center">
+          <div className="text flex w-full content-center justify-between rounded-xl bg-[#5A5A95] px-3 py-4 text-start text-white md:w-full md:flex-col md:justify-center">
             <p className={classNames("font-extrabold md:text-sm md:leading-4")}>
               Total <br className="hidden md:flex" />
               Staked
             </p>
             <p className={classNames("text-2xl font-black")}>{totalStaked ? totalStaked : 0}</p>
           </div>
-          <div className="text mt-2 flex w-full content-center justify-between rounded-xl bg-pinkColor px-3 py-4 text-start text-white md:mt-0 md:w-1/4 md:flex-col md:justify-center">
+          <div className="text mt-2 flex w-full content-center justify-between rounded-xl bg-pinkColor px-3 py-4 text-start text-white md:mt-0 md:w-full md:flex-col md:justify-center">
             <p className={classNames("font-extrabold md:text-sm md:leading-4")}>
               You <br className="hidden md:flex" />
               Staked
@@ -48,7 +48,7 @@ export const ProjectCard = ({
               {stakedList?.length ? stakedList.length : 0}
             </p>
           </div>
-          <div className="mt-2 flex w-full content-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white md:mt-0 md:w-1/4 md:flex-col md:justify-center">
+          <div className="mt-2 flex w-full content-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white md:mt-0 md:w-full md:flex-col md:justify-center">
             <p className={classNames("mt-2 font-extrabold md:mt-0 md:text-sm md:leading-4")}>
               Your Available Hola Points
             </p>
