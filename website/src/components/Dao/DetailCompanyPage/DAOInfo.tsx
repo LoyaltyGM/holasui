@@ -85,7 +85,7 @@ export const DAOInfo = ({
             )}
             <div
               className={
-                "mt-2 flex cursor-pointer justify-center text-xs text-black2Color underline underline-offset-4 hover:text-pinkColor md:px-4 "
+                "mt-2 flex cursor-pointer justify-center text-sm font-medium text-black2Color underline underline-offset-4 hover:text-pinkColor md:px-4 "
               }
               onClick={() => setOpenedDialog(true)}
             >
