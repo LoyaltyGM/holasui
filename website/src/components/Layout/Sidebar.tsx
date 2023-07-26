@@ -1,5 +1,4 @@
 import React from "react";
-
 import { ILayoutProps } from "types";
 import Link from "next/link";
 import { classNames } from "utils/";
@@ -19,14 +18,7 @@ export function Sidebar({ children }: ILayoutProps) {
   const Header = () => {
     return (
       <div className={"fixed-header w-full"}>
-        <div
-          className={classNames(
-            "mx-2 rounded-lg border-2 border-blackColor bg-white px-2 py-1 text-white md:mx-8",
-            router.pathname === "/dao" || router.pathname === "/dao/[daoAddress]"
-              ? "mt-24 md:mt-24"
-              : "mt-4",
-          )}
-        >
+        <div className="mx-2 mt-4 rounded-lg border-2 border-blackColor bg-white px-2 py-1 text-white md:mx-8">
           <div className="flex content-center items-center justify-between">
             <Link href="/">
               <Image src={Logo} height={60} width={140} alt={"logo"} priority unoptimized={true} />
@@ -111,18 +103,7 @@ export function Sidebar({ children }: ILayoutProps) {
 
   return (
     <>
-      {router.pathname === "/dao" || router.pathname === "/dao/[daoAddress]" ? (
-        <div className={"fixed-header left-0 top-0 h-[65px] w-full md:fixed"}>
-          <NewsTicker />
-        </div>
-      ) : null}
-      <div
-        className={classNames(
-          router.pathname === "/dao" || router.pathname === "/dao/[daoAddress]"
-            ? "md:mt-14"
-            : "mt-4",
-        )}
-      >
+      <div className="mt-4">
         <Header />
         <div className="flex flex-1 flex-col">
           <main className="h-full flex-1 bg-basicColor">
