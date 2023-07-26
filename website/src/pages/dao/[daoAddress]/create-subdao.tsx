@@ -363,7 +363,7 @@ const CreateSubDAO = () => {
 
   const BradcrumbsHeader = () => {
     return (
-      <nav className="mt-10 md:flex hidden" aria-label="Breadcrumb">
+      <nav className="mt-10 hidden md:flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
             <Link
@@ -393,8 +393,9 @@ const CreateSubDAO = () => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center text-grayColor">
+            <div className="flex items-center text-black2Color">
               <p className={"font-semibold md:ml-2 md:mr-2"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4"} />
               <span className="text-sm font-medium">Create SubDAO</span>
             </div>
           </li>
@@ -548,9 +549,7 @@ const CreateSubDAO = () => {
         <div className={"flex gap-4"}>
           <button
             type="button"
-            className={
-              "rounded-2xl border border-purpleColor px-3 py-2 font-bold text-purpleColor hover:bg-purpleColor hover:text-white md:px-6 md:py-4"
-            }
+            className={"pinkColor-primary-state rounded-2xl px-3 py-2 font-bold md:px-6 md:py-4"}
             onClick={router.back}
           >
             Cancel
