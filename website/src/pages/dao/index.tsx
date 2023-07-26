@@ -94,7 +94,7 @@ const DAO = () => {
         "mt-18 z-10 mt-8 flex min-h-[100vh] flex-col rounded-lg py-6 pl-2 pr-2 md:mt-14 md:min-h-[65vh] md:pl-16 md:pr-10 ",
       )}
     >
-      <div className={"mt-32 flex content-center items-center justify-between"}>
+      <div className={"mt-8 flex content-center items-center justify-between md:mt-20"}>
         <h1 className={"text-2xl font-semibold text-blackColor md:text-4xl"}>Hola, DAOs</h1>
         <Link
           href={"dao/create-dao"}
