@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { signTransactionCreateDao, suiProvider } from "services/sui";
 import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 import { storeNFT } from "services/ipfs";
+import { FolderIcon } from "@heroicons/react/24/solid";
 
 type Inputs = {
   nftType: string;
@@ -120,16 +121,10 @@ const CreateDAO = () => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center">
-              <svg
-                className="h-5 w-5 flex-shrink-0 text-gray-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-              </svg>
-              <span className="ml-1 text-sm font-medium text-gray-300 md:ml-2">New DAO</span>
+            <div className="flex items-center text-black2Color">
+              <p className={"ml-2 mr-2 font-semibold"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4"} />
+              <span className="text-sm font-medium">New DAO</span>
             </div>
           </li>
         </ol>
@@ -272,7 +267,7 @@ const CreateDAO = () => {
           <button
             type="button"
             className={
-              "rounded-2xl border border-purpleColor px-3 py-2 font-bold text-purpleColor hover:bg-purpleColor hover:text-white md:px-6 md:py-4"
+              "pinkColor-primary-state rounded-2xl px-3 py-2 font-bold hover:text-white md:px-6 md:py-4"
             }
             onClick={router.back}
           >
