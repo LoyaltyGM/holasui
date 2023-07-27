@@ -393,10 +393,10 @@ const CreateSubDAO = () => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center text-black2Color">
-              <p className={"font-semibold md:ml-2 md:mr-2"}>/</p>
-              <FolderIcon className={"mr-1.5 h-4 w-4"} />
-              <span className="text-sm font-medium">Create SubDAO</span>
+            <div className="flex items-center">
+              <p className={"font-semibold text-grayColor md:ml-2 md:mr-2"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4 text-black2Color"} />
+              <span className="text-sm font-medium text-black2Color">Create SubDAO</span>
             </div>
           </li>
         </ol>

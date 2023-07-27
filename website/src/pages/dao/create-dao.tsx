@@ -121,10 +121,10 @@ const CreateDAO = () => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center text-black2Color">
-              <p className={"ml-2 mr-2 font-semibold"}>/</p>
-              <FolderIcon className={"mr-1.5 h-4 w-4"} />
-              <span className="text-sm font-medium">New DAO</span>
+            <div className="flex items-center">
+              <p className={"ml-2 mr-2 font-semibold text-grayColor"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4 text-black2Color"} />
+              <span className="text-sm font-medium text-black2Color">New DAO</span>
             </div>
           </li>
         </ol>
