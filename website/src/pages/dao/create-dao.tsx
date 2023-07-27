@@ -154,7 +154,7 @@ const CreateDAO = () => {
         <div className={"flex flex-col"}>
           <div className={"flex justify-between"}>
             <Label label={"Name"} />
-            <p className={"text-sm text-black2Color"}>{`${watch("name")?.length}/200`}</p>
+            <p className={"text-sm text-black2Color"}>{`${watch("name")?.length ?? "0"}/200`}</p>
           </div>
 
           <input
@@ -170,7 +170,9 @@ const CreateDAO = () => {
         <div className={"flex flex-col"}>
           <div className={"flex justify-between"}>
             <Label label={"Description"} />
-            <p className={"text-sm text-black2Color"}>{`${watch("description")?.length}/1000`}</p>
+            <p className={"text-sm text-black2Color"}>{`${
+              watch("description")?.length ?? "0"
+            }/1000`}</p>
           </div>
 
           <textarea
@@ -266,9 +268,7 @@ const CreateDAO = () => {
         <div className={"flex gap-4"}>
           <button
             type="button"
-            className={
-              "pinkColor-primary-state rounded-2xl px-3 py-2 font-bold hover:text-white md:px-6 md:py-4"
-            }
+            className={"pinkColor-second-state rounded-2xl px-3 py-2 font-bold md:px-6 md:py-4"}
             onClick={router.back}
           >
             Cancel
