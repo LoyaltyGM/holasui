@@ -57,13 +57,11 @@ export const ProjectCard = ({
                 <p className={classNames("pt-1 text-xl font-black md:pt-0 md:text-xl")}>
                   {totalHolaPointsOnchain ? formatNumber(totalHolaPointsOnchain) : 0}
                 </p>
-                {stakedList?.length && availablePointsToClaim ? (
+                {stakedList !== null && stakedList?.length !== 0 && availablePointsToClaim > 0 && (
                   <button
                     className="text-sm underline"
-                    onClick={() => claimPointsFunction(stakedList?.map((ticket) => ticket.id))}
+                    onClick={() => claimPointsFunction(stakedList.map((ticket) => ticket.id))}
                   >{`Claim ${formatNumber(availablePointsToClaim)} `}</button>
-                ) : (
-                  <button></button>
                 )}
               </div>
               {/* TODO: rewrite this part */}
