@@ -244,7 +244,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
   const BradcrumbsHeader = () => {
     return (
       <nav className="mt-10 hidden md:flex" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1">
+        <ol className="inline-flex items-center">
           <li className="inline-flex items-center">
             <Link
               href="/dao"
