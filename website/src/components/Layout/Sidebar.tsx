@@ -21,6 +21,7 @@ export function Sidebar({ children }: ILayoutProps) {
         <div className="mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 align-middle text-white md:mx-8 md:min-h-[94px] md:rounded-[20px] md:px-8">
           <div className="flex flex-1 content-center items-center justify-between">
             <Link href="/">
+              {/* TODO:Fix sizing images */}
               <Image
                 src={Logo}
                 height={54}
@@ -28,7 +29,7 @@ export function Sidebar({ children }: ILayoutProps) {
                 alt={"logo"}
                 priority
                 unoptimized={true}
-                className="md:h-[81px] md:w-[180px]"
+                className="md:h-[81px] md:min-w-[180px]"
               />
             </Link>
             <div
