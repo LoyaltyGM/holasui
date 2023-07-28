@@ -15,7 +15,7 @@ const CustomWalletMenu = () => {
       ) : (
         <button
           className={
-            "pinkColor-second-state rounded-xl border border-pinkColor px-4 py-3 text-pinkColor"
+            "pinkColor-second-state rounded-xl border border-pinkColor px-4 py-3 font-medium text-pinkColor"
           }
           onClick={() => setOpenWallet(!openWallet)}
         >

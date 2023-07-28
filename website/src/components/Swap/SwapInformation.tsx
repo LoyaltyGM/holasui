@@ -59,7 +59,7 @@ export const SwapInformation = ({
         <div className="flex content-center items-center justify-center text-center">
           <button
             className={classNames(
-              " flex w-full content-center items-center justify-between rounded-md px-3 py-2 text-center font-medium text-white",
+              "flex w-full content-center items-center justify-center rounded-md px-3 py-2 font-medium text-white",
               isRecipient ? "bg-pinkColor" : "bg-purpleColor",
             )}
           >

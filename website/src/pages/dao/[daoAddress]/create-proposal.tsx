@@ -187,8 +187,8 @@ const CreateProposal = () => {
 
   const BradcrumbsHeader = () => {
     return (
-      <nav className="mt-10 md:flex hidden" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3">
+      <nav className="mt-10 hidden md:flex" aria-label="Breadcrumb">
+        <ol className="inline-flex items-center">
           <li className="inline-flex items-center">
             <Link
               href="/dao"
@@ -217,9 +217,10 @@ const CreateProposal = () => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center text-grayColor">
-              <p className={"font-semibold md:ml-2 md:mr-2"}>/</p>
-              <span className="text-sm font-medium">Create Proposal</span>
+            <div className="flex items-center">
+              <p className={"font-semibold text-grayColor md:ml-2 md:mr-2"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4 text-black2Color"} />
+              <span className="text-sm font-medium text-black2Color">Create Proposal</span>
             </div>
           </li>
         </ol>

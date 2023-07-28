@@ -13,7 +13,7 @@ export const Proposals = ({
     return (
       <div
         className={
-          "text-grayColor text-center text-lg font-normal flex justify-center content-center items-center h-36"
+          "flex h-36 content-center items-center justify-center text-center text-lg font-normal text-black2Color"
         }
       >
         There are no proposals yet
@@ -27,7 +27,7 @@ export const Proposals = ({
       <div className={"mt-10 flex content-center items-center justify-between"}>
         <p className={"text-2xl font-bold"}>Proposals</p>
         <Link href={`/dao/${daoAddress}/create-proposal`}>
-          <button className={"button-primary font-bold button-shadow px-5 py-3"}>
+          <button className={"button-primary button-shadow px-5 py-3 font-bold"}>
             Submit Proposal
           </button>
         </Link>

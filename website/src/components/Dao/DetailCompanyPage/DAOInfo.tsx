@@ -23,7 +23,7 @@ export const DAOInfo = ({
     return (
       <div
         className={
-          "pr-6 mt-4 max-h-[100px] min-h-[70px] w-full overflow-hidden text-clip text-base font-bold text-black2Color"
+          "mt-4 max-h-[100px] min-h-[70px] w-full overflow-hidden text-clip pr-6 text-base font-medium text-black2Color md:w-5/6"
         }
       >
         <p className={"w-full"}>{dao?.description}</p>
@@ -34,7 +34,7 @@ export const DAOInfo = ({
   return (
     <div className={"mt-10"}>
       <div className={"flex w-full justify-between"}>
-        <div className={"md:flex w-full md:justify-between"}>
+        <div className={"w-full md:flex md:justify-between"}>
           <div className={"flex gap-4"}>
             <Image
               src={dao?.image || frensLogo}
@@ -64,19 +64,19 @@ export const DAOInfo = ({
 
           <div
             className={classNames(
-              "flex w-full mt-6 ml-1 md:ml-0 md:mt-0 md:w-1/3 flex-col",
+              "ml-1 mt-6 flex w-full flex-col md:ml-0 md:mt-0 md:w-1/3",
               isSubDao
-                ? "justify-start items-start content-start md:justify-center md:items-center md:content-start"
-                : "justify-start items-start content-start md:justify-center md:items-center md:content-center",
+                ? "content-start items-start justify-start md:content-start md:items-center md:justify-center"
+                : "content-start items-start justify-start md:content-center md:items-center md:justify-center",
             )}
           >
             {isSubDao ? (
-              <div className={"py-2 px-3 bg-yellowColor/30 text-blackColor rounded-lg"}>SubDAO</div>
+              <div className={"rounded-lg bg-yellowColor/30 px-3 py-2 text-blackColor"}>SubDAO</div>
             ) : (
               <Link href={`/dao/${daoAddress}/create-subdao`}>
                 <button
                   className={
-                    "button-secondary button-shadow w-full content-center items-center justify-center min-w-[220px] max-w-[220px] max-h-[48px] min-h-[48px]"
+                    "button-secondary button-shadow flex max-h-[48px] min-h-[48px] w-full min-w-[220px] max-w-[220px] content-center items-center justify-center"
                   }
                 >
                   Create SubDAO
@@ -85,7 +85,7 @@ export const DAOInfo = ({
             )}
             <div
               className={
-                "mt-2 flex justify-center cursor-pointer md:px-4 text-xs text-black2Color underline underline-offset-4 hover:text-pinkColor "
+                "mt-2 flex cursor-pointer justify-center text-sm font-medium text-black2Color underline underline-offset-4 hover:text-pinkColor md:px-4 "
               }
               onClick={() => setOpenedDialog(true)}
             >

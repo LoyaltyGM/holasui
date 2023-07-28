@@ -91,7 +91,7 @@ export const SubdaosCards = ({ subDAOs }: { subDAOs: IDao[] }) => {
           ) : (
             <div
               className={
-                "text-grayColor text-center text-lg font-normal flex justify-center content-center items-center h-36"
+                "flex h-36 content-center items-center justify-center text-center text-lg font-normal text-black2Color"
               }
             >
               There are no SubDAOs yet

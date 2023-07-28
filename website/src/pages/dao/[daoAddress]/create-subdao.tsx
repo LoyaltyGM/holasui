@@ -363,8 +363,8 @@ const CreateSubDAO = () => {
 
   const BradcrumbsHeader = () => {
     return (
-      <nav className="mt-10 md:flex hidden" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3">
+      <nav className="mt-10 hidden md:flex" aria-label="Breadcrumb">
+        <ol className="inline-flex items-center">
           <li className="inline-flex items-center">
             <Link
               href="/dao"
@@ -393,9 +393,10 @@ const CreateSubDAO = () => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center text-grayColor">
-              <p className={"font-semibold md:ml-2 md:mr-2"}>/</p>
-              <span className="text-sm font-medium">Create SubDAO</span>
+            <div className="flex items-center">
+              <p className={"font-semibold text-grayColor md:ml-2 md:mr-2"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4 text-black2Color"} />
+              <span className="text-sm font-medium text-black2Color">Create SubDAO</span>
             </div>
           </li>
         </ol>
@@ -425,7 +426,7 @@ const CreateSubDAO = () => {
         <div className={"flex flex-col"}>
           <div className={"flex justify-between"}>
             <Label label={"Name"} className={"text-blackColor"} />
-            <p className={"text-sm text-black2Color"}>{`${watch("name")?.length}/200`}</p>
+            <p className={"text-sm text-black2Color"}>{`${watch("name")?.length ?? "0"}/200`}</p>
           </div>
 
           <input
@@ -441,7 +442,9 @@ const CreateSubDAO = () => {
         <div className={"flex flex-col"}>
           <div className={"flex justify-between"}>
             <Label label={"Description"} className={"text-blackColor"} />
-            <p className={"text-sm text-black2Color"}>{`${watch("description")?.length}/1000`}</p>
+            <p className={"text-sm text-black2Color"}>{`${
+              watch("description")?.length ?? "0"
+            }/1000`}</p>
           </div>
 
           <textarea
@@ -548,9 +551,7 @@ const CreateSubDAO = () => {
         <div className={"flex gap-4"}>
           <button
             type="button"
-            className={
-              "rounded-2xl border border-purpleColor px-3 py-2 font-bold text-purpleColor hover:bg-purpleColor hover:text-white md:px-6 md:py-4"
-            }
+            className={"pinkColor-second-state rounded-2xl px-3 py-2 font-bold md:px-6 md:py-4"}
             onClick={router.back}
           >
             Cancel

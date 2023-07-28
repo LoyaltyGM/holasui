@@ -34,6 +34,7 @@ module.exports = {
         // additional colors
         greenColor: "#5AAC67",
         redColor: "#DA3E3E",
+        orangeColor: "#EA734E",
         black3Color: `rgb((89,89,89) / 60)`,
       },
       animation: {
@@ -49,6 +50,15 @@ module.exports = {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0%)" },
         },
+      },
+      borderWidth: {
+        DEFAULT: "1px",
+        0: "0",
+        2: "2px",
+        3: "3px",
+        4: "4px",
+        6: "6px",
+        8: "8px",
       },
     },
   },

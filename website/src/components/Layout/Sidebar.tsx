@@ -1,5 +1,4 @@
 import React from "react";
-
 import { ILayoutProps } from "types";
 import Link from "next/link";
 import { classNames } from "utils/";
@@ -19,17 +18,19 @@ export function Sidebar({ children }: ILayoutProps) {
   const Header = () => {
     return (
       <div className={"fixed-header w-full"}>
-        <div
-          className={classNames(
-            "mx-2 rounded-lg border-2 border-blackColor bg-white px-2 py-1 text-white md:mx-8",
-            router.pathname === "/dao" || router.pathname === "/dao/[daoAddress]"
-              ? "mt-24 md:mt-24"
-              : "mt-4",
-          )}
-        >
-          <div className="flex content-center items-center justify-between">
+        <div className="mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 align-middle text-white md:mx-8 md:min-h-[94px] md:rounded-[20px] md:px-8">
+          <div className="flex flex-1 content-center items-center justify-between">
             <Link href="/">
-              <Image src={Logo} height={60} width={140} alt={"logo"} priority unoptimized={true} />
+              {/* TODO:Fix sizing images */}
+              <Image
+                src={Logo}
+                height={54}
+                width={118}
+                alt={"logo"}
+                priority
+                unoptimized={true}
+                className="md:h-[81px] md:min-w-[180px]"
+              />
             </Link>
             <div
               className={classNames(
@@ -78,7 +79,7 @@ export function Sidebar({ children }: ILayoutProps) {
                 className={classNames(
                   "flex flex-col items-center justify-center",
                   "text-black2Color",
-                  "group cursor-pointer rounded-2xl py-2 text-xs font-medium hover:text-[#8d6eec]",
+                  "group cursor-pointer rounded-2xl py-2 font-medium hover:text-[#8d6eec]",
                   font_montserrat.className,
                 )}
               >
@@ -90,7 +91,7 @@ export function Sidebar({ children }: ILayoutProps) {
                 className={classNames(
                   "flex flex-col items-center justify-center",
                   "text-black2Color",
-                  "group cursor-pointer rounded-2xl py-2 text-xs font-medium hover:fill-[#6ea0ec] hover:text-[#6ea0ec] group-hover:text-[#6ea0ec]",
+                  "group cursor-pointer rounded-2xl py-2 font-medium hover:fill-[#6ea0ec] hover:text-[#6ea0ec] group-hover:text-[#6ea0ec]",
                   font_montserrat.className,
                 )}
               >
@@ -111,18 +112,7 @@ export function Sidebar({ children }: ILayoutProps) {
 
   return (
     <>
-      {router.pathname === "/dao" || router.pathname === "/dao/[daoAddress]" ? (
-        <div className={"fixed-header left-0 top-0 h-[65px] w-full md:fixed"}>
-          <NewsTicker />
-        </div>
-      ) : null}
-      <div
-        className={classNames(
-          router.pathname === "/dao" || router.pathname === "/dao/[daoAddress]"
-            ? "md:mt-14"
-            : "mt-4",
-        )}
-      >
+      <div className="mt-4">
         <Header />
         <div className="flex flex-1 flex-col">
           <main className="h-full flex-1 bg-basicColor">

@@ -243,8 +243,8 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
 
   const BradcrumbsHeader = () => {
     return (
-      <nav className="mt-10 md:flex hidden" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1">
+      <nav className="mt-10 hidden md:flex" aria-label="Breadcrumb">
+        <ol className="inline-flex items-center">
           <li className="inline-flex items-center">
             <Link
               href="/dao"
@@ -265,9 +265,10 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
             </Link>
           </li>
           <li aria-current="page">
-            <div className="flex items-center text-grayColor">
-              <p className={"font-semibold md:ml-2 md:mr-2"}>/</p>
-              <span className="text-sm font-medium">{proposal?.name}</span>
+            <div className="flex items-center">
+              <p className={"font-semibold text-grayColor md:ml-2 md:mr-2"}>/</p>
+              <FolderIcon className={"mr-1.5 h-4 w-4 text-black2Color"} />
+              <span className="text-sm font-medium text-black2Color">{proposal?.name}</span>
             </div>
           </li>
         </ol>
@@ -281,7 +282,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
         {!loadingData ? (
           <p className={"text-4xl font-bold text-blackColor"}>{proposal?.name}</p>
         ) : (
-          <div className={"h-10 w-56 bg-gray2Color rounded-2xl animate-pulse"}></div>
+          <div className={"h-10 w-56 animate-pulse rounded-2xl bg-gray2Color"}></div>
         )}
         <div
           className={
@@ -322,7 +323,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
 
   const VotingCards = () => {
     return (
-      <div className={"space-y-2 gap-4 md:space-y-0 md:flex w-full justify-between"}>
+      <div className={"w-full justify-between gap-4 space-y-2 md:flex md:space-y-0"}>
         <div
           className={"h-[120px] w-full rounded-3xl border-2 border-grayColor bg-white px-6 py-4"}
         >
@@ -331,7 +332,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
             {!loadingData ? (
               <p className={"font-semibold text-blackColor"}>{proposal?.results?.for || 0}</p>
             ) : (
-              <div className={"h-5 w-12 bg-gray2Color rounded-2xl animate-pulse"}></div>
+              <div className={"h-5 w-12 animate-pulse rounded-2xl bg-gray2Color"}></div>
             )}
           </div>
           <div className={"mt-4 h-[10px] w-full rounded-2xl bg-[#F2F2F2]"}>
@@ -347,7 +348,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
             {!loadingData ? (
               <p className={"font-semibold text-blackColor"}>{proposal?.results?.against || 0}</p>
             ) : (
-              <div className={"h-5 w-12 bg-gray2Color rounded-2xl animate-pulse"}></div>
+              <div className={"h-5 w-12 animate-pulse rounded-2xl bg-gray2Color"}></div>
             )}
           </div>
           <div className={"mt-4 h-[10px] w-full rounded-2xl bg-[#F2F2F2]"}>
@@ -363,7 +364,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
             {!loadingData ? (
               <p className={"font-semibold text-blackColor"}>{proposal?.results?.abstain || 0}</p>
             ) : (
-              <div className={"h-5 w-12 bg-gray2Color rounded-2xl animate-pulse"}></div>
+              <div className={"h-5 w-12 animate-pulse rounded-2xl bg-gray2Color"}></div>
             )}
           </div>
           <div className={"mt-4 h-[10px] w-full rounded-2xl bg-[#F2F2F2]"}>
@@ -445,7 +446,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
       );
     };
     return (
-      <div className={"mt-8 space-y-2 md:space-y-0 md:flex w-full gap-4"}>
+      <div className={"mt-8 w-full gap-4 space-y-2 md:flex md:space-y-0"}>
         <Threshold />
         <StartDate />
         <EndDate />
@@ -463,7 +464,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
       <form onSubmit={handleSubmit(onSubmit)} className={"mt-16"}>
         <div className={"flex justify-between"}>
           <label className="label">
-            <span className={classNames("font-bold text-2xl text-blackColor")}>{"Voting"}</span>
+            <span className={classNames("text-2xl font-bold text-blackColor")}>{"Voting"}</span>
           </label>
           <button
             type={"submit"}
@@ -488,8 +489,8 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
                 className={({ checked }) =>
                   classNames(
                     checked
-                      ? "border-pinkColor border-2 bg-white"
-                      : "bg-white border text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
+                      ? "border-2 border-pinkColor bg-white"
+                      : "border bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
                     "flex cursor-pointer items-center justify-center rounded-xl px-3 py-3 text-sm font-semibold uppercase sm:flex-1",
                   )
                 }
@@ -506,10 +507,10 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
   const ProposedTransactions = () => {
     return (
       <div className={"mt-14"}>
-        <p className={"font-bold text-2xl text-blackColor"}>Proposed transactions</p>
+        <p className={"text-2xl font-bold text-blackColor"}>Proposed transactions</p>
         <div
           className={
-            "mt-2 border-grayColor bg-white justify-between flex border py-4 px-4 rounded-xl"
+            "mt-2 flex justify-between rounded-xl border border-grayColor bg-white px-4 py-4"
           }
         >
           <div className={"flex gap-3"}>
@@ -531,7 +532,7 @@ const ProposalPage: NextPage<IProposalProps> = ({ proposalId }) => {
   const ProposalDescription = () => {
     return (
       <div>
-        <p className={"font-bold text-2xl text-blackColor mt-4"}>Description</p>
+        <p className={"mt-4 text-2xl font-bold text-blackColor"}>Description</p>
         <p>{proposal?.description}</p>
       </div>
     );
