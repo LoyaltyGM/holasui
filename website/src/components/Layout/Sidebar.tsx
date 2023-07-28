@@ -18,10 +18,18 @@ export function Sidebar({ children }: ILayoutProps) {
   const Header = () => {
     return (
       <div className={"fixed-header w-full"}>
-        <div className="mx-2 mt-4 rounded-lg border-2 border-blackColor bg-white px-2 py-1 text-white md:mx-8">
-          <div className="flex content-center items-center justify-between">
+        <div className="mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 align-middle text-white md:mx-8 md:min-h-[94px] md:rounded-[20px] md:px-8">
+          <div className="flex flex-1 content-center items-center justify-between">
             <Link href="/">
-              <Image src={Logo} height={60} width={140} alt={"logo"} priority unoptimized={true} />
+              <Image
+                src={Logo}
+                height={54}
+                width={118}
+                alt={"logo"}
+                priority
+                unoptimized={true}
+                className="md:h-[81px] md:w-[180px]"
+              />
             </Link>
             <div
               className={classNames(
