@@ -34,6 +34,7 @@ module.exports = {
         // additional colors
         greenColor: "#5AAC67",
         redColor: "#DA3E3E",
+        orangeColor: "#EA734E",
         black3Color: `rgb((89,89,89) / 60)`,
       },
       animation: {
