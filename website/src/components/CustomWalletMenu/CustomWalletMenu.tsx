@@ -1,5 +1,5 @@
 import { ethos, EthosConnectStatus } from "ethos-connect";
-import { formatSuiAddress, formatSuiNumber } from "utils";
+import { formatSuiAddress, formatSuiNumber } from "../../utils";
 import { useState } from "react";
 import ImageSuiToken from "/public/img/SuiToken.png";
 import LogoutIcon from "/public/img/IconLogout.svg";
