@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { ethos } from "ethos-connect";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Montserrat } from "next/font/google";
-import { classNames } from "utils";
+import { classNames } from "../../utils";
 import Link from "next/link";
 
 const font_montserrat = Montserrat({ subsets: ["latin"] });
 
-const HamburgerMenu = () => {
+export const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -70,5 +70,3 @@ const HamburgerMenu = () => {
     </div>
   );
 };
-
-export default HamburgerMenu;
