@@ -32,7 +32,7 @@ export const ProjectCard = ({
   //     <button></button>
   //   )}
   return (
-    <div className="mx-2 mt-10 flex max-h-[547px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 font-inter md:mt-[70px] md:flex md:h-[483px] md:p-[25px] md:pt-[30px] lg:h-[365px]">
+    <div className="flex max-h-[547px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 font-inter md:flex md:h-[483px] md:p-[25px] md:pt-[30px] lg:mt-[70px] lg:h-[365px]">
       <div className="flex flex-col items-center gap-8 rounded-2xl md:flex-row md:items-start md:gap-12">
         <div className="flex h-[150px] w-[150px] items-center md:ml-7">
           <Image src={frensLogo} alt={"logo"} height={150} width={150} />
@@ -58,7 +58,7 @@ export const ProjectCard = ({
       </div>
       <div className="mt-4 w-full flex-1 md:mt-[30px]">
         <div className="flex h-full flex-col gap-[10px] lg:flex-row lg:gap-4">
-          <div className="flex w-full content-center items-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white lg:mt-0 lg:h-full lg:flex-col lg:items-start">
+          <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white lg:mt-0 lg:flex-col lg:items-start">
             <p
               className={classNames(
                 "justify-between text-[18px] font-semibold leading-[22px] md:mt-0",
@@ -79,7 +79,7 @@ export const ProjectCard = ({
               </p>
             </div>
           </div>
-          <div className="flex w-full content-center items-center justify-between rounded-xl bg-orangeColor px-3 py-4 text-start text-white lg:mt-0 lg:h-full lg:flex-col lg:items-start">
+          <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-orangeColor px-3 py-4 text-start text-white lg:mt-0 lg:h-full lg:flex-col lg:items-start">
             <p className={classNames("text-[18px] font-semibold leading-[22px]")}>
               You Total Staked
             </p>
@@ -87,7 +87,7 @@ export const ProjectCard = ({
               {stakedList?.length ? stakedList.length : 0}
             </p>
           </div>
-          <div className="flex w-full content-center items-center justify-between rounded-xl bg-[#5A5A95] px-3 py-4 text-start text-white lg:mt-0 lg:h-full lg:flex-col lg:items-start">
+          <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-[#5A5A95] px-3 py-4 text-start text-white lg:mt-0 lg:h-full lg:flex-col lg:items-start">
             <p className={classNames("text-[18px] font-semibold leading-[22px]")}>Total Staked</p>
             <p className={classNames("text-[26px] font-extrabold leading-8 md:text-3xl")}>
               {totalStaked ? totalStaked : 0}
