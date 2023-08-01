@@ -1,22 +1,9 @@
 import { useEffect, useState } from "react";
 import { handleSetBatchIdStake, ICapy, IStakingTicket } from "types";
-import {
-  fetchCapyStaking,
-  fetchStakingTickets,
-  signTransactionClaimPoints,
-  signTransactionEndStaking,
-  signTransactionStartStaking,
-  singTransactionsToBatchClaimPoints,
-  singTransactionsToBatchStartStaking,
-  singTransactionsToBatchUnstaking,
-  suiProvider,
-} from "services/sui";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Image from "next/image";
-import { classNames, FRENS_STAKING_POOL_ID, FRENS_STAKING_POOL_POINTS_TABLE_ID } from "utils";
+import { classNames } from "utils";
 import {
-  AlertErrorMessage,
-  AlertSucceed,
   BlueMoveButton,
   NoConnectWallet,
   ObjectDetailDialog,
@@ -25,9 +12,21 @@ import {
   StakingRules,
   UnstakeDetailDialog,
   Container,
+  SkeletonStakingProjectCard,
 } from "components";
-import { getExecutionStatus, getExecutionStatusError, getObjectFields } from "@mysten/sui.js";
 import { Montserrat } from "next/font/google";
+import {
+  claimBatchPoints,
+  claimPoints,
+  fetchCapyAndStaking,
+  fetchHolaPoints,
+  fetchTotalStaked,
+  stakeBatchCapy,
+  stakeOneCapy,
+  unstakeBatchCapy,
+  unstakeCapy,
+} from "./StakingProviderFunction";
+import { ButtonBatchText } from "../../types/buttonTextType";
 
 const font_montserrat = Montserrat({ subsets: ["latin"] });
 export const StakingLayout = () => {
@@ -55,276 +54,20 @@ export const StakingLayout = () => {
   const [batchIdUnstake, setBatchIdUnstake] = useState<string[]>([]);
 
   useEffect(() => {
-    async function fetchWalletFrens() {
-      if (!wallet?.address) {
-        setFrens(null);
-        setStakedFrens(null);
-        return;
-      }
-      try {
-        const nfts = wallet?.contents?.nfts!;
-        const suifrens = fetchCapyStaking(nfts);
-        if (suifrens) setFrens(suifrens);
-        const stakingTickets = fetchStakingTickets(nfts);
-        setStakedFrens(stakingTickets);
-
-        if (stakingTickets) {
-          Promise.all(
-            stakingTickets.map(async (staked) => {
-              const response = await suiProvider.getObject({
-                id: staked?.nft_id!,
-                options: { showDisplay: true },
-              });
-              staked.url = (response.data?.display?.data! as Record<string, string>)?.image_url!;
-            }),
-          ).then(() => setStakedFrens(stakingTickets));
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    fetchWalletFrens().then();
+    if (wallet) fetchCapyAndStaking(wallet, setFrens, setStakedFrens).then();
   }, [wallet?.address, wallet?.contents?.nfts]);
 
   useEffect(() => {
-    async function fetchTotalStaked() {
-      if (!wallet?.address) {
-        return;
-      }
-      try {
-        const response = await suiProvider.getObject({
-          id: FRENS_STAKING_POOL_ID!,
-          options: { showContent: true },
-        });
-        const fields = getObjectFields(response);
-        setTotalStaked(fields?.staked || 0);
-      } catch (e) {
-        setTotalStaked(0);
-      }
+    if (wallet && stakedFrens) {
+      fetchTotalStaked(wallet, setTotalStaked).then();
+      fetchHolaPoints(
+        wallet,
+        stakedFrens,
+        setAvailablePointsToClaim,
+        setTotalMyPointsOnchain,
+      ).then();
     }
-
-    async function fetchMyPoints() {
-      if (!wallet?.address) {
-        return;
-      }
-      try {
-        const response = await suiProvider.getDynamicFieldObject({
-          parentId: FRENS_STAKING_POOL_POINTS_TABLE_ID!,
-          name: {
-            type: "address",
-            value: wallet.address,
-          },
-        });
-        const fields = getObjectFields(response);
-
-        const now = Date.now();
-
-        const onchainPoints: number = +fields?.value || 0;
-        const stakedPoints =
-          stakedFrens
-            ?.map((staked) => {
-              return Math.floor((now - staked.start_time) / 60_000);
-            })
-            .reduce((a, b) => a + b, 0) || 0;
-        setAvailablePointsToClaim(stakedPoints);
-        setTotalMyPointsOnchain(onchainPoints);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    fetchTotalStaked().then();
-    fetchMyPoints().then();
   }, [waitSui, wallet?.contents?.nfts, stakedFrens]);
-
-  async function stakeCapy(capy: ICapy) {
-    if (!wallet || !capy) return;
-
-    setWaitSui(true);
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionStartStaking(capy.id),
-        options: {
-          showEffects: true,
-        },
-      });
-
-      const status = getExecutionStatus(response);
-
-      if (status?.status === "failure") {
-        console.log(status.error);
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("Staking");
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWaitSui(false);
-      setOpenedFrend(false);
-    }
-  }
-  // TODO::for layout create business logic
-  async function stakeBatchCapy(capy_batch: string[]) {
-    if (!wallet || !capy_batch) return;
-
-    setWaitSui(true);
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: singTransactionsToBatchStartStaking(capy_batch),
-        options: {
-          showEffects: true,
-        },
-      });
-
-      const status = getExecutionStatus(response);
-
-      if (status?.status === "failure") {
-        console.log(status.error);
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("Staking");
-        // remove batched capys from the list if success
-        setBatchIdStake([]);
-        setBatchStakeMode(false);
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWaitSui(false);
-      setOpenedFrend(false);
-      //setBatchIdStake([]);
-    }
-  }
-
-  async function unstakeCapy(ticket: IStakingTicket) {
-    if (!wallet || !ticket) return;
-
-    setWaitSui(true);
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionEndStaking(ticket.id),
-        options: {
-          showEffects: true,
-        },
-      });
-
-      const status = getExecutionStatus(response);
-
-      if (status?.status === "failure") {
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("Unstaking");
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWaitSui(false);
-      setOpenedUnstaked(false);
-    }
-  }
-
-  async function unstakeBatchCapy(capy_batch: string[]) {
-    if (!wallet || !capy_batch) return;
-
-    setWaitSui(true);
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: singTransactionsToBatchUnstaking(capy_batch),
-        options: {
-          showEffects: true,
-        },
-      });
-
-      const status = getExecutionStatus(response);
-
-      if (status?.status === "failure") {
-        console.log(status.error);
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("Unstaking");
-        // remove batched capys from the list if success
-        setBatchIdUnstake([]);
-        setBatchUnstakeMode(false);
-        // setOpenedUnstaked
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWaitSui(false);
-      setOpenedFrend(false);
-
-      //setBatchIdStake([]);
-    }
-  }
-
-  async function claimPoints(ticket: IStakingTicket) {
-    if (!wallet || !ticket) return;
-
-    setWaitSui(true);
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionClaimPoints(ticket.id),
-        options: {
-          showEffects: true,
-        },
-      });
-
-      const status = getExecutionStatus(response);
-
-      if (status?.status === "failure") {
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("Claim");
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWaitSui(false);
-      setOpenedUnstaked(false);
-    }
-  }
-
-  async function claimBatchPoints(capy_batch: string[]) {
-    if (!wallet || !capy_batch) return;
-
-    setWaitSui(true);
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: singTransactionsToBatchClaimPoints(capy_batch),
-        options: {
-          showEffects: true,
-        },
-      });
-
-      const status = getExecutionStatus(response);
-
-      if (status?.status === "failure") {
-        console.log(status.error);
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("Claim");
-        // remove batched capys from the list if success
-        setBatchIdUnstake([]);
-        setBatchUnstakeMode(false);
-        // setOpenedUnstaked
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWaitSui(false);
-      setOpenedFrend(false);
-
-      //setBatchIdStake([]);
-    }
-  }
 
   const SuifrensCard = ({ capy, batchMode }: { capy: ICapy; batchMode: boolean }) => {
     return (
@@ -391,7 +134,7 @@ export const StakingLayout = () => {
       </button>
     );
   };
-
+  // TODO: need to check claim batch points function
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Staking!"} />
   ) : (
@@ -400,13 +143,22 @@ export const StakingLayout = () => {
         <ProjectCard
           availablePointsToClaim={availablePointsToClaim}
           setOpenRules={setOpenRules}
-          claimPointsFunction={claimBatchPoints}
+          claimPointsFunction={() =>
+            claimBatchPoints(
+              batchIdUnstake,
+              wallet,
+              setWaitSui,
+              setBatchIdUnstake,
+              setBatchUnstakeMode,
+              setOpenedFrend,
+            )
+          }
           stakedList={stakedFrens}
           totalHolaPointsOnchain={totalMyPointsOnchain}
           totalStaked={totalStaked}
         />
       ) : (
-        <></>
+        <SkeletonStakingProjectCard />
       )}
 
       {stakedFrens?.length !== 0 && (
@@ -444,15 +196,22 @@ export const StakingLayout = () => {
                   batchUnstakeMode
                     ? batchIdUnstake.length === 0
                       ? setBatchUnstakeMode(false)
-                      : unstakeBatchCapy(batchIdUnstake)
+                      : unstakeBatchCapy(
+                          batchIdUnstake,
+                          wallet,
+                          setWaitSui,
+                          setBatchIdUnstake,
+                          setBatchUnstakeMode,
+                          setOpenedFrend,
+                        )
                     : setBatchUnstakeMode(true);
                 }}
               >
                 {batchUnstakeMode ? (
                   batchIdUnstake.length === 0 ? (
-                    "Cancel"
+                    ButtonBatchText.cancel
                   ) : (
-                    "Confirm"
+                    ButtonBatchText.confirm
                   )
                 ) : (
                   <p>Batch Unstaking</p>
@@ -503,15 +262,22 @@ export const StakingLayout = () => {
                   batchStakeMode
                     ? batchIdStake.length === 0
                       ? setBatchStakeMode(false)
-                      : stakeBatchCapy(batchIdStake)
+                      : stakeBatchCapy(
+                          batchIdStake,
+                          wallet,
+                          setWaitSui,
+                          setOpenedFrend,
+                          setBatchIdStake,
+                          setBatchStakeMode,
+                        )
                     : setBatchStakeMode(true);
                 }}
               >
                 {batchStakeMode
                   ? batchIdStake.length === 0
-                    ? "Cancel"
-                    : "Confirm"
-                  : "Batch Staking"}
+                    ? ButtonBatchText.cancel
+                    : ButtonBatchText.confirm
+                  : ButtonBatchText.stake}
               </button>
             </div>
           </>
@@ -549,7 +315,7 @@ export const StakingLayout = () => {
           )}
         </>
       )}
-      <p className={classNames("mt-12 text-sm font-light", font_montserrat.className)}>
+      <p className={classNames("mb-12 mt-12 text-sm font-light", font_montserrat.className)}>
         SuiFrens by Mysten Labs CC BY 4.0 license
       </p>
       <ObjectDetailDialog
@@ -557,14 +323,20 @@ export const StakingLayout = () => {
         waitSui={waitSui}
         selectedFrend={selectedFrend}
         setOpenedFrend={setOpenedFrend}
-        stakeFunction={() => stakeCapy(selectedFrend!).then()}
+        stakeFunction={() =>
+          stakeOneCapy(selectedFrend!, wallet, setWaitSui, setOpenedFrend).then()
+        }
       />
       <UnstakeDetailDialog
         selectedStaked={selectedStaked}
         openDialog={openedUnstaked}
         setOpenDialog={setOpenedUnstaked}
-        claimPointsFunction={claimPoints}
-        unstakeCapyFunction={unstakeCapy}
+        claimPointsFunction={() =>
+          claimPoints(selectedStaked!, wallet, setWaitSui, setOpenedUnstaked).then()
+        }
+        unstakeCapyFunction={() =>
+          unstakeCapy(selectedStaked!, wallet, setWaitSui, setOpenedUnstaked).then()
+        }
         waitSui={waitSui}
       />
       <RulesDialog setOpenRules={setOpenRules} openRules={openRules} />
