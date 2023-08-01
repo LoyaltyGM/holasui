@@ -24,6 +24,7 @@ import {
   RulesDialog,
   StakingRules,
   UnstakeDetailDialog,
+  Container,
 } from "components";
 import { getExecutionStatus, getExecutionStatusError, getObjectFields } from "@mysten/sui.js";
 import { Montserrat } from "next/font/google";
@@ -356,9 +357,9 @@ export const StakingLayout = () => {
   };
 
   const StakedTicketCard = ({
-                              staking,
-                              batchMode,
-                            }: {
+    staking,
+    batchMode,
+  }: {
     staking: IStakingTicket;
     batchMode: boolean;
   }) => {
@@ -394,7 +395,7 @@ export const StakingLayout = () => {
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Staking!"} />
   ) : (
-    <main className="z-10 mt-20 flex min-h-[85vh] flex-col rounded-lg bg-basicColor py-6 pl-2 pr-2 md:pl-16 md:pr-10">
+    <Container>
       {stakedFrens ? (
         <ProjectCard
           availablePointsToClaim={availablePointsToClaim}
@@ -567,6 +568,6 @@ export const StakingLayout = () => {
         waitSui={waitSui}
       />
       <RulesDialog setOpenRules={setOpenRules} openRules={openRules} />
-    </main>
+    </Container>
   );
 };
