@@ -64,7 +64,7 @@ export const Header = () => {
                   router.pathname === "/dao" ? "font-bold text-redColor" : "hover:text-redColor",
                 )}
               >
-                DAO Hack
+                DAO
               </div>
             </Link>
           </div>
