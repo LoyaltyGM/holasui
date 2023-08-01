@@ -32,7 +32,7 @@ export const ProjectCard = ({
   //     <button></button>
   //   )}
   return (
-    <div className="mb-10 flex max-h-[547px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 md:flex md:h-[483px] md:p-[25px] md:pt-[30px] lg:mb-[50px] lg:h-[365px] xl:mb-[70px]">
+    <div className="flex max-h-[547px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 md:flex md:h-[483px] md:p-[25px] md:pt-[30px] lg:h-[365px]">
       <div className="flex flex-col items-center gap-8 rounded-2xl md:flex-row md:items-start md:gap-12">
         <div className="flex h-[150px] w-[150px] items-center md:ml-7">
           <Image src={frensLogo} alt={"logo"} height={150} width={150} />
