@@ -1,18 +1,52 @@
 import { SUIFREN_CAPY_TYPE, replaceTripleSlash, STAKING_TICKET_TYPE, SWAP_TYPES_LIST } from "utils";
 import { SuiNFT } from "ethos-connect";
-import { ICapy, IStakingTicket } from "types";
+import { ICapy, IStakingTicket, LocalStorageStaking } from "types";
 
 export function fetchCapyStaking(nftObjects: SuiNFT[]): ICapy[] | null {
   if (!nftObjects) return null;
-  return nftObjects
+
+  const capy = nftObjects
     .filter((object) => object.type === SUIFREN_CAPY_TYPE)
     .map((suifrenNftObject) => initializeSuifren(suifrenNftObject));
+
+  const storedCapy = localStorage.getItem(LocalStorageStaking.capyObject);
+
+  // Compare the current capy with the stored capy
+  if (storedCapy && JSON.stringify(capy) === storedCapy) {
+    // If they are the same, return the stored capy
+    return JSON.parse(storedCapy);
+  } else {
+    // If they are different or there is no stored capy, update localStorage
+    localStorage.setItem(LocalStorageStaking.capyObject, JSON.stringify(capy));
+    return capy;
+  }
+}
+
+export function fetchStakingTickets(objects: SuiNFT[]): IStakingTicket[] | null {
+  if (!objects) return null;
+
+  const stakingTickets = objects
+    .filter((object) => object.type === STAKING_TICKET_TYPE)
+    .map((sleepTicketNftObject) => initializeStakingTicket(sleepTicketNftObject));
+
+  // Check for existing stored staking tickets
+  const storedStakingTickets = localStorage.getItem(LocalStorageStaking.stakingTicketObject);
+
+  // Compare the current stakingTickets with the stored staking tickets
+  if (storedStakingTickets && JSON.stringify(stakingTickets) === storedStakingTickets) {
+    // If they are the same, return the stored staking tickets
+    return JSON.parse(storedStakingTickets);
+  } else {
+    // If they are different or there is no stored staking tickets, update localStorage
+    localStorage.setItem(LocalStorageStaking.stakingTicketObject, JSON.stringify(stakingTickets));
+    return stakingTickets;
+  }
 }
 
 export function fetchNFTObjects(nftObjects: SuiNFT[]): ICapy[] | null {
   if (!nftObjects) return null;
   return nftObjects
-    .filter((object) => SWAP_TYPES_LIST.includes(object.type)) //|| object.type === TYPE_WIZARD || object.type === TYPE_FUDDIES)
+    .filter((object) => SWAP_TYPES_LIST.includes(object.type))
     .map((suifrenNftObject) => initializeSuifren(suifrenNftObject));
 }
 
@@ -24,14 +58,6 @@ export function fetchSuifren(nftObjects: SuiNFT[], id: string): ICapy | null {
   );
 
   return initializeSuifren(suifrenNftObject!);
-}
-
-export function fetchStakingTickets(objects: SuiNFT[]): IStakingTicket[] | null {
-  if (!objects) return null;
-
-  return objects
-    .filter((object) => object.type === STAKING_TICKET_TYPE)
-    .map((sleepTicketNftObject) => initializeStakingTicket(sleepTicketNftObject));
 }
 
 export function fetchStakingTicket(objects: SuiNFT[], id: string): IStakingTicket | null {
