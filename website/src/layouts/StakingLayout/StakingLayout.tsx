@@ -36,7 +36,7 @@ export const StakingLayout = () => {
   const { wallet, status } = ethos.useWallet();
 
   // Data states
-  const [frens, setFrens] = useState<ICapy[] | null>(null);
+  const [frens, setFrens] = useState<ICapy[] | null>();
   const [stakedFrens, setStakedFrens] = useState<IStakingTicket[] | null>();
   const [totalStaked, setTotalStaked] = useState(0);
   const [totalMyPointsOnchain, setTotalMyPointsOnchain] = useState(0);
@@ -329,7 +329,7 @@ export const StakingLayout = () => {
   }
 
   function handleBatchStakeAll() {
-    if (frens !== null) {
+    if (frens !== null && frens !== undefined) {
       const frensIds = frens.map((capy) => capy.id);
       setBatchIdStake(frensIds);
       setBatchStakeMode(true);
@@ -346,21 +346,20 @@ export const StakingLayout = () => {
           setSelectedFrend(capy);
         }}
         className={classNames(
-          "proposal-card-shadow min-h-[186px] max-w-[166px] rounded-xl border-2 border-blackColor bg-white hover:bg-white sm:min-h-[248px] sm:max-w-[216px] lg:min-h-[300px] lg:max-w-[268px]",
+          "proposal-card-shadow relative min-h-[186px] rounded-xl bg-white p-4 hover:border-2 hover:border-blackColor hover:bg-white sm:min-h-[248px] lg:min-h-[300px]",
           batchMode
             ? batchIdStake.includes(capy.id)
-              ? "border-yellowColor"
-              : "border-black2Color"
-            : "border-[#FFFFFF]",
+              ? "border-2 border-yellowColor"
+              : "border-[1px] border-black2Color"
+            : "border-[1px] border-black2Color",
         )}
       >
-        <div className="my-auto flex flex-col items-center gap-2 rounded-xl bg-[#FFFFFF]">
-          <div className="relative">
-            <div className="h-40 w-40">
-              <Image src={capy.url} alt={capy.description} fill={true} />
-            </div>
-          </div>
-        </div>
+        <Image
+          src={capy.url}
+          alt={capy.description}
+          fill={true}
+          className="rounded-xl object-contain"
+        />
       </button>
     );
   };
@@ -380,23 +379,21 @@ export const StakingLayout = () => {
             : setOpenedUnstaked(true);
           setSelectedStaked(staking);
         }}
+        className={classNames(
+          "proposal-card-shadow relative min-h-[186px] rounded-xl bg-white p-4 hover:border-2 hover:border-blackColor hover:bg-white sm:min-h-[248px] lg:min-h-[300px]",
+          batchMode
+            ? batchIdStake.includes(staking.id)
+              ? "border-2 border-pinkColor"
+              : "rounded-xl border-[1px] border-black2Color"
+            : "rounded-xl border-[1px] border-black2Color",
+        )}
       >
-        <div
-          className={classNames(
-            "flex flex-col items-center gap-2 rounded-xl border-2 bg-white py-8",
-            batchMode
-              ? batchIdUnstake.includes(staking.id)
-                ? "border-pinkColor"
-                : "border-black2Color"
-              : "border-white",
-          )}
-        >
-          <div className="relative">
-            <div className={"h-40 w-40"}>
-              <Image src={staking.url} alt={"staking"} fill={true} className="rounded-md" />
-            </div>
-          </div>
-        </div>
+        <Image
+          src={staking.url}
+          alt={"staking"}
+          fill={true}
+          className="rounded-xl object-contain"
+        />
       </button>
     );
   };
@@ -415,7 +412,9 @@ export const StakingLayout = () => {
           totalStaked={totalStaked}
         />
       )}
-      <PointsBanner availablePointsToClaim={availablePointsToClaim} />
+      {availablePointsToClaim > 100 && (
+        <PointsBanner availablePointsToClaim={availablePointsToClaim} />
+      )}
       <div className="my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
         <div className="flex flex-col justify-between md:flex-row md:items-center">
           <h1 className={classNames("text-[26px] font-extrabold text-blackColor lg:text-3xl")}>
