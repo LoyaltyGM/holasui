@@ -56,6 +56,9 @@ export const StakingLayout = () => {
   const [batchUnstakeMode, setBatchUnstakeMode] = useState(false);
   const [batchIdUnstake, setBatchIdUnstake] = useState<string[]>([]);
 
+  // State for local storage
+  const [isSomethingChange, setIsSomethingChange] = useState(false);
+
   useEffect(() => {
     if (wallet) fetchCapyAndStaking(wallet, setFrens, setStakedFrens).then();
   }, [wallet?.address, wallet?.contents?.nfts]);
@@ -341,7 +344,7 @@ export const StakingLayout = () => {
           </div>
         </>
       )}
-      <p className={classNames("mb-12 text-sm font-light", font_montserrat.className)}>
+      <p className={classNames("mb-12  mt-12  text-sm font-light", font_montserrat.className)}>
         SuiFrens by Mysten Labs CC BY 4.0 license
       </p>
       <ObjectDetailDialog

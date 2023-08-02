@@ -2,13 +2,9 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import { AlertErrorMessage, AlertSucceed, CopyTextButton, NoConnectWallet } from "components";
-import { classNames, convertIPFSUrl, formatSuiAddress, formatSuiNumber } from "utils";
+import { classNames, convertIPFSUrl, formatSuiAddress, formatSuiNumber, SWAP_TYPES_LIST } from "utils";
 import { IOffer, TradeObjectType } from "types";
-import {
-  signTransactionCancelEscrow,
-  signTransactionExchangeEscrow,
-  suiProvider,
-} from "services/sui";
+import { signTransactionCancelEscrow, signTransactionExchangeEscrow, suiProvider } from "services/sui";
 import { getExecutionStatus, getExecutionStatusError, getObjectFields } from "@mysten/sui.js";
 import { ArrowLeftIcon, LinkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -26,15 +22,15 @@ export const getServerSideProps: GetServerSideProps<IDetailOfferProps> = async (
 
     return {
       props: {
-        offerId,
-      },
+        offerId
+      }
     };
   } catch (error) {
     return {
       redirect: {
         destination: "/404",
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 };
@@ -46,6 +42,7 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
 
   const [recipientObjects, setRecipientObjects] = useState<TradeObjectType[]>([]);
   const [creatorObjects, setCreatorObjects] = useState<TradeObjectType[]>([]);
+  const [typeSwap, setTypeSwap] = useState<string>("");
   const [showActionDialog, setShowActionDialog] = useState(false);
   const router = useRouter();
 
@@ -54,8 +51,8 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
       const offerObject = getObjectFields(
         await suiProvider.getObject({
           id: offerId,
-          options: { showContent: true, showDisplay: true },
-        }),
+          options: { showContent: true, showDisplay: true }
+        })
       ) as IOffer;
 
       setOffer(offerObject);
@@ -74,17 +71,17 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
         offer.recipient_items_ids?.map(async (objectId: string) => {
           const object = await suiProvider.getObject({
             id: objectId,
-            options: { showContent: true, showType: true, showDisplay: true },
+            options: { showContent: true, showType: true, showDisplay: true }
           });
 
           const tradeObject = {
             id: objectId,
             url: convertIPFSUrl((object?.data?.display?.data as any).image_url),
-            type: object?.data?.type!,
+            type: object?.data?.type!
           };
 
           tradeObjects.push(tradeObject);
-        }),
+        })
       );
 
       setRecipientObjects(tradeObjects);
@@ -98,17 +95,17 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
         offer.creator_items_ids?.map(async (objectId: string) => {
           const object = await suiProvider.getObject({
             id: objectId,
-            options: { showContent: true, showType: true, showDisplay: true },
+            options: { showContent: true, showType: true, showDisplay: true }
           });
 
           const tradeObject = {
             id: objectId,
             url: convertIPFSUrl((object?.data?.display?.data as any).image_url),
-            type: object?.data?.type!,
+            type: object?.data?.type!
           };
 
           tradeObjects.push(tradeObject);
-        }),
+        })
       );
 
       setCreatorObjects(tradeObjects);
@@ -117,6 +114,14 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
     fetchRecipientObjects().then();
     fetchCreatorObjects().then();
   }, [offer]);
+
+  useEffect(() => {
+    if (creatorObjects.length > 0) {
+      setTypeSwap(creatorObjects[0].type);
+    } else if (recipientObjects.length > 0) {
+      setTypeSwap(recipientObjects[0].type);
+    }
+  }, [creatorObjects, recipientObjects]);
 
   async function acceptOffer() {
     if (!wallet || !offer) return;
@@ -127,11 +132,11 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
           escrowId: offerId,
           recipient_coin_amount: formatSuiNumber(offer?.recipient_coin_amount),
           recipient_objects: offer.recipient_items_ids,
-          type_swap: creatorObjects.length > 0 ? creatorObjects[0].type : recipientObjects[0].type,
+          type_swap: typeSwap
         }),
         options: {
-          showEffects: true,
-        },
+          showEffects: true
+        }
       });
 
       const status = getExecutionStatus(response);
@@ -155,13 +160,10 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
     setWaitSui(true);
     try {
       const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionCancelEscrow(
-          offerId,
-          creatorObjects.length > 0 ? creatorObjects[0].type : recipientObjects[0].type,
-        ),
+        transactionBlock: signTransactionCancelEscrow(offerId, typeSwap),
         options: {
-          showEffects: true,
-        },
+          showEffects: true
+        }
       });
 
       const status = getExecutionStatus(response);
@@ -183,21 +185,23 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
 
   const OfferInformation = ({
     userObjectIds,
-    coinAmount,
+    coinAmount
   }: {
     coinAmount: number;
     userObjectIds: TradeObjectType[];
   }) => {
     return (
       <div className="mb-2 w-full px-3 md:mb-0 md:w-full ">
-        <div className="mb-2 flex h-[45vh] w-full cursor-pointer flex-col justify-between rounded-lg border-2 border-grayColor bg-white px-2 py-2 font-normal text-purpleColor md:h-[30vh]">
+        <div
+          className="mb-2 flex h-[45vh] w-full cursor-pointer flex-col justify-between rounded-lg border-2 border-grayColor bg-white px-2 py-2 font-normal text-purpleColor md:h-[30vh]">
           <div
             className={
               "grid h-[27vh] grid-cols-3 gap-1 overflow-auto md:mt-4 md:h-[20vh] md:grid-cols-4 md:gap-4"
             }
           >
             {coinAmount > 0 && (
-              <div className="flex h-24 w-24 items-center justify-center gap-2 rounded-md border bg-white text-center text-2xl">
+              <div
+                className="flex h-24 w-24 items-center justify-center gap-2 rounded-md border bg-white text-center text-2xl">
                 <Image
                   src={ImageSuiToken}
                   alt="token"
@@ -215,7 +219,7 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
                   }
                   key={object.id}
                   className={classNames(
-                    "flex h-24 w-24 cursor-pointer flex-col content-center items-center justify-center rounded-md border bg-white  p-2",
+                    "flex h-24 w-24 cursor-pointer flex-col content-center items-center justify-center rounded-md border bg-white  p-2"
                   )}
                 >
                   <Image
@@ -239,7 +243,7 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
   ) : offer ? (
     <main
       className={classNames(
-        "mt-18 z-10 mt-8 flex min-h-[100vh] flex-col gap-10 rounded-lg py-6 pl-2 pr-2 md:mt-14 md:min-h-[65vh] md:pl-16 md:pr-10 ",
+        "z-10 mt-8 mt-18 flex min-h-[100vh] flex-col gap-10 rounded-lg py-6 pl-2 pr-2 md:mt-14 md:min-h-[65vh] md:pl-16 md:pr-10"
       )}
     >
       <button
@@ -304,13 +308,27 @@ const DetailSwapOffer: NextPage<IDetailOfferProps> = ({ offerId }) => {
       </div>
 
       {offer.status == 1 && wallet?.address == offer.recipient && (
-        <button
-          onClick={acceptOffer}
-          disabled={waitSui}
-          className="mb-4 w-[200px] rounded-md border border-greenColor bg-white py-3 font-medium text-greenColor hover:bg-greenColor hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          Accept
-        </button>
+        <div className={"flex gap-4"}>
+          <button
+            onClick={acceptOffer}
+            disabled={waitSui}
+            className="mb-4 w-[200px] rounded-md border border-greenColor bg-white py-3 font-medium text-greenColor hover:bg-greenColor hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Accept
+          </button>
+
+          {SWAP_TYPES_LIST.includes(typeSwap) ? (
+            <div
+              className="mb-4 w-[220px] text-center rounded-md border border-greenColor py-3 font-medium text-white bg-greenColor">
+              Collection verified ✅
+            </div>
+          ) : (
+            <div
+              className="mb-4 w-[220px] text-center rounded-md border border-yellowColor py-3 font-medium text-white bg-yellowColor">
+              Collection not verified❗️
+            </div>
+          )}
+        </div>
       )}
 
       {offer.status == 1 && wallet?.address == offer.creator && (

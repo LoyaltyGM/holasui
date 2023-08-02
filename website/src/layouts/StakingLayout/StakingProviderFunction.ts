@@ -10,11 +10,12 @@ import {
   suiProvider,
 } from "services/sui";
 import { Wallet } from "ethos-connect";
-import { ICapy, IStakingTicket } from "types";
+import { CookiesStaking, ICapy, IStakingTicket, LocalStorageStaking } from "types";
 import { Dispatch, SetStateAction } from "react";
 import { FRENS_STAKING_POOL_ID, FRENS_STAKING_POOL_POINTS_TABLE_ID } from "utils";
 import { getExecutionStatus, getExecutionStatusError, getObjectFields } from "@mysten/sui.js";
 import { AlertErrorMessage, AlertSucceed } from "../../components";
+import Cookies from "js-cookie";
 
 // fetch capy and staking nft from wallet
 export async function fetchCapyAndStaking(
@@ -59,14 +60,24 @@ export async function fetchTotalStaked(
   if (!wallet?.address) {
     return;
   }
-  console.count("fetch total staked");
+  // Try to load from cookies first
+  const cookieValue = Cookies.get(CookiesStaking.totalStaked);
+  if (cookieValue) {
+    setTotalStaked(Number(cookieValue));
+    return;
+  }
   try {
     const response = await suiProvider.getObject({
       id: FRENS_STAKING_POOL_ID!,
       options: { showContent: true },
     });
+
     const fields = getObjectFields(response);
-    setTotalStaked(fields?.staked || 0);
+    const totalStaked = fields?.staked || 0;
+    setTotalStaked(totalStaked);
+
+    // Store in cookies for 24 hours
+    Cookies.set(CookiesStaking.totalStaked, totalStaked.toString(), { expires: 1 });
   } catch (e) {
     setTotalStaked(0);
   }
@@ -82,6 +93,23 @@ export async function fetchHolaPoints(
   if (!wallet?.address) {
     return;
   }
+
+  // Get the stored data
+  const storedData = JSON.parse(localStorage.getItem(LocalStorageStaking.holaPoints) || "{}");
+  const { storedAddress, storedPoints, storedTimestamp, storedOnchainPoints } = storedData;
+
+  // If the stored data is for the current wallet address and is less than 24 hours old, use it
+  if (
+    storedAddress === wallet.address &&
+    storedTimestamp &&
+    Date.now() - storedTimestamp < 24 * 60 * 60 * 1000
+  ) {
+    setAvailablePointsToClaim(storedPoints);
+    setTotalMyPointsOnchain(storedOnchainPoints);
+    return;
+  }
+
+  // Otherwise, fetch the data from the server
   try {
     const response = await suiProvider.getDynamicFieldObject({
       parentId: FRENS_STAKING_POOL_POINTS_TABLE_ID!,
@@ -92,7 +120,6 @@ export async function fetchHolaPoints(
     });
     console.count("fetch my points");
     const fields = getObjectFields(response);
-
     const now = Date.now();
 
     const onchainPoints: number = +fields?.value || 0;
@@ -104,6 +131,17 @@ export async function fetchHolaPoints(
         .reduce((a, b) => a + b, 0) || 0;
     setAvailablePointsToClaim(stakedPoints);
     setTotalMyPointsOnchain(onchainPoints);
+
+    // Store the data in localStorage for future use
+    localStorage.setItem(
+      LocalStorageStaking.holaPoints,
+      JSON.stringify({
+        storedAddress: wallet.address,
+        storedPoints: stakedPoints,
+        storedOnchainPoints: onchainPoints,
+        storedTimestamp: Date.now(),
+      }),
+    );
   } catch (e) {
     console.error(e);
   }
@@ -134,6 +172,10 @@ export async function stakeOneCapy(
       if (error_status) AlertErrorMessage(error_status);
     } else if (status === "success") {
       AlertSucceed("Staking");
+      // Remove total staked from cookies to call fetchTotalStaked again
+      Cookies.remove(CookiesStaking.totalStaked);
+      localStorage.removeItem(LocalStorageStaking.stakingTicketObject);
+      localStorage.removeItem(LocalStorageStaking.capyObject);
     } else {
       console.log("Status is not success or failure");
     }
@@ -176,6 +218,10 @@ export async function stakeBatchCapy(
       // remove batched capys from the list if success
       setBatchIdStake([]);
       setBatchStakeMode(false);
+      // Remove total staked from cookies to call fetchTotalStaked again
+      Cookies.remove(CookiesStaking.totalStaked);
+      localStorage.removeItem(LocalStorageStaking.stakingTicketObject);
+      localStorage.removeItem(LocalStorageStaking.capyObject);
     }
   } catch (e) {
     console.error(e);
@@ -211,6 +257,10 @@ export async function unstakeCapy(
       if (error_status) AlertErrorMessage(error_status);
     } else {
       AlertSucceed("Unstaking");
+      // Remove total staked from cookies to call fetchTotalStaked again
+      Cookies.remove(CookiesStaking.totalStaked);
+      localStorage.removeItem(LocalStorageStaking.stakingTicketObject);
+      localStorage.removeItem(LocalStorageStaking.capyObject);
     }
   } catch (e) {
     console.error(e);
@@ -250,6 +300,10 @@ export async function unstakeBatchCapy(
       // remove batched capys from the list if success
       setBatchIdUnstake([]);
       setBatchUnstakeMode(false);
+      // Remove total staked from cookies to call fetchTotalStaked again
+      Cookies.remove(CookiesStaking.totalStaked);
+      localStorage.removeItem(LocalStorageStaking.stakingTicketObject);
+      localStorage.removeItem(LocalStorageStaking.capyObject);
       // setOpenedUnstaked
     }
   } catch (e) {
