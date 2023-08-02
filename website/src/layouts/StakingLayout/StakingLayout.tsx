@@ -166,7 +166,7 @@ export const StakingLayout = () => {
       {availablePointsToClaim > 100 && (
         <PointsBanner availablePointsToClaim={availablePointsToClaim} />
       )}
-      <div className="my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
+      <div className="text my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
         <div className="flex flex-col justify-between md:flex-row md:items-center">
           <h1 className={classNames("text-[26px] font-extrabold text-blackColor lg:text-3xl")}>
             My NFTs
