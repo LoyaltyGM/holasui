@@ -53,6 +53,9 @@ export const StakingLayout = () => {
   const [batchUnstakeMode, setBatchUnstakeMode] = useState(false);
   const [batchIdUnstake, setBatchIdUnstake] = useState<string[]>([]);
 
+  // State for local storage
+  const [isSomethingChange, setIsSomethingChange] = useState(false);
+
   useEffect(() => {
     if (wallet) fetchCapyAndStaking(wallet, setFrens, setStakedFrens).then();
   }, [wallet?.address, wallet?.contents?.nfts]);
@@ -91,7 +94,7 @@ export const StakingLayout = () => {
         >
           <div className="relative">
             <div className="h-40 w-40">
-              <Image src={capy.url} alt={capy.description} fill={true} />
+              <Image src={capy.url} alt={capy.id} fill={true} />
             </div>
           </div>
         </div>
@@ -127,7 +130,7 @@ export const StakingLayout = () => {
         >
           <div className="relative">
             <div className={"h-40 w-40"}>
-              <Image src={staking.url} alt={"staking"} fill={true} className="rounded-md" />
+              <Image src={staking.url} alt={staking.id} fill={true} className="rounded-md" />
             </div>
           </div>
         </div>
