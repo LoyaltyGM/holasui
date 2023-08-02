@@ -42,7 +42,7 @@ export const HamburgerMenu = () => {
             </Link>
             <Link href="/dao">
               <div className="my-3 block rounded-md bg-purpleColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
-                DAO Hack
+                DAO
               </div>
             </Link>
 
