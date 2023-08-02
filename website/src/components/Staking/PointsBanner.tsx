@@ -19,6 +19,7 @@ export const PointsBanner = ({ availablePointsToClaim }: { availablePointsToClai
           <p className="font-medium md:whitespace-nowrap">You have some points for claiming</p>
           <p className="font-medium md:whitespace-nowrap">Grab them and increase your rewards!</p>
         </div>
+        {/* TODO: add logic  */}
         <button className="button-shadow h-12 w-full rounded-xl border-2 border-blackColor bg-white px-4 text-lg  font-semibold text-blackColor hover:border-pinkColor hover:text-pinkColor md:w-[176px]">
           Claim Points
         </button>
