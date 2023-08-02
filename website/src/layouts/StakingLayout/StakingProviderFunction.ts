@@ -98,11 +98,11 @@ export async function fetchHolaPoints(
   const storedData = JSON.parse(localStorage.getItem(LocalStorageStaking.holaPoints) || "{}");
   const { storedAddress, storedPoints, storedTimestamp, storedOnchainPoints } = storedData;
 
-  // If the stored data is for the current wallet address and is less than 1 hours old, use it
+  // If the stored data is for the current wallet address and is less than 30 minutes old, use it
   if (
     storedAddress === wallet.address &&
     storedTimestamp &&
-    Date.now() - storedTimestamp < 1 * 60 * 60 * 1000
+    Date.now() - storedTimestamp < 30 * 60 * 1000
   ) {
     setAvailablePointsToClaim(storedPoints);
     setTotalMyPointsOnchain(storedOnchainPoints);
