@@ -35,13 +35,13 @@ const font_montserrat = Montserrat({ subsets: ["latin"] });
 export const StakingLayout = () => {
   const { wallet, status } = ethos.useWallet();
 
-  // Data states
+  // NFT states
   const [frens, setFrens] = useState<ICapy[] | null>();
   const [stakedFrens, setStakedFrens] = useState<IStakingTicket[] | null>();
+  // General data
   const [totalStaked, setTotalStaked] = useState(0);
   const [totalMyPointsOnchain, setTotalMyPointsOnchain] = useState(0);
   const [availablePointsToClaim, setAvailablePointsToClaim] = useState(0);
-
   // Dialog states
   const [selectedFrend, setSelectedFrend] = useState<ICapy>();
   const [selectedStaked, setSelectedStaked] = useState<IStakingTicket>();
@@ -140,7 +140,6 @@ export const StakingLayout = () => {
     );
   };
 
-  // TODO: need to check claim batch points function
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Staking!"} />
   ) : (
@@ -149,16 +148,6 @@ export const StakingLayout = () => {
         <ProjectCard
           availablePointsToClaim={availablePointsToClaim}
           setOpenRules={setOpenRules}
-          claimPointsFunction={() =>
-            claimBatchPoints(
-              batchIdUnstake,
-              wallet,
-              setWaitSui,
-              setBatchIdUnstake,
-              setBatchUnstakeMode,
-              setOpenedFrend,
-            )
-          }
           stakedList={stakedFrens}
           totalHolaPointsOnchain={totalMyPointsOnchain}
           totalStaked={totalStaked}
@@ -166,8 +155,20 @@ export const StakingLayout = () => {
       ) : (
         <SkeletonStakingProjectCard />
       )}
-      {availablePointsToClaim > 100 && (
-        <PointsBanner availablePointsToClaim={availablePointsToClaim} />
+      {availablePointsToClaim > 100 && stakedFrens && (
+        <PointsBanner
+          availablePointsToClaim={availablePointsToClaim}
+          functionToClaimPoints={() =>
+            claimBatchPoints(
+              stakedFrens.map((capy) => capy.id),
+              wallet,
+              setWaitSui,
+              setBatchIdUnstake,
+              setBatchUnstakeMode,
+              setOpenedFrend,
+            )
+          }
+        />
       )}
       <div className="text my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
         <div className="flex flex-col justify-between md:flex-row md:items-center">

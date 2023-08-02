@@ -9,28 +9,7 @@ export const ProjectCard = ({
   setOpenRules,
   stakedList,
   totalHolaPointsOnchain,
-  availablePointsToClaim,
-  claimPointsFunction,
 }: IProjectCard) => {
-  // TODO: BUTTON FOR CLAIM POINT ADD LATER TO YOUR POINTS CARD
-  //   const button = {stakedList !== null && stakedList?.length !== 0 && availablePointsToClaim > 0 && (
-  //     <button
-  //       className="text-sm underline"
-  //       onClick={() => claimPointsFunction(stakedList.map((ticket) => ticket.id))}
-  //     >{`Claim ${formatNumber(availablePointsToClaim)} `}</button>
-  //   )}
-  // </div>
-  // {/* TODO: rewrite this part */}
-  // {/* //this claim is available only on desktop */}
-  // <div className="flex text-left text-xs underline md:hidden ">
-  //   {stakedList?.length && availablePointsToClaim ? (
-  //     <button
-  //       className="underline"
-  //       onClick={() => claimPointsFunction(stakedList?.map((ticket) => ticket.id))}
-  //     >{`Claim ${formatNumber(availablePointsToClaim)} `}</button>
-  //   ) : (
-  //     <button></button>
-  //   )}
   return (
     <div className="flex max-h-[547px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 md:flex md:h-[483px] md:p-[25px] md:pt-[30px] lg:h-[365px]">
       <div className="flex flex-col items-center gap-8 rounded-2xl md:flex-row md:items-start md:gap-12">
@@ -75,7 +54,7 @@ export const ProjectCard = ({
                 className="min-h-[28px] min-w-[28px]"
               />
               <p className={classNames("text-[26px] font-extrabold leading-8 md:text-3xl")}>
-                {totalHolaPointsOnchain ? formatNumber(totalHolaPointsOnchain) : 0}
+                {totalHolaPointsOnchain ? formatNumber(2345) : 0}
               </p>
             </div>
           </div>

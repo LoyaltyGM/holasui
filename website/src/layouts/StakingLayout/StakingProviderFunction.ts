@@ -98,11 +98,11 @@ export async function fetchHolaPoints(
   const storedData = JSON.parse(localStorage.getItem(LocalStorageStaking.holaPoints) || "{}");
   const { storedAddress, storedPoints, storedTimestamp, storedOnchainPoints } = storedData;
 
-  // If the stored data is for the current wallet address and is less than 24 hours old, use it
+  // If the stored data is for the current wallet address and is less than 30 minutes old, use it
   if (
     storedAddress === wallet.address &&
     storedTimestamp &&
-    Date.now() - storedTimestamp < 24 * 60 * 60 * 1000
+    Date.now() - storedTimestamp < 30 * 60 * 1000
   ) {
     setAvailablePointsToClaim(storedPoints);
     setTotalMyPointsOnchain(storedOnchainPoints);
@@ -118,7 +118,7 @@ export async function fetchHolaPoints(
         value: wallet.address,
       },
     });
-    console.count("fetch my points");
+
     const fields = getObjectFields(response);
     const now = Date.now();
 
@@ -358,7 +358,6 @@ export async function claimBatchPoints(
   setOpenedFrend: Dispatch<SetStateAction<boolean>>,
 ) {
   if (!wallet || !capy_batch) return;
-
   setWaitSui(true);
   try {
     const response = await wallet.signAndExecuteTransactionBlock({
@@ -367,7 +366,7 @@ export async function claimBatchPoints(
         showEffects: true,
       },
     });
-
+    console.log("Response", response);
     const status = getExecutionStatus(response);
 
     if (status?.status === "failure") {
@@ -376,6 +375,7 @@ export async function claimBatchPoints(
       if (error_status) AlertErrorMessage(error_status);
     } else {
       AlertSucceed("Claim");
+      localStorage.removeItem(LocalStorageStaking.holaPoints);
       // remove batched capys from the list if success
       setBatchIdUnstake([]);
       setBatchUnstakeMode(false);
