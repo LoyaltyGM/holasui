@@ -3,9 +3,10 @@ import type { AppProps } from "next/app";
 import { Chain, EthosConnectProvider } from "ethos-connect";
 import Head from "next/head";
 import { CustomToast, Sidebar } from "components";
-import { SUI_RPC_URL } from "../utils";
+import { SUI_RPC_URL, GOOGLE_ANALYTICS_ID } from "utils";
 import { Montserrat, Inter } from "next/font/google";
 import NextNProgress from "nextjs-progressbar";
+import Script from "next/script";
 
 const font_montserrat = Montserrat({
   variable: "--montserrat-font",
@@ -19,6 +20,20 @@ const font_inter = Inter({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={`${font_montserrat.variable} ${font_inter.variable}`}>
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+      />
+      <Script strategy="lazyOnload" id="google_analytics">
+        {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${GOOGLE_ANALYTICS_ID}', {
+                    page_path: window.location.pathname,
+                    });
+                `}
+      </Script>
       <Head>
         <title>¡hola sui! - nft staking platform</title>
         <meta property="og:title" content="hola! ola staking ola!" key="title" />
