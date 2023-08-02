@@ -241,7 +241,7 @@ export const StakingLayout = () => {
                       ? batchIdStake.length === 0
                         ? ButtonBatchText.cancel
                         : ButtonBatchText.confirm
-                      : ButtonBatchText.stake}
+                      : ButtonBatchText.stakeAll}
                   </button>
                 )}
               </div>
