@@ -354,12 +354,7 @@ export const StakingLayout = () => {
             : "border-[1px] border-black2Color",
         )}
       >
-        <Image
-          src={capy.url}
-          alt={capy.description}
-          fill={true}
-          className="rounded-xl object-contain"
-        />
+        <Image src={capy.url} alt={capy.id} fill={true} className="rounded-xl object-contain" />
       </button>
     );
   };
@@ -390,7 +385,7 @@ export const StakingLayout = () => {
       >
         <Image
           src={staking.url}
-          alt={"staking"}
+          alt={staking.id}
           fill={true}
           className="rounded-xl object-contain"
         />
