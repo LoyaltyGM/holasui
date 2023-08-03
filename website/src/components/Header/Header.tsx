@@ -2,7 +2,8 @@ import Link from "next/link";
 import { classNames } from "../../utils";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
-import { HamburgerMenu, MenuDialog, SocialsDialog } from "components";
+import { MobileMenuDialog, MenuDialog, SocialsDialog } from "components";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/router";
 import CustomWalletMenu from "../CustomWalletMenu/CustomWalletMenu";
 import { useState } from "react";
@@ -112,9 +113,15 @@ export const Header = () => {
               <CustomWalletMenu />
             </div>
           </div>
-          <HamburgerMenu openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu} />
+          <div className="flex md:hidden">
+            <Bars3Icon
+              className="z-10 h-10 w-10 cursor-pointer text-3xl text-black"
+              onClick={() => setOpenMobileMenu(true)}
+            />
+          </div>
         </div>
       </div>
+      <MobileMenuDialog openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu} />
       <SocialsDialog openSocials={openSocials} setOpenSocials={setOpenSocials} />
       <MenuDialog openMenu={openMenu} setOpenMenu={setOpenMenu} />
     </div>
