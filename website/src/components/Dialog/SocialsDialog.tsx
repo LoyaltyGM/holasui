@@ -12,7 +12,7 @@ const SocialsDialog = ({
   <Transition.Root show={openSocials} as={Fragment}>
     <Dialog
       as="div"
-      className="relative z-10"
+      className="relative z-10 hidden md:block"
       onClose={() => {
         setOpenSocials(false);
       }}
@@ -36,23 +36,25 @@ const SocialsDialog = ({
               Socials
             </Dialog.Title>
             <div className="flex flex-col gap-5">
-              <Link href="https://discord.com/invite/X8SXejkVHs">
-                <button className="h-12 w-[330px] rounded-xl border-2 border-[#8664CE] bg-white text-lg font-semibold text-[#8664CE]">
+              <Link href="https://discord.com/invite/X8SXejkVHs" target="_black">
+                <button className="h-12 w-[330px] rounded-xl border-2 border-[#8664CE] bg-white text-lg font-semibold text-[#8664CE] hover:bg-[#8664CE] hover:text-white active:text-black">
                   Discord
                 </button>
               </Link>
-              <Link href="https://twitter.com/Hola_Sui">
-                <button className="h-12 w-[330px] rounded-xl border-2 border-[#5592DE] bg-white text-lg font-semibold text-[#5592DE]">
+              <Link href="https://twitter.com/Hola_Sui" target="_black">
+                <button className="h-12 w-[330px] rounded-xl border-2 border-[#5592DE] bg-white text-lg font-semibold text-[#5592DE] hover:bg-[#5592DE] hover:text-white active:text-black">
                   Twitter
                 </button>
               </Link>
+              {/* TODO: Add link and taget black */}
               <Link href="#">
-                <button className="h-12 w-[330px] rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-pinkColor">
+                <button className="h-12 w-[330px] rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-pinkColor hover:bg-pinkColor hover:text-white active:text-black">
                   Documentation
                 </button>
               </Link>
+              {/* TODO: Add link and taget black */}
               <Link href="#">
-                <button className="h-12 w-[330px] rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor">
+                <button className="h-12 w-[330px] rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:bg-yellowColor hover:text-white active:text-black">
                   GitHub
                 </button>
               </Link>
