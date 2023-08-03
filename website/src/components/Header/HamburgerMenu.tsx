@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { ethos } from "ethos-connect";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import { Montserrat } from "next/font/google";
 import { classNames } from "../../utils";
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "/public/img/logo.png";
 
-const font_montserrat = Montserrat({ subsets: ["latin"] });
-
-export const HamburgerMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
+export const HamburgerMenu = ({
+  openMobileMenu,
+  setOpenMobileMenu,
+}: {
+  openMobileMenu: boolean;
+  setOpenMobileMenu: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const toggleMenu = () => setOpenMobileMenu(!openMobileMenu);
 
   return (
     <div className="flex md:hidden">
@@ -18,51 +21,94 @@ export const HamburgerMenu = () => {
         className="z-10 h-10 w-10 cursor-pointer text-3xl text-black"
         onClick={toggleMenu}
       />
-      {isOpen && (
+      {openMobileMenu && (
         <div
           className={classNames(
-            "fixed left-0 top-0 z-10 h-screen w-screen overflow-x-hidden bg-black/90 bg-opacity-90 px-2 font-medium transition-all duration-500 ease-in-out",
-            font_montserrat.className,
+            "fixed left-0 top-0 z-10 h-screen w-screen overflow-x-hidden bg-black/70 bg-opacity-90 px-4 font-medium transition-all duration-500 ease-in-out",
           )}
         >
-          <XMarkIcon
-            className="absolute right-5 top-5 h-10 w-10 cursor-pointer text-3xl text-white"
-            onClick={toggleMenu}
-          />
-          <div className="w-full pt-24 text-center">
-            <Link href="/">
-              <div className="my-3 block rounded-md bg-pinkColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
-                Staking
-              </div>
-            </Link>
-            <Link href="/swap">
-              <div className="my-3 block rounded-md bg-yellowColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
-                P2P Swap
-              </div>
-            </Link>
-            <Link href="/dao">
-              <div className="my-3 block rounded-md bg-purpleColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
-                DAO
-              </div>
-            </Link>
-
-            <div className="my-3 block rounded-md bg-transparent py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300"></div>
-            <a
-              href="https://discord.gg/X8SXejkVHs"
-              target="_black"
-              className="my-3 block rounded-md bg-purple-500 py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300"
-            >
-              Discord
-            </a>
-            <a
-              href="https://twitter.com/Hola_Sui"
-              target="_black"
-              className="my-3 block rounded-md bg-blue-400 py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300"
-            >
-              Twitter
-            </a>
-            <div className="my-3 block text-2xl text-white">
+          <div
+            className={classNames(
+              "mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 shadow-black transition-all duration-500 ease-in-out",
+            )}
+          >
+            <div className="flex flex-1 items-center justify-between">
+              <Link href="/">
+                {/* TODO:Fix sizing images */}
+                <Image
+                  src={Logo}
+                  height={54}
+                  width={118}
+                  alt={"logo"}
+                  priority
+                  unoptimized={true}
+                />
+              </Link>
+              <XMarkIcon className="h-10 w-10 cursor-pointer text-black" onClick={toggleMenu} />
+            </div>
+          </div>
+          <div className="mt-[10px] w-full rounded-xl border-2 border-blackColor bg-basicColor px-4 py-10 text-center shadow-black">
+            <div className="mb-10 block text-2xl text-white">
               <ethos.components.AddressWidget />
+            </div>
+            <div className="mb-28 flex  flex-col gap-[14px]">
+              <Link href="/">
+                <button
+                  className="h-12 w-full rounded-lg bg-yellowColor text-lg font-semibold text-white hover:border-2 hover:border-yellowColor hover:bg-white hover:text-yellowColor active:border-blackColor active:text-blackColor"
+                  onClick={toggleMenu}
+                >
+                  Staking
+                </button>
+              </Link>
+              <Link href="/spaces">
+                <button
+                  className="h-12 w-full rounded-lg bg-pinkColor text-lg font-semibold text-white hover:border-2 hover:border-pinkColor hover:bg-white hover:text-pinkColor active:border-blackColor active:text-blackColor"
+                  onClick={toggleMenu}
+                >
+                  Spaces
+                </button>
+              </Link>
+              <Link href="/swap">
+                <button
+                  className="h-12 w-full rounded-lg bg-orangeColor text-lg font-semibold text-white hover:border-2 hover:border-orangeColor hover:bg-white hover:text-orangeColor active:border-blackColor active:text-blackColor"
+                  onClick={toggleMenu}
+                >
+                  P2P Swap
+                </button>
+              </Link>
+              <Link href="/dao">
+                <button
+                  className="h-12 w-full rounded-lg bg-purpleColor text-lg font-semibold text-white hover:border-2 hover:border-purpleColor hover:bg-white hover:text-purpleColor active:border-blackColor active:text-blackColor"
+                  onClick={toggleMenu}
+                >
+                  DAO
+                </button>
+              </Link>
+            </div>
+            <h3 className="mb-4 text-start text-lg font-semibold text-blackColor">Socials</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <Link href="https://discord.com/invite/X8SXejkVHs" target="_black">
+                <button className="h-12 w-full rounded-xl border-2 border-[#8664CE] bg-white font-medium text-[#8664CE] hover:bg-[#8664CE] hover:text-white active:text-black">
+                  Discord
+                </button>
+              </Link>
+              <Link href="https://twitter.com/Hola_Sui" target="_black">
+                <button className="h-12 w-full rounded-xl border-2 border-[#5592DE] bg-white font-medium text-[#5592DE] hover:bg-[#5592DE] hover:text-white active:text-black">
+                  Twitter
+                </button>
+              </Link>
+              {/* TODO: Add link and taget black */}
+              <Link href="#">
+                <button className="h-12 w-full rounded-xl border-2 border-pinkColor bg-white font-medium text-pinkColor hover:bg-pinkColor hover:text-white active:text-black">
+                  Documentation
+                </button>
+              </Link>
+              {/* TODO: Add link and taget black */}
+              <Link href="#">
+                <button className="h-12 w-full rounded-xl border-2 border-yellowColor bg-white font-medium text-yellowColor hover:bg-yellowColor hover:text-white active:text-black">
+                  GitHub
+                </button>
+              </Link>
             </div>
           </div>
         </div>
