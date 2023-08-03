@@ -30,6 +30,7 @@ export const PointsBanner = ({
           className="button-shadow h-12 w-full rounded-xl border-2 border-blackColor bg-white px-4 text-lg  font-semibold text-blackColor hover:border-pinkColor hover:text-pinkColor md:w-[176px]"
           onClick={functionToClaimPoints}
         >
+
           Claim Points
         </button>
       </div>

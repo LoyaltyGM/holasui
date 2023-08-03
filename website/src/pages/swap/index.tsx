@@ -9,6 +9,7 @@ import {
   NoConnectWallet,
   RecipientCollectionDialog,
   SwapInformation,
+  YourOfferLinkDialog,
 } from "components";
 import { TradeObjectType } from "types";
 import { classNames, formatSuiAddress } from "utils";
@@ -16,7 +17,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
 import ImageSuiToken from "/public/img/SuiToken.png";
-import { YourOfferLinkDialog } from "../../components/Dialog/YourOfferLinkDialog";
 
 const Swap = () => {
   const { wallet, status } = ethos.useWallet();

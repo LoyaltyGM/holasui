@@ -1,3 +1,4 @@
-export * from "./LeaderboardDialog"
-export * from "./MyCollectionDialog"
-export * from "./RecipientCollectionDialog"
+export * from "./LeaderboardDialog";
+export * from "./Header";
+export * from "./Staking";
+export * from "./Swap";

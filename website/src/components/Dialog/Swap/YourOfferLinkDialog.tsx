@@ -4,7 +4,7 @@ import { IYourOfferLinkDialog } from "types";
 import { Montserrat } from "next/font/google";
 import { classNames, formatSuiAddress } from "utils";
 import Link from "next/link";
-import { CopyTextButton } from "../Utils";
+import { CopyTextButton } from "../../Utils";
 
 const font_montserrat = Montserrat({ subsets: ["latin"] });
 
