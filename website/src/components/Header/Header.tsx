@@ -2,12 +2,10 @@ import Link from "next/link";
 import { classNames } from "../../utils";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
-import { HamburgerMenu } from "components";
+import { HamburgerMenu, MenuDialog, SocialsDialog } from "components";
 import { useRouter } from "next/router";
 import CustomWalletMenu from "../CustomWalletMenu/CustomWalletMenu";
 import { useState } from "react";
-import SocialsDialog from "components/Dialog/SocialsDialog";
-import MenuDialog from "components/Dialog/MenuDialog";
 
 export const Header = () => {
   const [openSocials, setOpenSocials] = useState<boolean>(false);
@@ -46,7 +44,7 @@ export const Header = () => {
                   "block rounded-md p-[10px]",
                   router.pathname === "/"
                     ? "font-semibold text-blackColor"
-                    : "hover:text-yellowColorHover",
+                    : "hover:text-yellowColor",
                 )}
               >
                 Staking
@@ -58,7 +56,7 @@ export const Header = () => {
                   "block rounded-md p-[10px]",
                   router.pathname === "/spaces"
                     ? "font-semibold text-blackColor"
-                    : "hover:text-yellowColorHover",
+                    : "hover:text-pinkColor",
                 )}
               >
                 Spaces
@@ -70,7 +68,7 @@ export const Header = () => {
                   "block rounded-md p-[10px]",
                   router.pathname === "/swap"
                     ? "font-semibold text-blackColor"
-                    : "hover:text-purpleColor",
+                    : "hover:text-orangeColor",
                 )}
               >
                 P2P Swap
@@ -82,7 +80,7 @@ export const Header = () => {
                   "block rounded-md p-[10px]",
                   router.pathname === "/dao"
                     ? "font-semibold text-blackColor"
-                    : "hover:text-redColor",
+                    : "hover:text-purpleColor",
                 )}
               >
                 DAO

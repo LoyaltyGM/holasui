@@ -2,7 +2,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, Dispatch, SetStateAction } from "react";
 
-const SocialsDialog = ({
+export const SocialsDialog = ({
   openSocials,
   setOpenSocials,
 }: {
@@ -65,5 +65,3 @@ const SocialsDialog = ({
     </Dialog>
   </Transition.Root>
 );
-
-export default SocialsDialog;

@@ -2,7 +2,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, Dispatch, SetStateAction } from "react";
 
-const MenuDialog = ({
+export const MenuDialog = ({
   openMenu,
   setOpenMenu,
 }: {
@@ -75,5 +75,3 @@ const MenuDialog = ({
     </Dialog>
   </Transition.Root>
 );
-
-export default MenuDialog;
