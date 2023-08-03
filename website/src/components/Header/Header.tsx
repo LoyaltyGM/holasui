@@ -12,7 +12,7 @@ import MenuDialog from "components/Dialog/MenuDialog";
 export const Header = () => {
   const [openSocials, setOpenSocials] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
 
   const router = useRouter();
   return (
@@ -114,7 +114,7 @@ export const Header = () => {
               <CustomWalletMenu />
             </div>
           </div>
-          <HamburgerMenu mobileMenu={mobileMenu} setMobileMenu={setMobileMenu} />
+          <HamburgerMenu openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu} />
         </div>
       </div>
       <SocialsDialog openSocials={openSocials} setOpenSocials={setOpenSocials} />
