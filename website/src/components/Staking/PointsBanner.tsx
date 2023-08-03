@@ -1,8 +1,15 @@
 import Image from "next/image";
 import pointsLogo from "/public/img/points.png";
 import { formatNumber } from "utils";
+import { claimBatchPoints } from "../../layouts/StakingLayout/StakingProviderFunction";
 
-export const PointsBanner = ({ availablePointsToClaim }: { availablePointsToClaim: number }) => {
+export const PointsBanner = ({
+  availablePointsToClaim,
+  functionToClaimPoints,
+}: {
+  availablePointsToClaim: number;
+  functionToClaimPoints: () => void;
+}) => {
   return (
     <div className="mt-5 flex w-auto flex-col content-center items-center justify-between gap-5 rounded-lg bg-pinkColor p-4 pb-6 text-white md:mx-[25px] md:mt-8 md:flex-row md:py-6">
       <div className="w-full">
@@ -19,8 +26,11 @@ export const PointsBanner = ({ availablePointsToClaim }: { availablePointsToClai
           <p className="font-medium md:whitespace-nowrap">You have some points for claiming</p>
           <p className="font-medium md:whitespace-nowrap">Grab them and increase your rewards!</p>
         </div>
-        {/* TODO: add logic  */}
-        <button className="button-shadow h-12 w-full rounded-xl border-2 border-blackColor bg-white px-4 text-lg  font-semibold text-blackColor hover:border-pinkColor hover:text-pinkColor md:w-[176px]">
+        <button
+          className="button-shadow h-12 w-full rounded-xl border-2 border-blackColor bg-white px-4 text-lg  font-semibold text-blackColor hover:border-pinkColor hover:text-pinkColor md:w-[176px]"
+          onClick={functionToClaimPoints}
+        >
+
           Claim Points
         </button>
       </div>

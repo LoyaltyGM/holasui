@@ -22,15 +22,19 @@ export function classNames(...classes: any[]) {
 }
 
 export function formatNumber(num: number) {
-  const suffixes = ["", "K", "M", "B", "T"]; // array of number suffixes
-  const suffixNum = Math.floor(("" + num).length / 3); // determine the suffix
-  let shortenedNum: number | string = num / Math.pow(10, suffixNum * 3); // convert the number to a shortened decimal
+  const suffixes = ["", "K", "M", "B", "T"];
+  let count = 0;
 
-  if (shortenedNum.toString().length > 3) {
-    // check if it has more than 3 digits
-    shortenedNum = shortenedNum.toFixed(2); // round to 1 decimal place if so
+  while (num >= 1000) {
+    num /= 1000;
+    count++;
   }
-  return shortenedNum + suffixes[suffixNum]; // append the suffix
+
+  // we use toFixed(2) to always have two decimal places
+  // parseFloat() is used to remove trailing zeroes
+  num = parseFloat(num.toFixed(2));
+
+  return num + suffixes[count];
 }
 
 export function formatSuiAddress(address: string, startLength = 3, endLength = 4): string {
