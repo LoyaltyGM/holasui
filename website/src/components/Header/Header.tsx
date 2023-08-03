@@ -12,11 +12,16 @@ import MenuDialog from "components/Dialog/MenuDialog";
 export const Header = () => {
   const [openSocials, setOpenSocials] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
 
   const router = useRouter();
   return (
     <div className="fixed-header w-full font-inter">
-      <div className="mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 text-white md:mx-8 md:min-h-[76px] md:rounded-[20px] md:px-8 xl:min-h-[90px]">
+      <div
+        className={classNames(
+          "mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 text-white md:mx-8 md:min-h-[76px] md:rounded-[20px] md:px-8 xl:min-h-[90px]",
+        )}
+      >
         <div className="flex flex-1 content-center items-center justify-between">
           <Link href="/">
             {/* TODO:Fix sizing images */}
@@ -27,7 +32,7 @@ export const Header = () => {
               alt={"logo"}
               priority
               unoptimized={true}
-              className="md:h-[81px] md:min-w-[180px]"
+              className="md:h-[68px] md:w-[152px] xl:h-[81px] xl:min-w-[180px]"
             />
           </Link>
           <div
@@ -84,16 +89,24 @@ export const Header = () => {
               </div>
             </Link>
           </div>
-          <button
-            onClick={() => setOpenMenu(true)}
-            className="hidden h-10 w-20 font-medium text-black2Color hover:cursor-pointer hover:text-blackColor md:flex xl:hidden"
-          >
-            Menu
-          </button>
+          <div className="hidden gap-10 md:flex xl:hidden">
+            <button
+              onClick={() => setOpenMenu(true)}
+              className="p-[10px] font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor "
+            >
+              Menu
+            </button>
+            <button
+              onClick={() => setOpenSocials(true)}
+              className="p-[10px] font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor"
+            >
+              Socials
+            </button>
+          </div>
           <div className="mt-2 hidden h-12 items-center gap-8 md:mt-0 md:flex">
             <button
               onClick={() => setOpenSocials(true)}
-              className="h-10 w-20 font-medium text-black2Color hover:cursor-pointer hover:text-blackColor"
+              className="hidden p-[10px] px-4 font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block"
             >
               Socials
             </button>
@@ -101,7 +114,7 @@ export const Header = () => {
               <CustomWalletMenu />
             </div>
           </div>
-          <HamburgerMenu />
+          <HamburgerMenu mobileMenu={mobileMenu} setMobileMenu={setMobileMenu} />
         </div>
       </div>
       <SocialsDialog openSocials={openSocials} setOpenSocials={setOpenSocials} />
