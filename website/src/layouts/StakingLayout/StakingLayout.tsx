@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { handleSetBatchIdStake, ICapy, IStakingTicket } from "types";
-
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Image from "next/image";
 import { classNames } from "utils";
@@ -83,6 +82,16 @@ export const StakingLayout = () => {
     }
   }
 
+  function handleCancelStaking() {
+    setBatchIdStake([]);
+    setBatchStakeMode(false);
+  }
+
+  function handleCancelUnstaking() {
+    setBatchIdUnstake([]);
+    setBatchUnstakeMode(false);
+  }
+
   const SuifrensCard = ({ capy, batchMode }: { capy: ICapy; batchMode: boolean }) => {
     return (
       <button
@@ -124,7 +133,7 @@ export const StakingLayout = () => {
         className={classNames(
           "proposal-card-shadow relative min-h-[186px] rounded-xl bg-white p-4 hover:border-2 hover:border-blackColor hover:bg-white sm:min-h-[248px] lg:min-h-[300px]",
           batchMode
-            ? batchIdStake.includes(staking.id)
+            ? batchIdUnstake.includes(staking.id)
               ? "border-2 border-pinkColor"
               : "rounded-xl border-[1px] border-black2Color"
             : "rounded-xl border-[1px] border-black2Color",
@@ -171,38 +180,26 @@ export const StakingLayout = () => {
         />
       )}
       <div className="text my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
-        <div className="flex flex-col justify-between md:flex-row md:items-center">
+        <div className="flex flex-col flex-wrap justify-between md:flex-row md:items-center">
           <h1 className={classNames("text-[26px] font-extrabold text-blackColor lg:text-3xl")}>
             My NFTs
           </h1>
           {frens?.length !== 0 && (
-            <div className="mt-4 md:mt-0 md:flex">
-              {/* TODO: REWORK */}
-              <p
-                className={classnames(
-                  "mb-2 w-full text-sm font-normal md:mb-0 md:px-4 md:text-sm",
-                  {
-                    hidden: !batchStakeMode,
-                  },
-                )}
-              >
-                {batchStakeMode ? (
-                  batchIdStake.length === 0 ? (
-                    "Select capy for staking"
-                  ) : (
-                    <StakingRules />
-                  )
-                ) : null}
-              </p>
-              <div className="flex gap-4 md:gap-5">
-                <button
-                  className={classNames(
-                    "button-shadow button-shadow:active max-h-[48px]  min-h-[48px] w-full rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:border-transparent hover:bg-yellowColor hover:text-gray-50 md:min-w-[176px]",
-                  )}
-                  onClick={() => {
-                    batchStakeMode
-                      ? batchIdStake.length === 0
-                        ? setBatchStakeMode(false)
+            <>
+              {batchStakeMode && (
+                <div className="order-last mt-4 w-full text-sm font-medium text-black2Color  md:mb-0 xl:order-none xl:mt-0 xl:w-auto">
+                  {batchIdStake.length === 0 ? "Select capy for staking" : <StakingRules />}
+                </div>
+              )}
+              <div className="mt-4 flex gap-4 md:mt-0 md:items-center md:gap-5">
+                {(!batchStakeMode || batchIdStake.length > 0) && (
+                  <button
+                    className={classNames(
+                      "button-shadow button-shadow:active h-12 w-full rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:border-transparent hover:bg-yellowColor hover:text-gray-50 md:min-w-[176px]",
+                    )}
+                    onClick={() => {
+                      batchIdStake.length === 0
+                        ? setBatchStakeMode(true)
                         : stakeBatchCapy(
                             batchIdStake,
                             wallet,
@@ -210,46 +207,24 @@ export const StakingLayout = () => {
                             setOpenedFrend,
                             setBatchIdStake,
                             setBatchStakeMode,
-                          )
-                      : setBatchStakeMode(true);
-                  }}
-                >
-                  {batchStakeMode
-                    ? batchIdStake.length === 0
-                      ? ButtonBatchText.cancel
-                      : ButtonBatchText.confirm
-                    : ButtonBatchText.stake}
-                </button>
-                {/* TODO: Change to "stake all" button. Now it's example */}
-                {!batchStakeMode && (
-                  <button
-                    className={classNames(
-                      "button-shadow button-shadow:active max-h-[48px]  min-h-[48px] w-full rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-white hover:text-yellowColor md:min-w-[176px]",
-                    )}
-                    onClick={() => {
-                      batchStakeMode
-                        ? batchIdStake.length === 0
-                          ? setBatchStakeMode(false)
-                          : stakeBatchCapy(
-                              batchIdStake,
-                              wallet,
-                              setWaitSui,
-                              setOpenedFrend,
-                              setBatchIdStake,
-                              setBatchStakeMode,
-                            )
-                        : handleBatchStakeAll();
+                          );
                     }}
                   >
-                    {batchStakeMode
-                      ? batchIdStake.length === 0
-                        ? ButtonBatchText.cancel
-                        : ButtonBatchText.confirm
-                      : ButtonBatchText.stakeAll}
+                    {batchIdStake.length === 0 ? ButtonBatchText.stake : ButtonBatchText.confirm}
                   </button>
                 )}
+                <button
+                  className={classNames(
+                    "button-shadow button-shadow:active h-12 w-full rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-white hover:text-yellowColor md:min-w-[176px]",
+                  )}
+                  onClick={() => {
+                    batchStakeMode ? handleCancelStaking() : handleBatchStakeAll();
+                  }}
+                >
+                  {batchStakeMode ? ButtonBatchText.cancel : ButtonBatchText.stakeAll}
+                </button>
               </div>
-            </div>
+            </>
           )}
         </div>
         {frens?.length !== 0 ? (
@@ -289,32 +264,24 @@ export const StakingLayout = () => {
       </div>
       {stakedFrens?.length !== 0 && (
         <>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col flex-wrap justify-between md:flex-row md:items-center">
             <h1 className={classnames("text-[26px] font-extrabold text-blackColor lg:text-3xl")}>
               My Staked NFTs
             </h1>
-            <div className="md:flex">
-              <p
-                className={classnames("mt-9 w-full text-xs font-normal md:mt-10 md:px-4", {
-                  hidden: !batchStakeMode,
-                })}
-              >
-                {batchUnstakeMode ? (
-                  batchIdUnstake.length === 0 ? (
-                    "Select capy for unstaking"
-                  ) : (
-                    <StakingRules />
-                  )
-                ) : null}
-              </p>
-              <button
-                className={classNames(
-                  "button-shadow button-shadow:active max-h-[48px] min-h-[48px] min-w-[176px] rounded-xl border-2 border-pinkColor bg-white text-center align-middle text-lg font-semibold text-pinkColor hover:border-transparent hover:bg-pinkColor hover:text-white",
-                )}
-                onClick={() => {
-                  batchUnstakeMode
-                    ? batchIdUnstake.length === 0
-                      ? setBatchUnstakeMode(false)
+            {batchUnstakeMode && (
+              <div className="order-last mt-4 w-full text-sm font-medium text-black2Color  md:mb-0 xl:order-none xl:mt-0 xl:w-auto">
+                {batchIdUnstake.length === 0 ? "Select capy for unstaking" : <StakingRules />}
+              </div>
+            )}
+            <div className="mt-4 flex gap-4 md:mt-0 md:items-center md:gap-5">
+              {(!batchUnstakeMode || batchIdUnstake.length > 0) && (
+                <button
+                  className={classNames(
+                    "button-shadow button-shadow:active h-12 w-full rounded-xl border-2 border-pinkColor bg-white text-center align-middle text-lg font-semibold text-pinkColor hover:border-transparent hover:bg-pinkColor hover:text-white md:min-w-[176px]",
+                  )}
+                  onClick={() => {
+                    batchIdUnstake.length === 0
+                      ? setBatchUnstakeMode(true)
                       : unstakeBatchCapy(
                           batchIdUnstake,
                           wallet,
@@ -322,20 +289,24 @@ export const StakingLayout = () => {
                           setBatchIdUnstake,
                           setBatchUnstakeMode,
                           setOpenedFrend,
-                        )
-                    : setBatchUnstakeMode(true);
-                }}
-              >
-                {batchUnstakeMode ? (
-                  batchIdUnstake.length === 0 ? (
-                    ButtonBatchText.cancel
-                  ) : (
-                    ButtonBatchText.confirm
-                  )
-                ) : (
-                  <p>Batch Unstaking</p>
-                )}
-              </button>
+                        );
+                  }}
+                >
+                  {batchIdUnstake.length === 0
+                    ? ButtonBatchText.batchUnstake
+                    : ButtonBatchText.unstakeConfirm}
+                </button>
+              )}
+              {batchUnstakeMode && (
+                <button
+                  className={classNames(
+                    "button-shadow button-shadow:active h-12 w-full rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-white hover:text-pinkColor md:min-w-[176px]",
+                  )}
+                  onClick={() => handleCancelUnstaking()}
+                >
+                  {ButtonBatchText.cancel}
+                </button>
+              )}
             </div>
           </div>
           <div className={"mt-8 grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-10 xl:grid-cols-4"}>
