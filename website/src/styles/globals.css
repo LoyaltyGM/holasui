@@ -9,6 +9,9 @@
 
   body {
     /*color: rgb(var(--foreground-rgb));*/
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
     background: rgb(var(--foreground-rgb));
   }
 }

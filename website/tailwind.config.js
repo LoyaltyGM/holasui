@@ -60,6 +60,9 @@ module.exports = {
         6: "6px",
         8: "8px",
       },
+      boxShadow: {
+        black: "6px 6px 0px 0px blackColor",
+      },
     },
   },
   plugins: [],

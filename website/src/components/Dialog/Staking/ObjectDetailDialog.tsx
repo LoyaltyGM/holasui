@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { StakingRules } from "./StakingRules";
+import { StakingRules } from "../../Staking/StakingRules";
 import { IObjectDetailDialog } from "types";
 import { Montserrat } from "next/font/google";
 
