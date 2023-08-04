@@ -3,18 +3,24 @@ import { handleSetBatchIdStake, ICapy, IStakingTicket } from "types";
 
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Image from "next/image";
-import { classNames } from "utils";
+import {
+  AnalyticsCategory,
+  AnalyticServices,
+  AnalyticsEvent,
+  classNames,
+  handleAnalyticsClick,
+} from "utils";
 import {
   BlueMoveButton,
+  Container,
   NoConnectWallet,
   ObjectDetailDialog,
+  PointsBanner,
   ProjectCard,
   RulesDialog,
+  SkeletonStakingProjectCard,
   StakingRules,
   UnstakeDetailDialog,
-  Container,
-  PointsBanner,
-  SkeletonStakingProjectCard,
 } from "components";
 import classnames from "classnames";
 import { Montserrat } from "next/font/google";
@@ -158,16 +164,20 @@ export const StakingLayout = () => {
       {availablePointsToClaim > 100 && stakedFrens && (
         <PointsBanner
           availablePointsToClaim={availablePointsToClaim}
-          functionToClaimPoints={() =>
-            claimBatchPoints(
+          functionToClaimPoints={async () => {
+            await handleAnalyticsClick({
+              event_main: AnalyticsEvent.claimAllPoints,
+              page: AnalyticsCategory.staking,
+            });
+            await claimBatchPoints(
               stakedFrens.map((capy) => capy.id),
               wallet,
               setWaitSui,
               setBatchIdUnstake,
               setBatchUnstakeMode,
               setOpenedFrend,
-            )
-          }
+            );
+          }}
         />
       )}
       <div className="text my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
@@ -199,7 +209,7 @@ export const StakingLayout = () => {
                   className={classNames(
                     "button-shadow button-shadow:active max-h-[48px]  min-h-[48px] w-full rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:border-transparent hover:bg-yellowColor hover:text-gray-50 md:min-w-[176px]",
                   )}
-                  onClick={() => {
+                  onClick={async () => {
                     batchStakeMode
                       ? batchIdStake.length === 0
                         ? setBatchStakeMode(false)
@@ -212,6 +222,10 @@ export const StakingLayout = () => {
                             setBatchStakeMode,
                           )
                       : setBatchStakeMode(true);
+                    await handleAnalyticsClick({
+                      event_main: AnalyticsEvent.clickStakeAll,
+                      page: AnalyticsCategory.staking,
+                    });
                   }}
                 >
                   {batchStakeMode
@@ -226,7 +240,7 @@ export const StakingLayout = () => {
                     className={classNames(
                       "button-shadow button-shadow:active max-h-[48px]  min-h-[48px] w-full rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-white hover:text-yellowColor md:min-w-[176px]",
                     )}
-                    onClick={() => {
+                    onClick={async () => {
                       batchStakeMode
                         ? batchIdStake.length === 0
                           ? setBatchStakeMode(false)
@@ -239,6 +253,10 @@ export const StakingLayout = () => {
                               setBatchStakeMode,
                             )
                         : handleBatchStakeAll();
+                      await handleAnalyticsClick({
+                        event_main: AnalyticsEvent.clickStakeAll,
+                        page: AnalyticsCategory.staking,
+                      });
                     }}
                   >
                     {batchStakeMode
@@ -311,7 +329,7 @@ export const StakingLayout = () => {
                 className={classNames(
                   "button-shadow button-shadow:active max-h-[48px] min-h-[48px] min-w-[176px] rounded-xl border-2 border-pinkColor bg-white text-center align-middle text-lg font-semibold text-pinkColor hover:border-transparent hover:bg-pinkColor hover:text-white",
                 )}
-                onClick={() => {
+                onClick={async () => {
                   batchUnstakeMode
                     ? batchIdUnstake.length === 0
                       ? setBatchUnstakeMode(false)
@@ -324,6 +342,10 @@ export const StakingLayout = () => {
                           setOpenedFrend,
                         )
                     : setBatchUnstakeMode(true);
+                  await handleAnalyticsClick({
+                    event_main: AnalyticsEvent.clickUnstakeAll,
+                    page: AnalyticsCategory.staking,
+                  });
                 }}
               >
                 {batchUnstakeMode ? (

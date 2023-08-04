@@ -9,7 +9,9 @@ amplitude?.init(process.env.NEXT_PUBLIC_AMPLITUDE_ID || "");
 export const enum AnalyticsEvent {
   // header events
   openWallet = "openWallet",
+  disconnectWallet = "disconnectWallet",
   clickToStaking = "clickToStaking",
+  clickToLogo = "clickToLogo",
   clickToSpace = "clickToSpace",
   clickToDAO = "clickToDAO",
   clickToP2P = "clickToP2P",
@@ -36,11 +38,11 @@ export const enum AnalyticsEvent {
 }
 
 export const enum AnalyticsCategory {
-  main = "mainPage",
-  staking = "stakingPage",
-  space = "spacePage",
-  dao = "daoPage",
-  p2p = "p2pPage",
+  main = "/",
+  staking = "staking",
+  space = "spaces",
+  dao = "dao",
+  p2p = "swap",
 }
 
 // Analytics event data model
@@ -66,7 +68,12 @@ class AnalyticServiceFactory {
 }
 
 class GoogleAnalyticService implements IAnalyticService {
-  // eslint-disable-next-line class-methods-use-this
+  public constructor(private readonly id: string) {}
+
+  public init(): void {
+    ReactGA.initialize(this.id);
+  }
+
   public async sendEvent(event: IAnalyticEvent): Promise<void> {
     ReactGA?.event({
       category: event.category,
@@ -78,7 +85,6 @@ class GoogleAnalyticService implements IAnalyticService {
 }
 
 // class FacebookAnalyticService implements IAnalyticService {
-//   /* eslint-disable class-methods-use-this */
 //   public async sendEvent(event: IAnalyticEvent): Promise<void> {
 //     import("react-facebook-pixel")
 //       .then((x) => x.default)
@@ -93,6 +99,12 @@ class GoogleAnalyticService implements IAnalyticService {
 // }
 
 class AmplitudeAnalyticService implements IAnalyticService {
+  public constructor(private readonly id: string) {}
+
+  public init(): void {
+    amplitude.init(this.id);
+  }
+
   public async sendEvent(event: IAnalyticEvent): Promise<void> {
     amplitude?.logEvent(event.event, {
       category: event.category,
@@ -102,9 +114,9 @@ class AmplitudeAnalyticService implements IAnalyticService {
   }
 }
 
-export const analyticServices = new AnalyticServiceFactory([
-  new GoogleAnalyticService(),
-  new AmplitudeAnalyticService(),
+const AnalyticServices = new AnalyticServiceFactory([
+  new GoogleAnalyticService(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""),
+  new AmplitudeAnalyticService(process.env.NEXT_PUBLIC_AMPLITUDE_ID || ""),
 ]);
 
 export const handleAnalyticsClick = async ({
@@ -118,7 +130,7 @@ export const handleAnalyticsClick = async ({
   label?: string;
   value?: string;
 }) => {
-  analyticServices.sendEvent({
+  AnalyticServices.sendEvent({
     event: event_main,
     category: page,
     label,

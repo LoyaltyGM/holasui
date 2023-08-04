@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, SetStateAction } from "react";
-import { classNames } from "utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import token from "/public/img/points.png";
@@ -97,8 +97,12 @@ export const UnstakeDetailDialog = ({
                       "mx-auto mb-1 mt-2 block w-full cursor-pointer rounded-md bg-yellowColor px-2 py-2 text-sm font-black text-white hover:bg-yellowColorHover disabled:cursor-not-allowed disabled:opacity-50 md:px-3",
                       font_montserrat.className,
                     )}
-                    onClick={() => {
+                    onClick={async () => {
                       claimPointsFunction(selectedStaked!).then();
+                      await handleAnalyticsClick({
+                        event_main: AnalyticsEvent.claimPointsOfOneNFT,
+                        page: AnalyticsCategory.staking,
+                      });
                     }}
                     disabled={waitSui}
                   >
@@ -109,8 +113,12 @@ export const UnstakeDetailDialog = ({
                       "mx-auto mb-1 mt-2 block w-full cursor-pointer rounded-md bg-pinkColor px-2 py-2 text-sm font-black text-white hover:bg-[#c8517c] disabled:cursor-not-allowed disabled:opacity-50 md:px-3",
                       font_montserrat.className,
                     )}
-                    onClick={() => {
+                    onClick={async () => {
                       unstakeCapyFunction(selectedStaked!).then();
+                      await handleAnalyticsClick({
+                        event_main: AnalyticsEvent.clickUnstakeOne,
+                        page: AnalyticsCategory.staking,
+                      });
                     }}
                     disabled={waitSui}
                   >

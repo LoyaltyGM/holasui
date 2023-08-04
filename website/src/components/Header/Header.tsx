@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { classNames } from "../../utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
@@ -15,7 +15,15 @@ export const Header = () => {
     <div className={"fixed-header w-full"}>
       <div className="mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 align-middle text-white md:mx-8 md:min-h-[94px] md:rounded-[20px] md:px-8">
         <div className="flex flex-1 content-center items-center justify-between">
-          <Link href="/">
+          <Link
+            href="/"
+            onClick={async () =>
+              await handleAnalyticsClick({
+                event_main: AnalyticsEvent.clickToLogo,
+                page: AnalyticsCategory.main,
+              })
+            }
+          >
             {/* TODO:Fix sizing images */}
             <Image
               src={Logo}
@@ -33,7 +41,15 @@ export const Header = () => {
               font_montserrat.className,
             )}
           >
-            <Link href="/">
+            <Link
+              href="/"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToStaking,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div
                 className={classNames(
                   "my-3 block rounded-md py-2",
@@ -45,7 +61,15 @@ export const Header = () => {
                 Staking
               </div>
             </Link>
-            <Link href="/swap">
+            <Link
+              href="/swap"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToP2P,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div
                 className={classNames(
                   "my-3 block rounded-md py-2",
@@ -57,7 +81,15 @@ export const Header = () => {
                 P2P Swap
               </div>
             </Link>
-            <Link href="/dao">
+            <Link
+              href="/dao"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToDAO,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div
                 className={classNames(
                   "my-3 block rounded-md py-2",
@@ -78,7 +110,16 @@ export const Header = () => {
                 font_montserrat.className,
               )}
             >
-              <a href="https://discord.gg/X8SXejkVHs" target="_black">
+              <a
+                href="https://discord.gg/X8SXejkVHs"
+                target="_black"
+                onClick={async () =>
+                  await handleAnalyticsClick({
+                    event_main: AnalyticsEvent.clickToDiscord,
+                    page: AnalyticsCategory.main,
+                  })
+                }
+              >
                 Discord
               </a>
             </div>
@@ -90,7 +131,16 @@ export const Header = () => {
                 font_montserrat.className,
               )}
             >
-              <a href="https://twitter.com/Hola_Sui" target="_black">
+              <a
+                href="https://twitter.com/Hola_Sui"
+                target="_black"
+                onClick={async () =>
+                  await handleAnalyticsClick({
+                    event_main: AnalyticsEvent.clickToTwitter,
+                    page: AnalyticsCategory.main,
+                  })
+                }
+              >
                 Twitter
               </a>
             </div>

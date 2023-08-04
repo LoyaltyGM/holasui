@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ethos } from "ethos-connect";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Montserrat } from "next/font/google";
-import { classNames } from "../../utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "../../utils";
 import Link from "next/link";
 
 const font_montserrat = Montserrat({ subsets: ["latin"] });
@@ -30,17 +30,41 @@ export const HamburgerMenu = () => {
             onClick={toggleMenu}
           />
           <div className="w-full pt-24 text-center">
-            <Link href="/">
+            <Link
+              href="/"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToStaking,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div className="my-3 block rounded-md bg-pinkColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
                 Staking
               </div>
             </Link>
-            <Link href="/swap">
+            <Link
+              href="/swap"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToP2P,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div className="my-3 block rounded-md bg-yellowColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
                 P2P Swap
               </div>
             </Link>
-            <Link href="/dao">
+            <Link
+              href="/dao"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToDAO,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div className="my-3 block rounded-md bg-purpleColor py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300">
                 DAO
               </div>
@@ -51,6 +75,12 @@ export const HamburgerMenu = () => {
               href="https://discord.gg/X8SXejkVHs"
               target="_black"
               className="my-3 block rounded-md bg-purple-500 py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToDiscord,
+                  page: AnalyticsCategory.main,
+                })
+              }
             >
               Discord
             </a>
@@ -58,6 +88,12 @@ export const HamburgerMenu = () => {
               href="https://twitter.com/Hola_Sui"
               target="_black"
               className="my-3 block rounded-md bg-blue-400 py-3 text-2xl text-white transition-all duration-300 ease-in-out hover:text-gray-300"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToTwitter,
+                  page: AnalyticsCategory.main,
+                })
+              }
             >
               Twitter
             </a>

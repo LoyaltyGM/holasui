@@ -11,7 +11,13 @@ import {
   SwapInformation,
 } from "components";
 import { TradeObjectType } from "types";
-import { classNames, formatSuiAddress } from "utils";
+import {
+  AnalyticsCategory,
+  AnalyticsEvent,
+  classNames,
+  formatSuiAddress,
+  handleAnalyticsClick,
+} from "utils";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
@@ -72,6 +78,10 @@ const Swap = () => {
         AlertSucceed("CreateOffer");
         setOfferCreated(true);
         setOfferTransactionHash(response?.events![0].parsedJson?.id);
+        await handleAnalyticsClick({
+          event_main: AnalyticsEvent.createOffer,
+          page: AnalyticsCategory.p2p,
+        });
       }
     } catch (e) {
       console.error(e);
@@ -90,7 +100,15 @@ const Swap = () => {
             Swap NFTs secure and without third-parties companies!
           </p>
         </div>
-        <Link href={"./swap/history"}>
+        <Link
+          href={"./swap/history"}
+          onClick={async () => {
+            await handleAnalyticsClick({
+              event_main: AnalyticsEvent.viewHistory,
+              page: AnalyticsCategory.p2p,
+            });
+          }}
+        >
           <button className="mt-4 h-12 w-full rounded-lg border-2 border-black2Color bg-white font-semibold text-blackColor hover:border-yellowColor hover:bg-yellowColor hover:text-white md:mt-0 md:w-40">
             View History
           </button>
