@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { classNames } from "../../utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
 import { MobileMenuDialog, MenuDialog, SocialsDialog } from "components";
@@ -22,7 +22,15 @@ export const Header = () => {
         )}
       >
         <div className="flex flex-1 content-center items-center justify-between">
-          <Link href="/">
+          <Link
+            href="/"
+            onClick={async () =>
+              await handleAnalyticsClick({
+                event_main: AnalyticsEvent.clickToLogo,
+                page: AnalyticsCategory.main,
+              })
+            }
+          >
             {/* TODO:Fix sizing images */}
             <Image
               src={Logo}
@@ -39,7 +47,15 @@ export const Header = () => {
               "hidden gap-10 font-medium text-black2Color md:mt-0 md:items-center md:justify-evenly xl:flex",
             )}
           >
-            <Link href="/">
+            <Link
+              href="/"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToStaking,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div
                 className={classNames(
                   "block rounded-md p-[10px]",
@@ -51,19 +67,35 @@ export const Header = () => {
                 Staking
               </div>
             </Link>
-            <Link href="/spaces">
-              <div
-                className={classNames(
-                  "block rounded-md p-[10px]",
-                  router.pathname === "/spaces"
-                    ? "font-semibold text-blackColor"
-                    : "hover:text-pinkColor",
-                )}
-              >
-                Spaces
-              </div>
-            </Link>
-            <Link href="/swap">
+            {/*<Link*/}
+            {/*  href="/spaces"*/}
+            {/*  onClick={async () =>*/}
+            {/*    await handleAnalyticsClick({*/}
+            {/*      event_main: AnalyticsEvent.clickToSpace,*/}
+            {/*      page: AnalyticsCategory.main,*/}
+            {/*    })*/}
+            {/*  }*/}
+            {/*>*/}
+            {/*  <div*/}
+            {/*    className={classNames(*/}
+            {/*      "block rounded-md p-[10px]",*/}
+            {/*      router.pathname === "/spaces"*/}
+            {/*        ? "font-semibold text-blackColor"*/}
+            {/*        : "hover:text-pinkColor",*/}
+            {/*    )}*/}
+            {/*  >*/}
+            {/*    Spaces*/}
+            {/*  </div>*/}
+            {/*</Link>*/}
+            <Link
+              href="/swap"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToP2P,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div
                 className={classNames(
                   "block rounded-md p-[10px]",
@@ -75,7 +107,15 @@ export const Header = () => {
                 P2P Swap
               </div>
             </Link>
-            <Link href="/dao">
+            <Link
+              href="/dao"
+              onClick={async () =>
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.clickToDAO,
+                  page: AnalyticsCategory.main,
+                })
+              }
+            >
               <div
                 className={classNames(
                   "block rounded-md p-[10px]",
@@ -102,6 +142,7 @@ export const Header = () => {
               Socials
             </button>
           </div>
+          {/* TODO: Rewrite two socials */}
           <div className="mt-2 hidden h-12 items-center gap-8 md:mt-0 md:flex">
             <button
               onClick={() => setOpenSocials(true)}

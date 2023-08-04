@@ -1,5 +1,11 @@
 import { ethos, EthosConnectStatus } from "ethos-connect";
-import { formatSuiAddress, formatSuiNumber } from "../../utils";
+import {
+  AnalyticsCategory,
+  AnalyticsEvent,
+  formatSuiAddress,
+  formatSuiNumber,
+  handleAnalyticsClick,
+} from "../../utils";
 import { useState } from "react";
 import ImageSuiToken from "/public/img/SuiToken.png";
 import LogoutIcon from "/public/img/IconLogout.svg";
@@ -17,7 +23,13 @@ const CustomWalletMenu = () => {
           className={
             "pinkColor-second-state h-[46px] w-[150px] rounded-xl border-2 border-pinkColor font-medium text-blackColor"
           }
-          onClick={() => setOpenWallet(!openWallet)}
+          onClick={async () => {
+            setOpenWallet(!openWallet);
+            await handleAnalyticsClick({
+              event_main: AnalyticsEvent.openWallet,
+              page: AnalyticsCategory.main,
+            });
+          }}
         >
           {wallet ? formatSuiAddress(wallet?.address!, 3, 4) : "Connecting wallet..."}
         </button>
@@ -56,9 +68,13 @@ const CustomWalletMenu = () => {
               </div>
               <button
                 className={"mt-5 w-full justify-start py-2 text-blackColor"}
-                onClick={() => {
+                onClick={async () => {
                   wallet?.disconnect();
                   setOpenWallet(false);
+                  await handleAnalyticsClick({
+                    event_main: AnalyticsEvent.disconnectWallet,
+                    page: AnalyticsCategory.main,
+                  });
                 }}
               >
                 <div

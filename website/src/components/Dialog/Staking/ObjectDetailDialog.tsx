@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { classNames } from "utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { StakingRules } from "../../Staking/StakingRules";
@@ -72,8 +72,12 @@ export const ObjectDetailDialog = ({
                     className={classNames(
                       "mx-auto my-4 block w-full cursor-pointer rounded-md bg-yellowColor px-3 py-2 text-sm font-black text-white hover:bg-[#e5a44a] disabled:cursor-not-allowed disabled:opacity-50",
                     )}
-                    onClick={() => {
+                    onClick={async () => {
                       stakeFunction(selectedFrend!).then();
+                      await handleAnalyticsClick({
+                        event_main: AnalyticsEvent.clickStakeOne,
+                        page: AnalyticsCategory.staking,
+                      });
                     }}
                     disabled={waitSui}
                   >
