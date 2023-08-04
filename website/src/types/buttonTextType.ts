@@ -3,5 +3,6 @@ export enum ButtonBatchText {
   cancel = "Cancel",
   confirm = "Confirm",
   stakeAll = "Stake All",
-  unstake = "Batch Unstaking",
+  batchUnstake = "Batch Unstaking",
+  unstakeConfirm = "Unstake",
 }
