@@ -4,7 +4,7 @@ import { classNames } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import token from "/public/img/points.png";
-import { StakingRules } from "../../Staking/StakingRules";
+import { StakingRules } from "components";
 import { Montserrat } from "next/font/google";
 import { IStakingTicket } from "types";
 
