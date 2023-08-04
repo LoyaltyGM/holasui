@@ -44,14 +44,14 @@ export const MenuDialog = ({
                   Staking
                 </button>
               </Link>
-              <Link href="/spaces">
-                <button
-                  className="h-12 w-[330px] rounded-xl bg-pinkColor text-lg font-semibold text-white hover:border-2 hover:border-pinkColor hover:bg-white hover:text-pinkColor active:border-blackColor active:text-blackColor"
-                  onClick={() => setOpenMenu(false)}
-                >
-                  Spaces
-                </button>
-              </Link>
+              {/*<Link href="/spaces">*/}
+              {/*  <button*/}
+              {/*    className="h-12 w-[330px] rounded-xl bg-pinkColor text-lg font-semibold text-white hover:border-2 hover:border-pinkColor hover:bg-white hover:text-pinkColor active:border-blackColor active:text-blackColor"*/}
+              {/*    onClick={() => setOpenMenu(false)}*/}
+              {/*  >*/}
+              {/*    Spaces*/}
+              {/*  </button>*/}
+              {/*</Link>*/}
               <Link href="/swap">
                 <button
                   className="h-12 w-[330px] rounded-xl bg-orangeColor text-lg font-semibold text-white hover:border-2 hover:border-orangeColor hover:bg-white hover:text-orangeColor active:border-blackColor active:text-blackColor"
