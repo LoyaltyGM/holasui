@@ -188,7 +188,11 @@ export const StakingLayout = () => {
             <>
               {batchStakeMode && (
                 <div className="order-last mt-4 w-full text-sm font-medium text-black2Color  md:mb-0 xl:order-none xl:mt-0 xl:w-auto">
-                  {batchIdStake.length === 0 ? "Select capy for staking" : <StakingRules />}
+                  {batchIdStake.length === 0 ? (
+                    "Select capy for staking"
+                  ) : (
+                    <StakingRules isStakingDialog={false} />
+                  )}
                 </div>
               )}
               <div className="mt-4 flex gap-4 md:mt-0 md:items-center md:gap-5">
@@ -270,7 +274,11 @@ export const StakingLayout = () => {
             </h1>
             {batchUnstakeMode && (
               <div className="order-last mt-4 w-full text-sm font-medium text-black2Color  md:mb-0 xl:order-none xl:mt-0 xl:w-auto">
-                {batchIdUnstake.length === 0 ? "Select capy for unstaking" : <StakingRules />}
+                {batchIdUnstake.length === 0 ? (
+                  "Select capy for unstaking"
+                ) : (
+                  <StakingRules isStakingDialog={false} />
+                )}
               </div>
             )}
             <div className="mt-4 flex gap-4 md:mt-0 md:items-center md:gap-5">
