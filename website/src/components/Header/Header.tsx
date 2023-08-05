@@ -51,7 +51,7 @@ export const Header = () => {
                 Staking
               </div>
             </Link>
-            <Link href="/spaces">
+            {/* <Link href="/spaces">
               <div
                 className={classNames(
                   "block rounded-md p-[10px]",
@@ -62,7 +62,7 @@ export const Header = () => {
               >
                 Spaces
               </div>
-            </Link>
+            </Link> */}
             <Link href="/swap">
               <div
                 className={classNames(
