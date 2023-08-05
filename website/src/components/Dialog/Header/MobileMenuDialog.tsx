@@ -42,7 +42,7 @@ export const MobileMenuDialog = ({
               <XMarkIcon className="h-10 w-10 cursor-pointer text-black" onClick={toggleMenu} />
             </div>
           </div>
-          <div className="mt-[10px] w-full rounded-xl border-2 border-blackColor bg-basicColor px-4 py-10 text-center shadow-black">
+          <div className="mb-10 mt-[10px] w-full rounded-xl border-2 border-blackColor bg-basicColor px-4 py-10 text-center shadow-black sm:mb-20">
             <div className="mb-10 block text-2xl text-white">
               <ethos.components.AddressWidget />
             </div>
