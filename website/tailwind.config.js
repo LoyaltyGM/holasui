@@ -27,14 +27,17 @@ module.exports = {
         grayColor: "#AAAAAA",
         gray2Color: "#E0E0E0",
         // accent colors
-        purpleColor: "#5A5A95",
         pinkColor: "#E15A8C",
+        pinkColorHover: "#CF4C7C",
         yellowColor: "#FEB958",
-        yellowColorHover: "#e5a44a",
+        yellowColorHover: "#F9AD42",
+        orangeColor: "#EA734E",
+        orangeColorHover: "#D75C35",
+        purpleColor: "#5A5A95",
+        purpleColorHover: "#3B3B7A",
         // additional colors
         greenColor: "#5AAC67",
         redColor: "#DA3E3E",
-        orangeColor: "#EA734E",
         black3Color: `rgb((89,89,89) / 60)`,
       },
       animation: {
