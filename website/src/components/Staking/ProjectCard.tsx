@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { classNames, formatNumber } from "utils";
+import {
+  AnalyticsCategory,
+  AnalyticsEvent,
+  classNames,
+  formatNumber,
+  handleAnalyticsClick,
+} from "utils";
 import { IProjectCard } from "types";
 import frensLogo from "/public/img/frens-logo.svg";
 import iconTicketStar from "/public/img/IconTicketStar.svg";
@@ -26,7 +32,13 @@ export const ProjectCard = ({
             </p>
           </div>
           <button
-            onClick={() => setOpenRules(true)}
+            onClick={async () => {
+              setOpenRules(true);
+              await handleAnalyticsClick({
+                event_main: AnalyticsEvent.clickFAQs,
+                page: AnalyticsCategory.staking,
+              });
+            }}
             className={classNames(
               "text-md font-medium text-black2Color underline hover:no-underline",
             )}

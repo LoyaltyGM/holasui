@@ -2,18 +2,24 @@ import { useEffect, useState } from "react";
 import { handleSetBatchIdStake, ICapy, IStakingTicket } from "types";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Image from "next/image";
-import { classNames } from "utils";
+import {
+  AnalyticsCategory,
+  AnalyticServices,
+  AnalyticsEvent,
+  classNames,
+  handleAnalyticsClick,
+} from "utils";
 import {
   BlueMoveButton,
+  Container,
   NoConnectWallet,
   ObjectDetailDialog,
+  PointsBanner,
   ProjectCard,
   RulesDialog,
+  SkeletonStakingProjectCard,
   StakingRules,
   UnstakeDetailDialog,
-  Container,
-  PointsBanner,
-  SkeletonStakingProjectCard,
 } from "components";
 import classnames from "classnames";
 import { Montserrat } from "next/font/google";
@@ -174,16 +180,20 @@ export const StakingLayout = () => {
       {availablePointsToClaim > 100 && stakedFrens && (
         <PointsBanner
           availablePointsToClaim={availablePointsToClaim}
-          functionToClaimPoints={() =>
-            claimBatchPoints(
+          functionToClaimPoints={async () => {
+            await handleAnalyticsClick({
+              event_main: AnalyticsEvent.claimAllPoints,
+              page: AnalyticsCategory.staking,
+            });
+            await claimBatchPoints(
               stakedFrens.map((capy) => capy.id),
               wallet,
               setWaitSui,
               setBatchIdUnstake,
               setBatchUnstakeMode,
               setOpenedFrend,
-            )
-          }
+            );
+          }}
         />
       )}
       <div className="text my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">
@@ -226,7 +236,42 @@ export const StakingLayout = () => {
                             setBatchIdStake,
                             setBatchStakeMode,
                           )
+                      : setBatchStakeMode(true);
+                    await handleAnalyticsClick({
+                      event_main: AnalyticsEvent.clickStakeAll,
+                      page: AnalyticsCategory.staking,
+                    });
+                  }}
+                >
+                  {batchStakeMode
+                    ? batchIdStake.length === 0
+                      ? ButtonBatchText.cancel
+                      : ButtonBatchText.confirm
+                    : ButtonBatchText.stake}
+                </button>
+                {/* TODO: Change to "stake all" button. Now it's example */}
+                {!batchStakeMode && (
+                  <button
+                    className={classNames(
+                      "button-shadow button-shadow:active max-h-[48px]  min-h-[48px] w-full rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-white hover:text-yellowColor md:min-w-[176px]",
+                    )}
+                    onClick={async () => {
+                      batchStakeMode
+                        ? batchIdStake.length === 0
+                          ? setBatchStakeMode(false)
+                          : stakeBatchCapy(
+                              batchIdStake,
+                              wallet,
+                              setWaitSui,
+                              setOpenedFrend,
+                              setBatchIdStake,
+                              setBatchStakeMode,
+                            )
                         : handleBatchStakeAll();
+                      await handleAnalyticsClick({
+                        event_main: AnalyticsEvent.clickStakeAll,
+                        page: AnalyticsCategory.staking,
+                      });
                     }}
                   >
                     {batchIdStake.length === 0 ? ButtonBatchText.stakeAll : ButtonBatchText.confirm}
