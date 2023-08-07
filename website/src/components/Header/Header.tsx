@@ -67,35 +67,24 @@ export const Header = () => {
                 Staking
               </div>
             </Link>
-            {/*<Link*/}
-            {/*  href="/spaces"*/}
-            {/*  onClick={async () =>*/}
-            {/*    await handleAnalyticsClick({*/}
-            {/*      event_main: AnalyticsEvent.clickToSpace,*/}
-            {/*      page: AnalyticsCategory.main,*/}
-            {/*    })*/}
-            {/*  }*/}
-            {/*>*/}
-            {/*  <div*/}
-            {/*    className={classNames(*/}
-            {/*      "block rounded-md p-[10px]",*/}
-            {/*      router.pathname === "/spaces"*/}
-            {/*        ? "font-semibold text-blackColor"*/}
-            {/*        : "hover:text-pinkColor",*/}
-            {/*    )}*/}
-            {/*  >*/}
-            {/*    Spaces*/}
-            {/*  </div>*/}
-            {/*</Link>*/}
-            <Link
-              href="/swap"
-              onClick={async () =>
+            {/* <Link href="/spaces">
+              <div
+                className={classNames(
+                  "block rounded-md p-[10px]",
+                  router.pathname === "/spaces"
+                    ? "font-semibold text-blackColor"
+                    : "hover:text-pinkColor",
+                )}
+              >
+                Spaces
+              </div>
+            </Link> */}
+            <Link href="/swap" onClick={async () =>
                 await handleAnalyticsClick({
                   event_main: AnalyticsEvent.clickToP2P,
                   page: AnalyticsCategory.main,
                 })
-              }
-            >
+              }>
               <div
                 className={classNames(
                   "block rounded-md p-[10px]",
@@ -135,6 +124,7 @@ export const Header = () => {
             >
               Menu
             </button>
+            {/* TODO: FIX SIMILAR BUTTONS(1) */}
             <button
               onClick={() => setOpenSocials(true)}
               className="p-[10px] font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor"
@@ -144,9 +134,10 @@ export const Header = () => {
           </div>
           {/* TODO: Rewrite two socials */}
           <div className="mt-2 hidden h-12 items-center gap-8 md:mt-0 md:flex">
+            {/* TODO: FIX SIMILAR BUTTONS(2)*/}
             <button
               onClick={() => setOpenSocials(true)}
-              className="hidden p-[10px] px-4 font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block"
+              className="hidden p-[10px] font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block"
             >
               Socials
             </button>
