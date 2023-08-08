@@ -55,14 +55,14 @@ export const MobileMenuDialog = ({
                   Staking
                 </button>
               </Link>
-              {/* <Link href="/spaces">
+              <Link href="/spaces">
                 <button
                   className="h-12 w-full rounded-lg bg-pinkColor text-lg font-semibold text-white hover:border-2 hover:border-pinkColor hover:bg-white hover:text-pinkColor active:border-blackColor active:text-blackColor"
                   onClick={toggleMenu}
                 >
                   Spaces
                 </button>
-              </Link> */}
+              </Link>
               <Link href="/swap">
                 <button
                   className="h-12 w-full rounded-lg bg-orangeColor text-lg font-semibold text-white hover:border-2 hover:border-orangeColor hover:bg-white hover:text-orangeColor active:border-blackColor active:text-blackColor"
