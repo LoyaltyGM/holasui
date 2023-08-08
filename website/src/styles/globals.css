@@ -167,6 +167,7 @@
 }
 
 .card-shadow:hover {
+  border: solid 2px;
   transition: 0.2s;
   transform: translate(-4px, -4px);
   box-shadow: 4px 4px black;
