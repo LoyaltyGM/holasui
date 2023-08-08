@@ -22,66 +22,66 @@
   }
 
   .button-primary-pink {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-pink {
-    @apply h-12 rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-pink {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-pink {
-    @apply h-12 rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-primary-yellow {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-yellow {
-    @apply h-12 rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-yellow {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-yellow {
-    @apply h-12 rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
   .button-primary-orange {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-orangeColor text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-orange {
-    @apply h-12 rounded-xl border-2 border-orangeColor bg-white text-lg font-semibold text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white text-lg font-semibold text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-orange {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-orangeColor text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-orange {
-    @apply h-12 rounded-xl border-2 border-orangeColor bg-white text-lg font-semibold text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white text-lg font-semibold text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-primary-purple {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-purpleColor text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-purple {
-    @apply h-12 rounded-xl border-2 border-purpleColor bg-white text-lg font-semibold text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white text-lg font-semibold text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-purple {
-    @apply h-12 rounded-xl border-2 border-blackColor bg-purpleColor text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-purple {
-    @apply h-12 rounded-xl border-2 border-purpleColor bg-white text-lg font-semibold text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white text-lg font-semibold text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .pinkColor-primary-state {
@@ -160,6 +160,16 @@
   transform: translate(-0.25rem, -0.25rem);
   background: #fef7ec;
   box-shadow: 0.25rem 0.25rem var(--black);
+}
+
+.card-shadow {
+  transition: 0.2s;
+}
+
+.card-shadow:hover {
+  transition: 0.2s;
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px black;
 }
 
 .proposal-card-shadow:active {
