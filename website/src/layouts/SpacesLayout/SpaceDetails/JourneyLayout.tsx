@@ -8,16 +8,18 @@ export const JourneyLayout = () => {
   const PeopleStatusBadge = ({ className }: { className?: string }) => {
     return (
       <div
-        className={`flex w-max items-center rounded-[50px] border-2 border-white px-3 py-[6px] ${className}`}
+        className={`flex w-max items-center gap-1 rounded-[50px] border-2 border-white px-3 py-[6px] ${className}`}
       >
-        <Image src={GroupIcon} alt={"Group icon"} height={20} width={20} />
+        <Image src={GroupIcon} alt={"Group icon"} height={22} width={18} />
         <p className="font-medium">200</p>
       </div>
     );
   };
   return (
-    <Container className="relative bg-purpleColor font-inter text-white">
-      <PeopleStatusBadge className="absolute right-0 top-0" />
+    <Container className="bg-purpleColor font-inter text-white">
+      <div className="relative w-full">
+        <PeopleStatusBadge className="absolute right-0 top-0" />
+      </div>
       <div className="mb-10 flex flex-col items-center md:flex-row md:justify-between md:gap-10 lg:mb-[60px]">
         <div className="relative mb-6 h-[200px] w-[200px] md:h-[160px] md:w-[160px] lg:h-[177px] lg:w-[177px] xl:h-[200px] xl:w-[200px]">
           <Image src={TestImage} alt={"company logo"} fill className="rounded-full object-cover" />
@@ -37,7 +39,9 @@ export const JourneyLayout = () => {
               <p className="text-xl font-medium">quest</p>
             </div>
             <div className="text-right md:flex md:items-center md:gap-4 md:text-center lg:flex-col">
-              <button className="button-primary-yellow button-shadow w-[176px]">Claim NFT</button>
+              <button className="button-primary-yellow button-shadow mb-2 w-[176px] md:mb-0">
+                Claim NFT
+              </button>
               <p className="font-medium leading-5 md:max-w-[110px] lg:max-w-none">
                 2 quests left for claiming
               </p>
