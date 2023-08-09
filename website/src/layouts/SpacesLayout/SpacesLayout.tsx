@@ -1,12 +1,4 @@
-import {
-  Container,
-  ProjectQuestsCard,
-  QuestCompanyCard,
-  NoConnectWallet,
-  QuestCard,
-  CompanyCard,
-  SpaceCard,
-} from "components";
+import { Container, NoConnectWallet, MainSpaceCard, SpaceCard } from "components";
 import Image from "next/image";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import IconSearch from "/public/img/IconSearch.png";
@@ -33,14 +25,14 @@ export const SpacesLayout = () => {
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Spaces!"} />
   ) : (
-    <Container className="mb-10 font-inter">
+    <Container className="mb-[100px] font-inter">
       <div className="flex justify-between">
         <h1 className="mb-5 text-[26px] font-extrabold lg:mb-10 lg:text-3xl">Hola, Spaces</h1>
         <button className="button-secondary-purple button-shadow">Create company</button>
       </div>
       <div className="mb-[30px] grid gap-4 md:mb-10 md:grid-cols-2 lg:mb-[70px]">
-        <CompanyCard />
-        <CompanyCard />
+        <MainSpaceCard />
+        <MainSpaceCard />
       </div>
       <SearchBar />
       <div className="mt-5 grid gap-[10px] md:grid-cols-2 md:gap-4 lg:mt-[30px] lg:gap-5 xl:grid-cols-3">
@@ -51,9 +43,6 @@ export const SpacesLayout = () => {
         <SpaceCard />
         <SpaceCard />
       </div>
-      <QuestCard />
-      <QuestCompanyCard />
-      <ProjectQuestsCard totalHolaPointsOnchain={250} />
     </Container>
   );
 };
