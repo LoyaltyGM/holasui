@@ -1,9 +1,9 @@
 import Image from "next/image";
-import iconTicketStar from "/public/img/IconTicketStar.svg";
 import Crystal from "/public/img/Crystal.png";
+import UserIcon from "/public/img/UserIcon.svg";
 
-// TODO: icon ticket star separate
 export const QuestCard = () => {
+  // TODO: add color change when different bg of webpage
   const IconTicketStar = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
       <path
@@ -15,9 +15,11 @@ export const QuestCard = () => {
     </svg>
   );
   return (
-    <div className="card-shadow flex min-h-[130px] w-full flex-col justify-between rounded-xl border-[1px] border-black2Color p-3">
+    <div className="card-shadow flex min-h-[130px] w-full flex-col justify-between rounded-xl border-[1px] border-black2Color bg-basicColor p-3 text-blackColor">
       <div className="flex justify-between">
-        <h3 className="text-lg font-bold">Bridge to SUI from WormHole</h3>
+        {/* TODO: Add fetch name logic */}
+        <h3 className="text-lg font-bold">Bridge to SUI from WormHole fdslkfn</h3>
+        {/* TODO: add completed/incompleted logic */}
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
           <Image src={Crystal} alt={"crystal"} width={28} height={28} />
         </div>
@@ -26,10 +28,14 @@ export const QuestCard = () => {
         <div className="flex content-center items-center justify-between lg:w-full">
           <div className="flex gap-2">
             <IconTicketStar />
-            <p className="text-lg font-extrabold">250</p>
+            {/* TODO: add reward amount logic */}
+            <p className="font-montserrat text-lg font-extrabold">250</p>
           </div>
-
-          <button>Learn more</button>
+          <div className="flex gap-1">
+            <Image src={UserIcon} alt={"User icon"} width={20} height={20} />
+            {/* TODO: add completed users logic */}
+            <p className="font-medium">15</p>
+          </div>
         </div>
       </div>
     </div>
