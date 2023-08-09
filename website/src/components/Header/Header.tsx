@@ -15,10 +15,10 @@ export const Header = () => {
 
   const router = useRouter();
   return (
-    <div className="fixed-header w-full font-inter">
+    <div className="fixed-header flex w-full  justify-center font-inter">
       <div
         className={classNames(
-          "mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 text-white md:mx-8 md:min-h-[76px] md:rounded-[20px] md:px-8 xl:min-h-[90px]",
+          "mx-4 mt-4 flex min-h-[60px] w-full max-w-[120rem] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 text-white md:mx-8 md:min-h-[76px] md:rounded-[20px] md:px-8 xl:min-h-[90px]",
         )}
       >
         <div className="flex flex-1 content-center items-center justify-between">
