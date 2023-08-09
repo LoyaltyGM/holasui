@@ -9,12 +9,14 @@ export const JourneyCard = () => {
     <div className="card-shadow flex w-[310px] flex-col justify-center rounded-xl bg-white md:max-h-[340px] md:w-[600px] md:flex-row md:border-2 md:border-blackColor lg:max-h-[400px] lg:w-[700px]">
       <div className="mb-5 flex-1">
         <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
+          {/* TODO: Add fetch logic (mockup right now) */}
           <Image
             src={Company_logo}
             alt={"logo"}
             fill
             className="rounded-t-lg object-cover md:rounded-tl-none"
           />
+          {/* TODO: Add count logic(mockup right now) */}
           <div className="absolute right-[10px] top-[10px] flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white text-base">
             <span className="font-medium">1/7</span>
           </div>
@@ -23,8 +25,8 @@ export const JourneyCard = () => {
           <h2 className="mb-6 text-[26px] font-bold md:text-[40px] md:font-extrabold lg:mb-10 lg:text-6xl">
             Bridges
           </h2>
-          {/* TODO: FIX LINK href */}
-          <Link href={`#`}>
+          {/* TODO: FIX href(mockup right now) */}
+          <Link href={`SuiFrens/quests`}>
             <button className="button-secondary-purple button-shadow button-shadow:active w-[176px] border-black2Color">
               Complete quests
             </button>
@@ -36,6 +38,7 @@ export const JourneyCard = () => {
           <p className="mb-2">Start</p>
           <p>End</p>
         </div>
+        {/* TODO: Add start/end logic */}
         <div className="font-semibold text-white">
           <p className="mb-2">June 1</p>
           <p>June 30</p>
