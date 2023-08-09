@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Company_logo from "/public/img/Company_test_image.png";
+import Link from "next/link";
 
 // TODO: Fill with sui logic
-export const QuestCompanyCard = () => {
+export const JourneyCard = () => {
   return (
     // TODO: fix card shadow only from lg screen
-    <div className="card-shadow flex w-[310px] flex-col justify-center rounded-xl bg-white md:w-[600px] md:flex-row md:border-2 md:border-blackColor lg:w-[700px]">
-      <div className="m mb-5 flex-1">
+    <div className="card-shadow flex w-[310px] flex-col justify-center rounded-xl bg-white md:max-h-[340px] md:w-[600px] md:flex-row md:border-2 md:border-blackColor lg:max-h-[400px] lg:w-[700px]">
+      <div className="mb-5 flex-1">
         <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
           <Image
             src={Company_logo}
@@ -22,9 +23,12 @@ export const QuestCompanyCard = () => {
           <h2 className="mb-6 text-[26px] font-bold md:text-[40px] md:font-extrabold lg:mb-10 lg:text-6xl">
             Bridges
           </h2>
-          <button className="button-secondary-purple button-shadow button-shadow:active w-[176px] border-black2Color">
-            Complete quests
-          </button>
+          {/* TODO: FIX LINK href */}
+          <Link href={`#`}>
+            <button className="button-secondary-purple button-shadow button-shadow:active w-[176px] border-black2Color">
+              Complete quests
+            </button>
+          </Link>
         </div>
       </div>
       <div className="flex h-[108px] items-center gap-3 rounded-b-xl border-t-6 border-dashed border-basicColor bg-purpleColor p-4 md:order-first md:h-full md:w-[180px] md:items-end md:rounded-l-lg md:rounded-br-none md:border-r-6 md:border-t-0 lg:w-[220px]">
