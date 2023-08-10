@@ -15,6 +15,16 @@ export const JourneyLayout = () => {
       </div>
     );
   };
+  const Info = () => (
+    <div>
+      <h1 className="mb-4 text-[26px] font-extrabold leading-8 md:text-[40px] lg:text-6xl">
+        Bridges
+      </h1>
+      <p className="mb-8 font-medium md:min-h-[57px] lg:min-h-[100px]">
+        Complete quests to get NFT reward
+      </p>
+    </div>
+  );
   return (
     <Container className="bg-purpleColor font-inter text-white">
       <div className="relative w-full">
@@ -25,14 +35,7 @@ export const JourneyLayout = () => {
           <Image src={TestImage} alt={"company logo"} fill className="rounded-full object-cover" />
         </div>
         <div className="lg:mt w-full flex-1 justify-between lg:mt-3 lg:flex">
-          <div>
-            <h1 className="mb-4 text-[26px] font-extrabold leading-8 md:text-[40px] lg:text-6xl">
-              Bridges
-            </h1>
-            <p className="mb-8 font-medium md:min-h-[57px] lg:min-h-[100px]">
-              Complete quests to get NFT reward
-            </p>
-          </div>
+          <Info />
           <div className="flex items-start justify-between md:flex-row-reverse md:items-center lg:flex-col lg:justify-normal lg:gap-[30px]">
             <div className="flex flex-col items-center justify-center">
               <p className="text-3xl font-extrabold">1/5</p>

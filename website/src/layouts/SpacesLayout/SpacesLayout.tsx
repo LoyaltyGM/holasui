@@ -1,7 +1,8 @@
-import { Container, NoConnectWallet, MainSpaceCard, SpaceCard } from "components";
+import { Container, NoConnectWallet, PromotedCard, SpaceCard } from "components";
 import Image from "next/image";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import IconSearch from "/public/img/IconSearch.png";
+import frensLogo from "/public/img/frens-logo.svg";
 
 export const SpacesLayout = () => {
   const { status } = ethos.useWallet();
@@ -31,17 +32,49 @@ export const SpacesLayout = () => {
         <button className="button-secondary-purple button-shadow">Create company</button>
       </div>
       <div className="mb-[30px] grid gap-4 md:mb-10 md:grid-cols-2 lg:mb-[70px]">
-        <MainSpaceCard />
-        <MainSpaceCard />
+        <PromotedCard
+          title={"SuiFrens"}
+          description={
+            "Embark on an epic adventure in the captivating world of SuiFrens with thrilling quests, captivating challenges and extraordinary rewards"
+          }
+          imageUrl={frensLogo}
+          spaceAddress={"SuiFrens"}
+        />
+        <PromotedCard
+          title={"SuiFrens"}
+          description={
+            "Embark on an epic adventure in the captivating world of SuiFrens with thrilling quests, captivating challenges and extraordinary rewards"
+          }
+          imageUrl={frensLogo}
+          spaceAddress={"SuiFrens"}
+        />
       </div>
       <SearchBar />
       <div className="mt-5 grid gap-[10px] md:grid-cols-2 md:gap-4 lg:mt-[30px] lg:gap-5 xl:grid-cols-3">
-        <SpaceCard />
-        <SpaceCard />
-        <SpaceCard />
-        <SpaceCard />
-        <SpaceCard />
-        <SpaceCard />
+        <SpaceCard
+          title={"SuiFrens"}
+          totalQuestsAmount={10}
+          imageUrl={frensLogo}
+          spaceAddress={"SuiFrens"}
+        />
+        <SpaceCard
+          title={"SuiFrens"}
+          totalQuestsAmount={10}
+          imageUrl={frensLogo}
+          spaceAddress={"SuiFrens"}
+        />
+        <SpaceCard
+          title={"SuiFrens"}
+          totalQuestsAmount={10}
+          imageUrl={frensLogo}
+          spaceAddress={"SuiFrens"}
+        />
+        <SpaceCard
+          title={"SuiFrens"}
+          totalQuestsAmount={10}
+          imageUrl={frensLogo}
+          spaceAddress={"SuiFrens"}
+        />
       </div>
     </Container>
   );
