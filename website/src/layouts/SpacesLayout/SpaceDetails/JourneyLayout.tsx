@@ -11,7 +11,9 @@ export const JourneyLayout = () => {
         className={`flex w-max items-center gap-1 rounded-[50px] border-2 border-white px-3 py-[6px] ${className}`}
       >
         <Image src={GroupIcon} alt={"Group icon"} height={22} width={18} />
-        <p className="font-medium">200</p>
+        <p className="font-medium">
+          200 <span className="hidden md:inline">claimed</span>
+        </p>
       </div>
     );
   };
