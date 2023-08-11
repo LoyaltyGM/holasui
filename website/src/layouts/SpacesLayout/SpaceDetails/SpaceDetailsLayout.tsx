@@ -5,16 +5,14 @@ export const SpaceDetailsLayout = () => {
   const Carousel = ({ children }: { children?: JSX.Element[] }) => {
     const [position, setPositon] = useState<number>(0);
 
-    const handleSlide = (increment: number) => {
-      setPositon(increment);
-    };
     console.log(position);
     return (
-      <div className="relative mt-10 min-h-[500px]">
-        <button onClick={() => handleSlide(position - 724)}>left</button>
-        <button onClick={() => handleSlide(position + 724)}>right</button>
+      <div className="mt-10 min-h-[500px]">
+        <button onClick={() => setPositon(position - 724)}>left</button>
+        <button onClick={() => setPositon(position + 724)}>right</button>
         <div
-          className={`absolute flex h-max translate-x-[${position}px] gap-6 transition-all duration-500`}
+          className={`flex h-max gap-6 transition-all duration-500`}
+          style={{ transform: `translateX(${position}px)` }}
         >
           {children}
         </div>
@@ -22,7 +20,7 @@ export const SpaceDetailsLayout = () => {
     );
   };
   return (
-    <Container className="mb-[100px] overflow-hidden font-inter">
+    <Container className="mb-[100px] overflow-x-hidden font-inter">
       <SpaceInfoBanner totalHolaPointsOnchain={250} />
       <div className="mt-[70px] text-blackColor">
         <h2 className="text-[26px] font-extrabold">Journeys from SuiFrens</h2>
@@ -30,16 +28,14 @@ export const SpaceDetailsLayout = () => {
           Embark on an epic adventure in the captivating world of SuiFrens with thrilling journeys,
           captivating challenges and extraordinary rewards
         </p>
-        <Carousel>
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
-        </Carousel>
       </div>
+
+      <div className="w-screen"></div>
+      <Carousel>
+        <JourneyCard />
+        <JourneyCard />
+        <JourneyCard />
+      </Carousel>
     </Container>
   );
 };
