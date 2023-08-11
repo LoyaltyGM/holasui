@@ -2,7 +2,6 @@ import Image from "next/image";
 import Company_logo from "/public/img/Company_test_image.png";
 import Link from "next/link";
 
-// TODO: Fill with sui logic
 export const JourneyCard = () => {
   const ImageInfoPlate = () => (
     <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
@@ -20,7 +19,7 @@ export const JourneyCard = () => {
   const TitleAndBtn = () => (
     <div className="mx-4">
       <h2 className="mb-6 text-[26px] font-bold md:text-[40px] md:font-extrabold lg:mb-10 lg:text-6xl">
-        Bridges
+        Bridges mgdf
       </h2>
       <Link href={`SuiFrens/quests`}>
         <button className="button-secondary-purple button-shadow button-shadow:active w-[176px] border-black2Color">
@@ -43,7 +42,7 @@ export const JourneyCard = () => {
   );
   return (
     // TODO: fix card shadow only from lg screen
-    <div className="card-shadow flex w-[310px] flex-col justify-center rounded-xl bg-white md:max-h-[340px] md:min-w-[600px] md:flex-row md:border-2 md:border-blackColor lg:max-h-[400px] lg:min-w-[700px]">
+    <div className="card-shadow flex w-[310px] flex-col justify-center rounded-xl bg-white md:h-[340px] md:w-[600px] md:flex-row md:border-2 md:border-blackColor lg:h-[400px] lg:min-w-[700px]">
       <div className="mb-5 flex-1">
         <ImageInfoPlate />
         <TitleAndBtn />
