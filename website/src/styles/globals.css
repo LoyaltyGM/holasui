@@ -22,66 +22,66 @@
   }
 
   .button-primary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor px-2 text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor px-2 text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white text-lg font-semibold text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white px-2 text-lg font-semibold text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-primary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor px-2 text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor px-2 text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white text-lg font-semibold text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white px-2 text-lg font-semibold text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
   .button-primary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor px-2 text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white text-lg font-semibold text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor px-2 text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white text-lg font-semibold text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white px-2 text-lg font-semibold text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-primary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor px-2 text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-secondary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white text-lg font-semibold text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-primary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor px-2 text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .button-popup-secondary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white text-lg font-semibold text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white px-2 text-lg font-semibold text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
   }
 
   .pinkColor-primary-state {
@@ -147,6 +147,12 @@
 .button-shadow:active {
   transform: translate(0);
   box-shadow: none;
+}
+
+.dropdown-shadow {
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px #171717;
+  z-index: 9;
 }
 
 .proposal-card-shadow {
