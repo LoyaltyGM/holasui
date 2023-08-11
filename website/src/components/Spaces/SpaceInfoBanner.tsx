@@ -3,6 +3,9 @@ import { classNames, formatNumber } from "utils";
 import frensLogo from "/public/img/frens-logo.svg";
 import iconTicketStar from "/public/img/IconTicketStar.svg";
 import cn from "classnames";
+import { useState, Fragment } from "react";
+import { Transition } from "@headlessui/react";
+import arrowicon from "/public/img/ArrowIcon.svg";
 
 // TODO: total hola points and completed quests logic
 export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnchain: number }) => {
@@ -12,8 +15,8 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
     </div>
   );
 
-  const CompanyInfo = () => (
-    <div>
+  const CompanyInfo = ({ className }: { className?: string }) => (
+    <div className={cn(className)}>
       <p className={classNames("text-2xl font-extrabold text-blackColor md:text-3xl")}>SuiFrens</p>
       <p className={classNames("mt-2 font-medium text-black2Color")}>
         Each staked frens will earn 1 point per minute
@@ -21,20 +24,59 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
     </div>
   );
 
-  const AddNewQuestBtn = ({ className }: { className?: string }) => (
-    <button
-      className={cn("button-secondary-purple button-shadow button-shadow:active w-full", className)}
-    >
-      Add new quest
-    </button>
-  );
+  const NewQuestDropdown = ({ className }: { className?: string }) => {
+    const [dropDownOpened, setDropDownOpened] = useState(false);
+    return (
+      <div className={cn("relative text-center", className)}>
+        <button
+          className="button-secondary-purple button-shadow group flex w-full items-center justify-center gap-1"
+          onClick={() => setDropDownOpened(!dropDownOpened)}
+        >
+          Add new quest
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21"
+            height="20"
+            viewBox="0 0 21 20"
+            fill="none"
+            className={cn({ "rotate-180": dropDownOpened })}
+          >
+            <path
+              d="M16.3335 12.5L10.5002 7.5L4.66683 12.5"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className={cn("stroke-slate-800")}
+            />
+          </svg>
+        </button>
+        <Transition
+          show={dropDownOpened}
+          as={Fragment}
+          enter="transition ease-out duration-50"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <div className="dropdown-shadow absolute mt-[10px] min-h-[96px] w-full rounded-xl border-2 border-purpleColor bg-white text-center hover:border-purpleColor">
+            <button className="button-secondary-purple w-full border-none bg-transparent text-center md:text-left">
+              Add new quest
+            </button>
+            <button className="button-secondary-purple w-full border-none bg-transparent text-center md:text-left">
+              Add new journey
+            </button>
+          </div>
+        </Transition>
+      </div>
+    );
+  };
 
   const InfoPlates = () => (
     <div className="flex h-full flex-col items-center gap-[10px] lg:flex-row lg:gap-4">
       <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white lg:mt-0 lg:flex-col lg:items-start">
-        <p
-          className={classNames("justify-between text-[18px] font-semibold leading-[22px] md:mt-0")}
-        >
+        <p className="justify-between text-[18px] font-semibold leading-[22px] md:mt-0">
           Your Available Hola Points
         </p>
         <div className="flex content-center items-center gap-2 lg:w-full">
@@ -45,7 +87,7 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
             width={28}
             className="min-h-[28px] min-w-[28px]"
           />
-          <p className={classNames("text-[26px] font-extrabold leading-8 md:text-3xl")}>
+          <p className="text-[26px] font-extrabold leading-8 md:text-3xl">
             {totalHolaPointsOnchain ? formatNumber(2345) : 0}
           </p>
         </div>
@@ -62,16 +104,18 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
   return (
     <div className="flex max-h-[547px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 md:flex md:h-[483px] md:p-[25px] md:pt-[30px] lg:h-[365px]">
       <div className="flex flex-col items-center gap-8 rounded-2xl md:flex-row md:items-start md:gap-12">
-        <div className="flex w-full flex-1 items-start justify-between">
-          <CompanyImage />
-          <CompanyInfo />
-          <AddNewQuestBtn className="hidden lg:block" />
+        <div className="flex w-full flex-1 lg:justify-between">
+          <div className="flex flex-1 flex-col items-center gap-8 md:flex-row md:items-start">
+            <CompanyImage />
+            <CompanyInfo className="w-full md:w-auto" />
+          </div>
+          <NewQuestDropdown className="hidden lg:block" />
         </div>
       </div>
       <div className="mt-4 w-full flex-1 md:mt-[30px]">
         <InfoPlates />
       </div>
-      <AddNewQuestBtn className="mx-auto mt-[30px] text-center md:mt-5 lg:hidden" />
+      <NewQuestDropdown className="mx-auto mt-[30px] w-full text-center md:mt-5 md:w-max lg:hidden" />
     </div>
   );
 };
