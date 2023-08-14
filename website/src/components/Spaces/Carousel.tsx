@@ -47,7 +47,7 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
     }
   }, [width]);
 
-  const slideLeft = () => {
+  const slideRight = () => {
     if (curPosition <= -maxWidth) {
       return;
     } else if (width >= MD_WIDTH && width < LG_WIDTH) {
@@ -58,7 +58,7 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
       setCurPosition(curPosition - 724);
     }
   };
-  const slideRight = () => {
+  const slideLeft = () => {
     if (curPosition >= 0) {
       return;
     } else if (width >= MD_WIDTH && width < LG_WIDTH) {
@@ -69,26 +69,26 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
       setCurPosition(curPosition + 724);
     }
   };
-
-  const ArrowIconLeft = () => (
+  // TODO: Make separate arrow(additional) button
+  const ArrowIconLeft = ({ disabled }: { disabled: boolean }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path
         d="M12.5 4.16669L7.5 10L12.5 15.8334"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
-        className="stroke-blackColor"
+        className={disabled ? "stroke-grayColor" : "stroke-blackColor"}
       />
     </svg>
   );
-  const ArrowIconRight = () => (
+  const ArrowIconRight = ({ disabled }: { disabled: boolean }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path
         d="M7.5 4.16669L12.5 10L7.5 15.8334"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
-        className="stroke-blackColor"
+        className={disabled ? "stroke-grayColor" : "stroke-blackColor"}
       />
     </svg>
   );
@@ -96,18 +96,18 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
     <div className="h-max">
       <div className="mb-5 hidden justify-end gap-2 md:flex">
         <button
-          onClick={slideRight}
+          onClick={slideLeft}
           disabled={currentCardIdx === 0}
-          className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white"
+          className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
         >
-          <ArrowIconLeft />
+          <ArrowIconLeft disabled={currentCardIdx === 0} />
         </button>
         <button
-          onClick={slideLeft}
+          onClick={slideRight}
           disabled={currentCardIdx === children.length - 1}
-          className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white"
+          className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
         >
-          <ArrowIconRight />
+          <ArrowIconRight disabled={currentCardIdx === children.length - 1} />
         </button>
       </div>
       <div
