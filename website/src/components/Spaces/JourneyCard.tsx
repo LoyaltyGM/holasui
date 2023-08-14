@@ -18,7 +18,7 @@ export const JourneyCard = () => {
   );
   const TitleAndBtn = () => (
     <div className="mx-4">
-      <h2 className="mb-6 text-[26px] font-bold md:text-[40px] md:font-extrabold lg:mb-10 lg:text-6xl">
+      <h2 className="mb-6 text-[26px] font-bold md:text-[40px] md:font-extrabold md:leading-[48px] lg:mb-10 lg:text-6xl">
         Bridges mgdf
       </h2>
       <Link href={`SuiFrens/quests`}>
@@ -42,7 +42,7 @@ export const JourneyCard = () => {
   );
   return (
     // TODO: fix card shadow only from lg screen
-    <div className="card-shadow flex w-[310px] flex-col justify-center rounded-xl bg-white md:h-[340px] md:w-[600px] md:flex-row md:border-2 md:border-blackColor lg:h-[400px] lg:min-w-[700px]">
+    <div className="card-shadow flex min-w-[310px] flex-col justify-center rounded-xl bg-white md:h-[340px] md:min-w-[600px] md:max-w-[600px] md:flex-row md:border-2 md:border-blackColor lg:h-[400px] lg:min-w-[700px] lg:max-w-[700px]">
       <div className="mb-5 flex-1">
         <ImageInfoPlate />
         <TitleAndBtn />
