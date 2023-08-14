@@ -1,37 +1,29 @@
-import { Container, SpaceInfoBanner, JourneyCard } from "components";
-import { useState, useEffect } from "react";
+import { Container, SpaceInfoBanner, JourneyCard, Carousel } from "components";
 
 export const SpaceDetailsLayout = () => {
-  const Carousel = ({ children }: { children?: JSX.Element[] }) => {
-    const [position, setPositon] = useState<number>(0);
-
-    console.log(position);
-    return (
-      <div className="mt-10 min-h-[500px]">
-        <button onClick={() => setPositon(position - 724)}>left</button>
-        <button onClick={() => setPositon(position + 724)}>right</button>
-        <div
-          className={`flex h-max gap-6 transition-all duration-500`}
-          style={{ transform: `translateX(${position}px)` }}
-        >
-          {children}
+  const Info = () => (
+    <div className="mt-10 text-blackColor md:mt-[50px] lg:mt-[70px]">
+      <div className="flex flex-wrap justify-between">
+        <h2 className="mb-3 text-[26px] font-extrabold md:mb-5">Journeys from SuiFrens</h2>
+        <p className="order-last mb-3 text-[22px] font-semibold text-purpleColor md:order-none">
+          Week 1
+        </p>
+        <div className="mb-4 w-full font-medium">
+          <p className="max-w-[660px] text-lg text-black2Color">
+            Embark on an epic adventure in the captivating world of SuiFrens with thrilling
+            journeys, captivating challenges and extraordinary rewards
+          </p>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
   return (
     <Container className="mb-[100px] overflow-x-hidden font-inter">
       <SpaceInfoBanner totalHolaPointsOnchain={250} />
-      <div className="mt-[70px] text-blackColor">
-        <h2 className="text-[26px] font-extrabold">Journeys from SuiFrens</h2>
-        <p className="text-lg text-black2Color">
-          Embark on an epic adventure in the captivating world of SuiFrens with thrilling journeys,
-          captivating challenges and extraordinary rewards
-        </p>
-      </div>
-
+      <Info />
       <div className="w-screen"></div>
       <Carousel>
+        <JourneyCard />
         <JourneyCard />
         <JourneyCard />
         <JourneyCard />
