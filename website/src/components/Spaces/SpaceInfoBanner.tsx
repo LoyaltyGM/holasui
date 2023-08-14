@@ -5,7 +5,6 @@ import iconTicketStar from "/public/img/IconTicketStar.svg";
 import cn from "classnames";
 import { useState, Fragment } from "react";
 import { Transition } from "@headlessui/react";
-import arrowicon from "/public/img/ArrowIcon.svg";
 
 // TODO: total hola points and completed quests logic
 export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnchain: number }) => {
@@ -26,6 +25,24 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
 
   const NewQuestDropdown = ({ className }: { className?: string }) => {
     const [dropDownOpened, setDropDownOpened] = useState(false);
+    const ArrowIcon = () => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="21"
+        height="20"
+        viewBox="0 0 21 20"
+        fill="none"
+        className={cn({ "rotate-180": !dropDownOpened })}
+      >
+        <path
+          d="M16.3335 12.5L10.5002 7.5L4.66683 12.5"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className={cn("stroke-slate-800")}
+        />
+      </svg>
+    );
     return (
       <div className={cn("relative text-center", className)}>
         <button
@@ -33,22 +50,7 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
           onClick={() => setDropDownOpened(!dropDownOpened)}
         >
           Add new quest
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="20"
-            viewBox="0 0 21 20"
-            fill="none"
-            className={cn({ "rotate-180": dropDownOpened })}
-          >
-            <path
-              d="M16.3335 12.5L10.5002 7.5L4.66683 12.5"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className={cn("stroke-slate-800")}
-            />
-          </svg>
+          <ArrowIcon />
         </button>
         <Transition
           show={dropDownOpened}
