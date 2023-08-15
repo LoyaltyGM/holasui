@@ -1,7 +1,7 @@
 import { Container } from "components";
 import Image from "next/image";
 import GroupIcon from "/public/img/GroupIcon.svg";
-import TestImage from "/public/img/Company_test_image.png";
+import mockup_image from "/public/img/mockup1.png";
 import { QuestCard } from "components";
 
 export const JourneyLayout = () => {
@@ -34,7 +34,12 @@ export const JourneyLayout = () => {
       </div>
       <div className="mb-10 flex flex-col items-center md:flex-row md:justify-between md:gap-10 lg:mb-[60px]">
         <div className="relative mb-6 h-[200px] w-[200px] md:h-[160px] md:w-[160px] lg:h-[177px] lg:w-[177px] xl:h-[200px] xl:w-[200px]">
-          <Image src={TestImage} alt={"company logo"} fill className="rounded-full object-cover" />
+          <Image
+            src={mockup_image}
+            alt={"company logo"}
+            fill
+            className="rounded-full object-cover"
+          />
         </div>
         <div className="lg:mt w-full flex-1 justify-between lg:mt-3 lg:flex">
           <Info />

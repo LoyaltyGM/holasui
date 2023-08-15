@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { classNames, formatNumber } from "utils";
 import frensLogo from "/public/img/frens-logo.svg";
+import mockup_image from "/public/img/mockup1.png";
 import iconTicketStar from "/public/img/IconTicketStar.svg";
 import cn from "classnames";
 import { useState, Fragment } from "react";
@@ -10,7 +11,7 @@ import { Transition } from "@headlessui/react";
 export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnchain: number }) => {
   const CompanyImage = () => (
     <div className="flex h-[150px] w-[150px] items-center md:ml-7">
-      <Image src={frensLogo} alt={"logo"} height={150} width={150} />
+      <Image src={mockup_image} alt={"logo"} height={150} width={150} className="rounded-xl" />
     </div>
   );
 
@@ -25,7 +26,7 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
 
   const NewQuestDropdown = ({ className }: { className?: string }) => {
     const [dropDownOpened, setDropDownOpened] = useState(false);
-    const ArrowIcon = () => (
+    const ArrowIcon = ({ className }: { className?: string }) => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="21"
@@ -39,7 +40,7 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
           stroke-width="2.5"
           stroke-linecap="round"
           stroke-linejoin="round"
-          className={cn("stroke-slate-800")}
+          className={cn("stroke-blackColor", className)}
         />
       </svg>
     );
@@ -50,7 +51,11 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
           onClick={() => setDropDownOpened(!dropDownOpened)}
         >
           Add new quest
-          <ArrowIcon />
+          <ArrowIcon
+            className={
+              "transition-all duration-200 group-hover:stroke-purpleColorHover group-active:stroke-blackColor"
+            }
+          />
         </button>
         <Transition
           show={dropDownOpened}

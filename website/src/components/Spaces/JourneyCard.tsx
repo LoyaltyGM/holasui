@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Company_logo from "/public/img/Company_test_image.png";
+import mockup_image from "/public/img/mockup1.png";
 import Link from "next/link";
 
 export const JourneyCard = () => {
   const ImageInfoPlate = () => (
     <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
       <Image
-        src={Company_logo}
+        src={mockup_image}
         alt={"logo"}
         fill
         className="rounded-t-lg object-cover md:rounded-tl-none"
