@@ -3,8 +3,8 @@ import Image from "next/image";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import IconSearch from "/public/img/IconSearch.png";
 import frensLogo from "/public/img/frens-logo.svg";
-import mockup_image from "/public/img/mockup1.png";
 import { Button } from "components/Reusable/Button";
+import Link from "next/link";
 
 export const SpacesLayout = () => {
   const { status } = ethos.useWallet();
@@ -31,7 +31,6 @@ export const SpacesLayout = () => {
     <Container className="mb-[100px] font-inter">
       <div className="flex justify-between">
         <h1 className="mb-5 text-[26px] font-extrabold lg:mb-10 lg:text-3xl">Hola, Spaces</h1>
-        <Button variant="button">Create company</Button>
         <button className="button-secondary-purple button-shadow">Create company</button>
       </div>
       <div className="mb-[30px] grid gap-4 md:mb-10 md:grid-cols-2 lg:mb-[70px]">
@@ -48,7 +47,7 @@ export const SpacesLayout = () => {
           description={
             "Embark on an epic adventure in the captivating world of SuiFrens with thrilling quests, captivating challenges and extraordinary rewards"
           }
-          imageUrl={mockup_image}
+          imageUrl={frensLogo}
           spaceAddress={"SuiFrens"}
         />
       </div>
@@ -57,7 +56,7 @@ export const SpacesLayout = () => {
         <SpaceCard
           title={"SuiFrens"}
           totalQuestsAmount={10}
-          imageUrl={mockup_image}
+          imageUrl={frensLogo}
           spaceAddress={"SuiFrens"}
         />
         <SpaceCard

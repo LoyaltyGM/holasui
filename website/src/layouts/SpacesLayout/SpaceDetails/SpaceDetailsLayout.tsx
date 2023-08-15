@@ -21,13 +21,14 @@ export const SpaceDetailsLayout = () => {
     <Container className="mb-[100px] overflow-x-hidden font-inter">
       <SpaceInfoBanner totalHolaPointsOnchain={250} />
       <Info />
-      <div className="w-screen"></div>
-      <Carousel>
-        <JourneyCard />
-        <JourneyCard />
-        <JourneyCard />
-        <JourneyCard />
-      </Carousel>
+      <div className="w-screen md:w-full">
+        <Carousel>
+          <JourneyCard />
+          <JourneyCard />
+          <JourneyCard />
+          <JourneyCard />
+        </Carousel>
+      </div>
     </Container>
   );
 };

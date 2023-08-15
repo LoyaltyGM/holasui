@@ -16,7 +16,7 @@ export const SpaceCard = (props: ISpaceCard) => {
         alt={"Company image"}
         height={150}
         width={150}
-        className="rounded-[20px]"
+        className="rounded-xl"
       />
     </div>
   );

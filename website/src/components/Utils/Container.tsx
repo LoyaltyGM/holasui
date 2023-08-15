@@ -10,7 +10,7 @@ export const Container: FC<ContainerProps> = ({ children, className }): React.Re
   <div className="z-10 flex justify-center">
     <main
       className={cn(
-        "mt-[100px] flex min-h-[85vh] max-w-[120rem] flex-1 flex-col rounded-lg bg-basicColor px-4 md:mt-[116px] md:px-10 lg:mt-[146px] lg:px-16 xl:mt-40 xl:px-[152px]",
+        "mt-[100px] flex min-h-[85vh] max-w-[120rem] flex-1 flex-col bg-basicColor px-4 md:mt-[116px] md:px-10 lg:mt-[146px] lg:px-16 xl:mt-40 xl:px-[152px]",
         className,
       )}
     >
