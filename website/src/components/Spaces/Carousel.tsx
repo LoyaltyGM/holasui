@@ -28,19 +28,21 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
   useEffect(() => {
     let newCurrentScreen = "";
     let newMaxWidth = 0;
+
     if (!Array.isArray(children)) {
       setMaxWidth(0);
-    } else if (width >= MD_WIDTH && width < LG_WIDTH) {
+    }
+    if (width >= MD_WIDTH && width < LG_WIDTH) {
       newCurrentScreen = "medium";
       newMaxWidth = (children.length - 1) * 600 + (children.length - 1) * MD_GAP;
-    } else if (width >= LG_WIDTH) {
+    }
+    if (width >= LG_WIDTH) {
       newCurrentScreen = "large";
       newMaxWidth = (children.length - 1) * 700 + (children.length - 1) * LG_GAP;
     }
     if (newCurrentScreen !== curScreen) {
-      const calculatePosition = () => {
-        return (newMaxWidth / (children.length - 1)) * currentCardIdx;
-      };
+      const calculatePosition = () => (newMaxWidth / (children.length - 1)) * currentCardIdx;
+
       setCurPosition(-calculatePosition());
       setCurScreen(newCurrentScreen);
       setMaxWidth(newMaxWidth);
@@ -111,7 +113,7 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
         </button>
       </div>
       <div
-        className="hide-scroll-bar flex h-max gap-4 overflow-x-auto overflow-y-visible transition-all duration-500  md:overflow-visible lg:gap-6"
+        className="hide-scroll-bar flex h-max gap-4 overflow-x-auto transition-all duration-500  md:overflow-visible lg:gap-6"
         style={{ transform: `translateX(${curPosition}px)` }}
       >
         {children}
