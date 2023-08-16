@@ -27,20 +27,18 @@ export const JourneyLayout = () => {
       </p>
     </div>
   );
+  const JourneyImage = () => (
+    <div className="relative mb-6 h-[200px] w-[200px] md:h-[160px] md:w-[160px] lg:h-[177px] lg:w-[177px] xl:h-[200px] xl:w-[200px]">
+      <Image src={mockup_image} alt={"company logo"} fill className="rounded-full object-cover" />
+    </div>
+  );
   return (
     <Container className="bg-purpleColor font-inter text-white">
       <div className="relative w-full">
         <PeopleStatusBadge className="absolute right-0 top-0" />
       </div>
       <div className="mb-10 flex flex-col items-center md:flex-row md:justify-between md:gap-10 lg:mb-[60px]">
-        <div className="relative mb-6 h-[200px] w-[200px] md:h-[160px] md:w-[160px] lg:h-[177px] lg:w-[177px] xl:h-[200px] xl:w-[200px]">
-          <Image
-            src={mockup_image}
-            alt={"company logo"}
-            fill
-            className="rounded-full object-cover"
-          />
-        </div>
+        <JourneyImage />
         <div className="lg:mt w-full flex-1 justify-between lg:mt-3 lg:flex">
           <Info />
           <div className="flex items-start justify-between md:flex-row-reverse md:items-center lg:flex-col lg:justify-normal lg:gap-[30px]">
