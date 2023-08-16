@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 
 const MD_WIDTH = 768;
 const LG_WIDTH = 976;
+
 const MD_GAP = 16;
 const LG_GAP = 24;
+
+const MD_CARD_WIDTH = 600;
+const LG_CARD_WIDTH = 700;
 
 const useWidth = (): number => {
   const [width, setWindowDimensions] = useState<number>(0);
@@ -18,8 +22,9 @@ const useWidth = (): number => {
   return width;
 };
 
-export const Carousel = ({ children }: { children: JSX.Element[] }) => {
+export const Carousel = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
   const width = useWidth();
+  const lastIndex: number = Array.isArray(children) ? children.length - 1 : 0;
   const [curPosition, setCurPosition] = useState<number>(0);
   const [maxWidth, setMaxWidth] = useState<number>(0);
   const [curScreen, setCurScreen] = useState<string | null>(null);
@@ -31,17 +36,18 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
 
     if (!Array.isArray(children)) {
       setMaxWidth(0);
+      return;
     }
     if (width >= MD_WIDTH && width < LG_WIDTH) {
       newCurrentScreen = "medium";
-      newMaxWidth = (children.length - 1) * 600 + (children.length - 1) * MD_GAP;
+      newMaxWidth = lastIndex * MD_CARD_WIDTH + lastIndex * MD_GAP;
     }
     if (width >= LG_WIDTH) {
       newCurrentScreen = "large";
-      newMaxWidth = (children.length - 1) * 700 + (children.length - 1) * LG_GAP;
+      newMaxWidth = lastIndex * LG_CARD_WIDTH + lastIndex * LG_GAP;
     }
     if (newCurrentScreen !== curScreen) {
-      const calculatePosition = () => (newMaxWidth / (children.length - 1)) * currentCardIdx;
+      const calculatePosition = () => (newMaxWidth / lastIndex) * currentCardIdx;
 
       setCurPosition(-calculatePosition());
       setCurScreen(newCurrentScreen);
@@ -96,22 +102,25 @@ export const Carousel = ({ children }: { children: JSX.Element[] }) => {
   );
   return (
     <div className="h-max">
-      <div className="mb-5 hidden justify-end gap-2 md:flex">
-        <button
-          onClick={slideLeft}
-          disabled={currentCardIdx === 0}
-          className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
-        >
-          <ArrowIconLeft disabled={currentCardIdx === 0} />
-        </button>
-        <button
-          onClick={slideRight}
-          disabled={currentCardIdx === children.length - 1}
-          className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
-        >
-          <ArrowIconRight disabled={currentCardIdx === children.length - 1} />
-        </button>
-      </div>
+      {Array.isArray(children) && (
+        <div className="mb-5 hidden justify-end gap-2 md:flex">
+          <button
+            onClick={slideLeft}
+            disabled={currentCardIdx === 0}
+            className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
+          >
+            <ArrowIconLeft disabled={currentCardIdx === 0} />
+          </button>
+          <button
+            onClick={slideRight}
+            disabled={currentCardIdx === children.length - 1}
+            className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
+          >
+            <ArrowIconRight disabled={currentCardIdx === children.length - 1} />
+          </button>
+        </div>
+      )}
+
       <div
         className="hide-scroll-bar flex h-max gap-4 overflow-x-auto transition-all duration-500  md:overflow-visible lg:gap-6"
         style={{ transform: `translateX(${curPosition}px)` }}
