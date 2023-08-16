@@ -22,66 +22,79 @@
   }
 
   .button-primary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor px-2 text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-blackColor bg-pinkColor text-white hover:bg-pinkColorHover active:bg-pinkColor;
   }
 
   .button-secondary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-pinkColor bg-white text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor;
   }
 
-  .button-popup-primary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-pinkColor px-2 text-lg font-semibold text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-primary-pink {
+    @apply border-blackColor bg-pinkColor text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor;
   }
 
-  .button-popup-secondary-pink {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-pinkColor bg-white px-2 text-lg font-semibold text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-secondary-pink {
+    @apply border-pinkColor bg-white text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor;
   }
 
   .button-primary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor px-2 text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-blackColor bg-yellowColor text-white hover:bg-yellowColorHover active:bg-yellowColor;
   }
 
   .button-secondary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-yellowColor bg-white text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor;
   }
 
-  .button-popup-primary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-yellowColor px-2 text-lg font-semibold text-white hover:bg-yellowColorHover active:bg-yellowColor md:min-w-[176px] md:max-w-[176px];
+  .popup-primary-yellow {
+    @apply border-blackColor bg-yellowColor text-white hover:bg-yellowColorHover active:bg-yellowColor;
   }
 
-  .button-popup-secondary-yellow {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-yellowColor bg-white px-2 text-lg font-semibold text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-secondary-yellow {
+    @apply border-yellowColor bg-white text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor;
   }
   .button-primary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor px-2 text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-blackColor bg-orangeColor text-white hover:bg-orangeColorHover active:bg-orangeColor;
   }
 
   .button-secondary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-orangeColor bg-white text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor;
   }
 
-  .button-popup-primary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-orangeColor px-2 text-lg font-semibold text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-primary-orange {
+    @apply border-blackColor bg-orangeColor text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor;
   }
 
-  .button-popup-secondary-orange {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-orangeColor bg-white px-2 text-lg font-semibold text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-secondary-orange {
+    @apply border-orangeColor bg-white text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor;
   }
 
   .button-primary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor px-2 text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-blackColor bg-purpleColor text-white hover:bg-purpleColorHover active:bg-purpleColor;
   }
 
   .button-secondary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white px-2 text-lg font-semibold text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+    @apply border-purpleColor bg-white text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor;
   }
 
-  .button-popup-primary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-blackColor bg-purpleColor px-2 text-lg font-semibold text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-primary-purple {
+    @apply border-blackColor bg-purpleColor text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor;
   }
 
-  .button-popup-secondary-purple {
-    @apply max-h-[48px] min-h-[48px] rounded-xl border-2 border-purpleColor bg-white px-2 text-lg font-semibold text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor md:min-w-[176px] md:max-w-[176px];
+  .popup-secondary-purple {
+    @apply border-purpleColor bg-white text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor;
+  }
+
+  .button-default-pink {
+    @apply border-blackColor bg-white text-blackColor hover:text-pinkColor active:text-pinkColor;
+  }
+  .button-default-yellow {
+    @apply border-blackColor bg-white text-blackColor hover:text-yellowColor active:text-yellowColor;
+  }
+  .button-default-orange {
+    @apply border-blackColor bg-white text-blackColor hover:text-orangeColor active:text-orangeColor;
+  }
+  .button-default-purple {
+    @apply border-blackColor bg-white text-blackColor hover:text-purpleColor active:text-purpleColor;
   }
 
   .pinkColor-primary-state {
@@ -147,6 +160,10 @@
 .button-shadow:active {
   transform: translate(0);
   box-shadow: none;
+}
+
+.button-shadow:disabled {
+  box-shadow: 4px 4px #aaa;
 }
 
 .dropdown-shadow {
