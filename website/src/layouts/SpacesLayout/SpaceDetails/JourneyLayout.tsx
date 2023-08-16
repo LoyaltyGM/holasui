@@ -1,4 +1,4 @@
-import { Container } from "components";
+import { Button, Container } from "components";
 import Image from "next/image";
 import GroupIcon from "/public/img/GroupIcon.svg";
 import mockup_image from "/public/img/mockup1.png";
@@ -49,9 +49,9 @@ export const JourneyLayout = () => {
               <p className="text-xl font-medium">quest</p>
             </div>
             <div className="text-right md:flex md:items-center md:gap-4 md:text-center lg:flex-col">
-              <button className="button-primary-yellow button-shadow mb-2 w-[176px] md:mb-0">
+              <Button btnType="button" variant="default-purple" className="mb-2 md:mb-0">
                 Claim NFT
-              </button>
+              </Button>
               <p className="font-medium leading-5 md:max-w-[110px] lg:max-w-none">
                 2 quests left for claiming
               </p>
