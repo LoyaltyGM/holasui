@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "components";
 
 interface IPromotedCard {
   title: string;
@@ -30,7 +31,9 @@ export const PromotedCard = (props: IPromotedCard) => {
           <p className="font-medium text-black2Color">{props.description}</p>
         </div>
         <Link href={`spaces/${props.spaceAddress}`}>
-          <button className="button-primary-purple button-shadow w-full">Complete quests</button>
+          <Button btnType="button" variant="button-primary-puprle" size="sm-full">
+            Complete quests
+          </Button>
         </Link>
       </div>
     );

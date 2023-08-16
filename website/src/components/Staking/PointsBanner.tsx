@@ -2,6 +2,7 @@ import Image from "next/image";
 import pointsLogo from "/public/img/points.png";
 import { formatNumber } from "utils";
 import { claimBatchPoints } from "../../layouts/StakingLayout/StakingProviderFunction";
+import { Button } from "components/Reusable";
 
 export const PointsBanner = ({
   availablePointsToClaim,
@@ -26,13 +27,14 @@ export const PointsBanner = ({
           <p className="font-medium md:whitespace-nowrap">You have some points for claiming</p>
           <p className="font-medium md:whitespace-nowrap">Grab them and increase your rewards!</p>
         </div>
-        <button
-          className="button-shadow h-12 w-full rounded-xl border-2 border-blackColor bg-white px-4 text-lg  font-semibold text-blackColor hover:border-pinkColor hover:text-pinkColor md:w-[176px]"
+        <Button
+          btnType="button"
+          size="sm-full"
+          variant="default-pink"
           onClick={functionToClaimPoints}
         >
-
           Claim Points
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import mockup_image from "/public/img/mockup1.png";
+import { Button } from "components";
 import Link from "next/link";
 
 export const JourneyCard = () => {
@@ -22,9 +23,9 @@ export const JourneyCard = () => {
         Bridges mgdf
       </h2>
       <Link href={`SuiFrens/quests`}>
-        <button className="button-secondary-purple button-shadow button-shadow:active w-[176px] border-black2Color">
+        <Button btnType="button" variant="button-secondary-puprle">
           Complete quests
-        </button>
+        </Button>
       </Link>
     </div>
   );

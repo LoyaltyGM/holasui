@@ -29,9 +29,18 @@ export const SpacesLayout = () => {
     <NoConnectWallet title={"Spaces!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
-      <div className="flex justify-between">
-        <h1 className="mb-5 text-[26px] font-extrabold lg:mb-10 lg:text-3xl">Hola, Spaces</h1>
-        <button className="button-secondary-purple button-shadow">Create company</button>
+      <div className="mb-5 flex  flex-wrap justify-between lg:mb-10">
+        <h1 className="mb-5 text-[26px] font-extrabold sm:mb-0 lg:text-3xl">Hola, Spaces</h1>
+        <Link href="spaces/create-space">
+          <Button
+            btnType="button"
+            size="sm-full"
+            variant="button-secondary-puprle"
+            className="sm:w-[176px]"
+          >
+            Create company
+          </Button>
+        </Link>
       </div>
       <div className="mb-[30px] grid gap-4 md:mb-10 md:grid-cols-2 lg:mb-[70px]">
         <PromotedCard

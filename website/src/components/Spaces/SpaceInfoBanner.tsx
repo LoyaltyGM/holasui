@@ -4,6 +4,7 @@ import frensLogo from "/public/img/frens-logo.svg";
 import mockup_image from "/public/img/mockup1.png";
 import iconTicketStar from "/public/img/IconTicketStar.svg";
 import cn from "classnames";
+import { Button } from "components";
 import { useState, Fragment } from "react";
 import { Transition } from "@headlessui/react";
 
@@ -46,8 +47,11 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
     );
     return (
       <div className={cn("relative text-center", className)}>
-        <button
-          className="button-secondary-purple button-shadow group flex w-full items-center justify-center gap-1"
+        <Button
+          btnType="button"
+          variant="button-secondary-puprle"
+          size="sm-full"
+          className="group flex items-center justify-center gap-1"
           onClick={() => setDropDownOpened(!dropDownOpened)}
         >
           Add new quest
@@ -56,7 +60,7 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
               "transition-all duration-200 group-hover:stroke-purpleColorHover group-active:stroke-blackColor"
             }
           />
-        </button>
+        </Button>
         <Transition
           show={dropDownOpened}
           as={Fragment}
@@ -68,12 +72,20 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
           leaveTo="transform opacity-0 scale-95"
         >
           <div className="dropdown-shadow absolute mt-[10px] min-h-[96px] w-full rounded-xl border-2 border-purpleColor bg-white text-center hover:border-purpleColor">
-            <button className="button-secondary-purple w-full border-none bg-transparent text-center md:text-left">
+            <Button
+              variant="button-secondary-puprle"
+              size="full"
+              className="border-none bg-transparent text-center md:text-left"
+            >
               Add new quest
-            </button>
-            <button className="button-secondary-purple w-full border-none bg-transparent text-center md:text-left">
+            </Button>
+            <Button
+              variant="button-secondary-puprle"
+              size="full"
+              className="border-none bg-transparent text-center md:text-left"
+            >
               Add new journey
-            </button>
+            </Button>
           </div>
         </Transition>
       </div>

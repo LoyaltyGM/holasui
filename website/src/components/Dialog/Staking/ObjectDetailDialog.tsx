@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { classNames } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { StakingRules } from "components";
+import { Button, StakingRules } from "components";
 import { IObjectDetailDialog } from "types";
 
 export const ObjectDetailDialog = ({
@@ -60,15 +60,16 @@ export const ObjectDetailDialog = ({
                   />
                 </div>
 
-                <button
-                  className="button-popup-secondary-yellow w-full"
+                <Button
+                  variant="popup-secondary-yellow"
+                  size="full"
                   onClick={() => {
                     stakeFunction(selectedFrend!).then();
                   }}
                   disabled={waitSui}
                 >
                   Stake
-                </button>
+                </Button>
                 <StakingRules isStakingDialog={true} />
               </div>
             </Dialog.Panel>

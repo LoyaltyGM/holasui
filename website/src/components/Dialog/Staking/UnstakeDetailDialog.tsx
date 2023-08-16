@@ -4,7 +4,7 @@ import { classNames } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import token from "/public/img/points.png";
-import { StakingRules } from "components";
+import { Button, StakingRules } from "components";
 import { IStakingTicket } from "types";
 
 interface IUnstakeDetailDialog {
@@ -89,24 +89,26 @@ export const UnstakeDetailDialog = ({
                   </div>
                 </div>
                 <div className="flex w-full flex-col gap-[10px]">
-                  <button
-                    className="button-popup-primary-pink w-full"
+                  <Button
+                    variant="popup-primary-pink"
+                    size="full"
                     onClick={() => {
                       unstakeCapyFunction(selectedStaked!).then();
                     }}
                     disabled={waitSui}
                   >
                     Unstake
-                  </button>
-                  <button
-                    className="button-popup-secondary-pink w-full"
+                  </Button>
+                  <Button
+                    variant="popup-secondary-pink"
+                    size="full"
                     onClick={() => {
                       claimPointsFunction(selectedStaked!).then();
                     }}
                     disabled={waitSui}
                   >
                     Claim Points
-                  </button>
+                  </Button>
                 </div>
                 <StakingRules isStakingDialog={true} />
                 <p className="text-center text-sm text-black2Color">
