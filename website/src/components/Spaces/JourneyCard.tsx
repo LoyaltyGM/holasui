@@ -3,7 +3,29 @@ import mockup_image from "/public/img/mockup1.png";
 import { Button } from "components";
 import Link from "next/link";
 
-export const JourneyCard = () => {
+interface IJourneyCard {
+  title: string;
+  image_url: string;
+  start_date: number;
+  end_date: number;
+  color: color;
+}
+
+type color = "purpleColor" | "orangeColor" | "yellowColor" | "pinkColor";
+type colorDefinition =
+  | "button-secondary-puprle"
+  | "button-secondary-orange"
+  | "button-secondary-yellow"
+  | "button-secondary-pink";
+
+export const JourneyCard = ({ color }: { color: color }) => {
+  const btnColors: Record<color, colorDefinition> = {
+    purpleColor: "button-secondary-puprle",
+    orangeColor: "button-secondary-orange",
+    yellowColor: "button-secondary-yellow",
+    pinkColor: "button-secondary-pink",
+  };
+
   const ImageInfoPlate = () => (
     <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
       <Image
@@ -23,14 +45,16 @@ export const JourneyCard = () => {
         Bridges mgdf
       </h2>
       <Link href={`SuiFrens/quests`}>
-        <Button btnType="button" variant="button-secondary-puprle">
+        <Button btnType="button" variant={btnColors[color]}>
           Complete quests
         </Button>
       </Link>
     </div>
   );
   const TimePlate = () => (
-    <div className="flex h-[108px] items-center gap-3 rounded-b-xl border-t-6 border-dashed border-basicColor bg-purpleColor p-4 md:order-first md:min-h-full md:w-[180px] md:items-end md:rounded-l-lg md:rounded-br-none md:border-r-6 md:border-t-0 lg:w-[220px]">
+    <div
+      className={`bg-${color} flex h-[108px] items-center gap-3 rounded-b-xl border-t-6 border-dashed border-basicColor p-4 md:order-first md:min-h-full md:w-[180px] md:items-end md:rounded-l-lg md:rounded-br-none md:border-r-6 md:border-t-0 lg:w-[220px]`}
+    >
       <div className="font-medium text-white">
         <p className="mb-2">Start</p>
         <p>End</p>

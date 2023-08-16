@@ -23,10 +23,10 @@ export const SpaceDetailsLayout = () => {
       <Info />
       <div className="w-screen md:w-full">
         <Carousel>
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
-          <JourneyCard />
+          <JourneyCard color="orangeColor" />
+          <JourneyCard color="purpleColor" />
+          <JourneyCard color="yellowColor" />
+          <JourneyCard color="pinkColor" />
         </Carousel>
       </div>
     </Container>
