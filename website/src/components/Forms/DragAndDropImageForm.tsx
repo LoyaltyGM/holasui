@@ -47,7 +47,7 @@ export const DragAndDropImageForm = ({
   return (
     <div className={"flex gap-10"}>
       <div className={"flex flex-col"}>
-        <Label label={label} />
+        <Label label={label} className="mb-[14px]" />
         <FileUploader
           hoverTitle={hoverTitle}
           multiple={multipleFiles}
@@ -65,7 +65,7 @@ export const DragAndDropImageForm = ({
         >
           <div
             className={classNames(
-              "border-base-200 mt-2 flex max-h-80 flex-col justify-center rounded-xl border border-black2Color text-center text-grayColor hover:border-pinkColor focus:text-blackColor",
+              "border-base-200 flex max-h-80 cursor-pointer flex-col justify-center rounded-xl border border-black2Color bg-white text-center text-grayColor hover:border-pinkColor focus:text-blackColor",
               className,
             )}
           >
@@ -76,7 +76,12 @@ export const DragAndDropImageForm = ({
                 {file ? (
                   <div className={"flex h-full w-full flex-col p-3"}>
                     <div className={"relative h-full w-full overflow-hidden"}>
-                      <Image alt={""} src={preview} fill={true} className={"rounded-xl"} />
+                      <Image
+                        alt={""}
+                        src={preview}
+                        fill={true}
+                        className={"rounded-xl object-contain"}
+                      />
                     </div>
                   </div>
                 ) : (
