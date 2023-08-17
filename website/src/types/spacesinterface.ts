@@ -1,13 +1,13 @@
-export interface ISpaces {
-  id: string;
+export interface ISpace {
+  id: number;
+  version: string;
   name: string;
   description: string;
-  image: string;
-  total_completed: number;
-  start_time: number;
-  end_time: number;
-  points: number;
-  journeys: IJourney[] | null;
+  image_url: string;
+  website_url: string;
+  twitter_url: string;
+  journeys: any;
+  points: any;
 }
 
 export interface IJourney {
