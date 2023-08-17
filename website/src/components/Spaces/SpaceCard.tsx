@@ -4,19 +4,18 @@ import Link from "next/link";
 interface ISpaceCard {
   title: string;
   totalQuestsAmount: number;
-  imageUrl: string;
-  spaceAddress: string;
+  image_url: string;
+  spaceAddress: number;
 }
 
 export const SpaceCard = (props: ISpaceCard) => {
   const CompanyImage = () => (
-    <div className="flex h-[150px] w-[150px] items-center">
+    <div className="relative flex h-[150px] w-[150px] items-center">
       <Image
-        src={props.imageUrl}
+        src={props.image_url}
         alt={"Company image"}
-        height={150}
-        width={150}
-        className="rounded-xl"
+        fill
+        className="rounded-xl object-contain"
       />
     </div>
   );

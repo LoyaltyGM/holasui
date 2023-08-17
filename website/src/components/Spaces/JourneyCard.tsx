@@ -8,7 +8,7 @@ interface IJourneyCard {
   image_url: string;
   start_date: number;
   end_date: number;
-  color: color;
+  index: number;
 }
 
 type color = "purpleColor" | "orangeColor" | "yellowColor" | "pinkColor";
