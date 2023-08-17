@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export const Label = ({ label, className }: { label: string; className?: string }) => (
   <label className="label">
-    <span className={classNames("text-base font-semibold", className)}>{label}</span>
+    <p className={classNames("text-lg font-semibold", className)}>{label}</p>
   </label>
 );
 export const LabeledInput = ({
@@ -16,13 +16,8 @@ export const LabeledInput = ({
   children: ReactNode;
   className?: string;
 }) => (
-  <div
-    className={classNames(
-      "flex flex-col rounded-md border-2 border-grayColor py-2 pt-1",
-      className,
-    )}
-  >
-    {label && <Label label={label} />}
-    <div className="mt-1">{children}</div>
+  <div>
+    {label && <Label label={label} className="mb-[14px]" />}
+    <div>{children}</div>
   </div>
 );
