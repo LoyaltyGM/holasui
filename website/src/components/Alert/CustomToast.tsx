@@ -72,6 +72,8 @@ export function AlertSucceed(success_type: AlertMessageType) {
     case "CreateDao":
       successTitle = "You have successfully created a DAO!";
       break;
+    case "CreateSpace":
+      successTitle = "You have successfully created a Space!";
     default:
       successTitle = "Something went wrong";
       break;
