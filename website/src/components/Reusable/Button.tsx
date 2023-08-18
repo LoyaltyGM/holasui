@@ -2,13 +2,14 @@ import { ComponentProps, FC } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { clsx, ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 function reusableCn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 const buttonVariants = cva(
-  "max-h-[48px] min-h-[48px] rounded-xl border-2 px-2 text-lg font-semibold ",
+  "max-h-[48px] min-h-[48px] flex items-center justify-center rounded-xl border-2 px-2 text-lg font-semibold ",
   {
     variants: {
       btnType: {
@@ -49,13 +50,35 @@ const buttonVariants = cva(
   },
 );
 
-interface ButtonProps extends ComponentProps<"button">, VariantProps<typeof buttonVariants> {}
+interface ButtonProps extends ComponentProps<"button">, VariantProps<typeof buttonVariants> {
+  href?: string;
+}
 
-export const Button: FC<ButtonProps> = ({ className, variant, btnType, size, ...props }) => {
+export const Button: FC<ButtonProps> = ({
+  className,
+  children,
+  variant,
+  btnType,
+  size,
+  href,
+  ...props
+}) => {
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={reusableCn(buttonVariants({ variant, btnType, size, className }))}
+      >
+        {children}
+      </Link>
+    );
+  }
   return (
     <button
       className={reusableCn(buttonVariants({ variant, btnType, size, className }))}
       {...props}
-    />
+    >
+      {children}
+    </button>
   );
 };

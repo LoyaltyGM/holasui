@@ -22,79 +22,83 @@
   }
 
   .button-primary-pink {
-    @apply border-blackColor bg-pinkColor text-white hover:bg-pinkColorHover active:bg-pinkColor;
+    @apply border-blackColor bg-pinkColor text-white hover:bg-pinkColorHover active:bg-pinkColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .button-secondary-pink {
-    @apply border-pinkColor bg-white text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor;
+    @apply border-pinkColor bg-white text-blackColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .popup-primary-pink {
-    @apply border-blackColor bg-pinkColor text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor;
+    @apply border-blackColor bg-pinkColor text-white hover:bg-pinkColorHover active:bg-pinkColor active:text-blackColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .popup-secondary-pink {
-    @apply border-pinkColor bg-white text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor;
+    @apply border-pinkColor bg-white text-pinkColor hover:border-pinkColorHover hover:text-pinkColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .button-primary-yellow {
-    @apply border-blackColor bg-yellowColor text-white hover:bg-yellowColorHover active:bg-yellowColor;
+    @apply border-blackColor bg-yellowColor text-white hover:bg-yellowColorHover active:bg-yellowColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .button-secondary-yellow {
-    @apply border-yellowColor bg-white text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor;
+    @apply border-yellowColor bg-white text-blackColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .popup-primary-yellow {
-    @apply border-blackColor bg-yellowColor text-white hover:bg-yellowColorHover active:bg-yellowColor;
+    @apply border-blackColor bg-yellowColor text-white hover:bg-yellowColorHover active:bg-yellowColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .popup-secondary-yellow {
-    @apply border-yellowColor bg-white text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor;
+    @apply border-yellowColor bg-white text-yellowColor hover:border-yellowColorHover hover:text-yellowColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
+
   .button-primary-orange {
-    @apply border-blackColor bg-orangeColor text-white hover:bg-orangeColorHover active:bg-orangeColor;
+    @apply border-blackColor bg-orangeColor text-white hover:bg-orangeColorHover active:bg-orangeColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .button-secondary-orange {
-    @apply border-orangeColor bg-white text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor;
+    @apply border-orangeColor bg-white text-blackColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .popup-primary-orange {
-    @apply border-blackColor bg-orangeColor text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor;
+    @apply border-blackColor bg-orangeColor text-white hover:bg-orangeColorHover active:bg-orangeColor active:text-blackColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .popup-secondary-orange {
-    @apply border-orangeColor bg-white text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor;
+    @apply border-orangeColor bg-white text-orangeColor hover:border-orangeColorHover hover:text-orangeColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .button-primary-purple {
-    @apply border-blackColor bg-purpleColor text-white hover:bg-purpleColorHover active:bg-purpleColor;
+    @apply border-blackColor bg-purpleColor text-white hover:bg-purpleColorHover active:bg-purpleColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .button-secondary-purple {
-    @apply border-purpleColor bg-white text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor;
+    @apply border-purpleColor bg-white text-blackColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .popup-primary-purple {
-    @apply border-blackColor bg-purpleColor text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor;
+    @apply border-blackColor bg-purpleColor text-white hover:bg-purpleColorHover active:bg-purpleColor active:text-blackColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
   }
 
   .popup-secondary-purple {
-    @apply border-purpleColor bg-white text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor;
+    @apply border-purpleColor bg-white text-purpleColor hover:border-purpleColorHover hover:text-purpleColorHover active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .button-default-pink {
-    @apply border-blackColor bg-white text-blackColor hover:text-pinkColor active:text-pinkColor;
+    @apply border-blackColor bg-white text-blackColor hover:text-pinkColor active:text-pinkColor disabled:border-gray2Color disabled:text-grayColor;
   }
+
   .button-default-yellow {
-    @apply border-blackColor bg-white text-blackColor hover:text-yellowColor active:text-yellowColor;
+    @apply border-blackColor bg-white text-blackColor hover:text-yellowColor active:text-yellowColor disabled:border-gray2Color disabled:text-grayColor;
   }
+
   .button-default-orange {
-    @apply border-blackColor bg-white text-blackColor hover:text-orangeColor active:text-orangeColor;
+    @apply border-blackColor bg-white text-blackColor hover:text-orangeColor active:text-orangeColor disabled:border-gray2Color disabled:text-grayColor;
   }
+
   .button-default-purple {
-    @apply border-blackColor bg-white text-blackColor hover:text-purpleColor active:text-purpleColor;
+    @apply border-blackColor bg-white text-blackColor hover:text-purpleColor active:text-purpleColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
   .pinkColor-primary-state {
@@ -163,6 +167,7 @@
 }
 
 .button-shadow:disabled {
+  transform: translate(-4px, -4px);
   box-shadow: 4px 4px #aaa;
 }
 

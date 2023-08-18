@@ -75,14 +75,15 @@ export const SpaceInfoBanner = ({ totalHolaPointsOnchain }: { totalHolaPointsOnc
             <Button
               variant="button-secondary-puprle"
               size="full"
-              className="border-none bg-transparent text-center md:text-left"
+              className="flex items-center justify-center border-none bg-transparent md:justify-start"
             >
               Add new quest
             </Button>
             <Button
               variant="button-secondary-puprle"
               size="full"
-              className="border-none bg-transparent text-center md:text-left"
+              href="#"
+              className="flex items-center justify-center border-none bg-transparent md:justify-start"
             >
               Add new journey
             </Button>
