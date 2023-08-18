@@ -11,13 +11,19 @@ export interface ISpace {
 }
 
 export interface IJourney {
-  id: string;
+  id: number;
+  reward_type: number;
+  reward_required_points: number;
+  reward_image_url: string;
   name: string;
   description: string;
-  image: string;
   start_time: number;
   end_time: number;
-  quests: IQuest[] | null;
+  total_completed: number;
+  quests: any;
+  completed_users: any;
+  users_points: any;
+  users_completed_quests: any;
 }
 
 export interface IQuest {
