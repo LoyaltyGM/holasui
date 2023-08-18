@@ -50,15 +50,15 @@ export const SpacesLayout = () => {
                 },
               }),
             )!;
+            space.id = space.id?.id;
+            space.image_url = convertIPFSUrl(space.image_url);
+
             // TODO: fix for invalid images
             if (!space.image_url.startsWith("https") || !space.image_url.startsWith("http")) {
               space.image_url =
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png";
             }
 
-            space.id = space.id?.id;
-            space.image_url = convertIPFSUrl(space.image_url);
-            console.log(space);
             return space as ISpace;
           }),
         ).then((spaces) => setSpaces(spaces));
@@ -122,11 +122,15 @@ export const SpacesLayout = () => {
     <Container className="mb-[100px] font-inter">
       <div className="mb-5 flex  flex-wrap justify-between lg:mb-10">
         <h1 className="mb-5 text-[26px] font-extrabold sm:mb-0 lg:text-3xl">Hola, Spaces</h1>
-        <Link href="spaces/create-company" className="w-full sm:w-max">
-          <Button btnType="button" size="sm-full" variant="button-secondary-puprle">
-            Create company
-          </Button>
-        </Link>
+        <Button
+          btnType="button"
+          href="spaces/create-company"
+          className="w-full sm:w-max"
+          size="sm-full"
+          variant="button-secondary-puprle"
+        >
+          Create company
+        </Button>
       </div>
       {!isFetching && <PromotedSpaces />}
       <SearchBar />
