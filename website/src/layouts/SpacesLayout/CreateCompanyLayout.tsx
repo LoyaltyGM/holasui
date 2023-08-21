@@ -6,6 +6,8 @@ import {
   Container,
   DragAndDropImageForm,
   LabeledInput,
+  NoConnectWallet,
+  Label,
 } from "components";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -27,7 +29,6 @@ export const CreateCompanyLayout = () => {
   const router = useRouter();
   const { wallet, status } = ethos.useWallet();
   const [image, setImage] = useState<File | null>(null);
-  const [waitSui, setWaitSui] = useState(false);
 
   const {
     register,
@@ -35,10 +36,8 @@ export const CreateCompanyLayout = () => {
     watch,
     formState: { isValid, isSubmitting },
   } = useForm<Inputs>();
-  console.log(isSubmitting);
   const onSubmit: SubmitHandler<Inputs> = async (form) => {
     if (!wallet) return;
-    setWaitSui(true);
     try {
       if (!image) {
         toast.error("Please upload image");
@@ -48,13 +47,7 @@ export const CreateCompanyLayout = () => {
       form.image_url = await storeNFT(image);
 
       const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionCreateSpace({
-          name: form.name,
-          image_url: form.image_url,
-          description: form.description,
-          website_url: form.website_url,
-          twitter_url: form.twitter_url,
-        }),
+        transactionBlock: signTransactionCreateSpace(form),
         options: {
           showEffects: true,
         },
@@ -73,7 +66,9 @@ export const CreateCompanyLayout = () => {
       console.log(e);
     }
   };
-  return (
+  return status === EthosConnectStatus.NoConnection ? (
+    <NoConnectWallet title={"Create DAO!"} />
+  ) : (
     <Container className="mb-[100px] font-inter">
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl ">
         New Company
@@ -85,22 +80,34 @@ export const CreateCompanyLayout = () => {
           className="h-[140px] w-[140px] sm:h-40 sm:w-40 lg:h-[200px] lg:w-[200px]"
           handleChange={(file) => setImage(file)}
         />
-        <LabeledInput label="Name">
+        <div className="lg:max-w-[550px] xl:max-w-[700px] ">
+          <div className={"mb-[14px] flex items-end justify-between"}>
+            <Label label="Name" />
+            <p className={"text-sm text-black2Color"}>{`${watch("name")?.length ?? "0"}/32`}</p>
+          </div>
           <input
             {...register("name", { required: true })}
             type="text"
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Company name"
+            maxLength={32}
           />
-        </LabeledInput>
-        <LabeledInput label="Description">
+        </div>
+        <div className="lg:max-w-[550px] xl:max-w-[700px] ">
+          <div className={"mb-[14px] flex items-end justify-between"}>
+            <Label label="Description" />
+            <p className={"text-sm text-black2Color"}>{`${
+              watch("description")?.length ?? "0"
+            }/500`}</p>
+          </div>
           <textarea
             {...register("description", { required: true })}
-            className="h-36 w-full  resize-none rounded-md border border-grayColor bg-white px-4 py-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
+            className="h-36 w-full resize-none rounded-md border border-grayColor bg-white px-4 py-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Company description"
+            maxLength={500}
           />
-        </LabeledInput>
-        <LabeledInput label="Website">
+        </div>
+        <LabeledInput label="Website" className="lg:max-w-[550px] xl:max-w-[700px] ">
           <input
             {...register("website_url", { required: true })}
             type="url"
@@ -108,7 +115,7 @@ export const CreateCompanyLayout = () => {
             placeholder="Website"
           />
         </LabeledInput>
-        <LabeledInput label="Twitter">
+        <LabeledInput label="Twitter" className="lg:max-w-[550px] xl:max-w-[700px] ">
           <input
             {...register("twitter_url", { required: true })}
             type="url"
@@ -117,11 +124,17 @@ export const CreateCompanyLayout = () => {
           />
         </LabeledInput>
         <div className="mt-3 flex w-full gap-4 md:gap-5">
-          <Button btnType="button" type="reset" size="sm-full" variant="button-secondary-puprle">
+          <Button
+            btnType="button"
+            href="/spaces"
+            type="reset"
+            size="sm-full"
+            variant="button-secondary-puprle"
+          >
             Cancel
           </Button>
           <Button
-            disabled={!isValid || !image}
+            disabled={!isValid || !image || isSubmitting}
             btnType="button"
             type="submit"
             size="sm-full"
