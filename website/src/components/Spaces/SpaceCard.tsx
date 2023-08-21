@@ -10,19 +10,16 @@ interface ISpaceCard {
 
 export const SpaceCard = (props: ISpaceCard) => {
   const CompanyImage = () => (
-    <div className="relative flex h-[150px] w-[150px] items-center">
-      <Image
-        src={props.image_url}
-        alt={"Company image"}
-        fill
-        className="rounded-xl object-contain"
-      />
+    <div className="relative flex min-h-[120px] min-w-[120px] items-center lg:min-h-[150px] lg:min-w-[150px]">
+      <Image src={props.image_url} alt={"Company image"} fill className="rounded-xl object-cover" />
     </div>
   );
   const CompanyInfo = () => (
     <div className="flex flex-col justify-between">
       <div>
-        <h2 className="mb-[14px] text-lg font-semibold leading-[22px]">{props.title}</h2>
+        <h2 className="mb-[14px] line-clamp-2 text-lg font-semibold leading-[22px]">
+          {props.title}
+        </h2>
         <p className="font-medium">{props.totalQuestsAmount} quests</p>
       </div>
       {/* TODO: Separate to the other component LINK or make it with tailwind classes?? */}
@@ -37,7 +34,7 @@ export const SpaceCard = (props: ISpaceCard) => {
     </div>
   );
   return (
-    <div className="card-shadow flex max-h-[180px] w-full gap-5 rounded-[20px] border border-blackColor bg-white p-[15px] text-blackColor">
+    <div className="card-shadow flex max-h-[150px] w-full gap-5 rounded-[20px] border border-blackColor bg-white p-[15px] text-blackColor lg:max-h-[180px]">
       <CompanyImage />
       <CompanyInfo />
     </div>
