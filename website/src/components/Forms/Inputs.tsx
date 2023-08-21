@@ -16,7 +16,7 @@ export const LabeledInput = ({
   children: ReactNode;
   className?: string;
 }) => (
-  <div>
+  <div className={className}>
     {label && <Label label={label} className="mb-[14px]" />}
     <div>{children}</div>
   </div>
