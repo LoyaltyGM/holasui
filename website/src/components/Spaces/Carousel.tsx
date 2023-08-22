@@ -122,7 +122,7 @@ export const Carousel = ({ children }: { children: JSX.Element[] | JSX.Element }
       )}
 
       <div
-        className="hide-scroll-bar flex h-max gap-4 overflow-x-auto transition-all duration-500  md:overflow-visible lg:gap-6"
+        className="hide-scroll-bar flex h-max gap-4 overflow-x-auto pr-14 transition-all duration-500  md:overflow-visible lg:gap-6"
         style={{ transform: `translateX(${curPosition}px)` }}
       >
         {children}

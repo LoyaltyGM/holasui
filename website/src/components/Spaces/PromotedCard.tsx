@@ -6,7 +6,7 @@ interface IPromotedCard {
   title: string;
   description: string;
   image_url: string;
-  spaceAddress: number;
+  spaceAddress: string;
 }
 
 export const PromotedCard = (props: IPromotedCard) => {

@@ -5,7 +5,7 @@ interface ISpaceCard {
   title: string;
   totalQuestsAmount: number;
   image_url: string;
-  spaceAddress: number;
+  spaceAddress: string;
 }
 
 export const SpaceCard = (props: ISpaceCard) => {

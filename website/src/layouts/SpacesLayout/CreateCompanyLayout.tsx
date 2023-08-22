@@ -36,6 +36,7 @@ export const CreateCompanyLayout = () => {
     watch,
     formState: { isValid, isSubmitting },
   } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = async (form) => {
     if (!wallet) return;
     try {
@@ -67,10 +68,10 @@ export const CreateCompanyLayout = () => {
     }
   };
   return status === EthosConnectStatus.NoConnection ? (
-    <NoConnectWallet title={"Create DAO!"} />
+    <NoConnectWallet title={"Create Company!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
-      <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl ">
+      <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Company
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className={"flex w-full flex-col gap-5"}>
@@ -104,7 +105,7 @@ export const CreateCompanyLayout = () => {
             {...register("description", { required: true })}
             className="h-36 w-full resize-none rounded-md border border-grayColor bg-white px-4 py-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Company description"
-            maxLength={500}
+            maxLength={180}
           />
         </div>
         <LabeledInput label="Website" className="lg:max-w-[550px] xl:max-w-[700px] ">
