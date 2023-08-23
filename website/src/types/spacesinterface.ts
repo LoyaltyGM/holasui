@@ -1,5 +1,5 @@
 export interface ISpace {
-  id: number;
+  id: string;
   version: string;
   name: string;
   description: string;
@@ -11,7 +11,7 @@ export interface ISpace {
 }
 
 export interface IJourney {
-  id: number;
+  id: string;
   reward_type: number;
   reward_required_points: number;
   reward_image_url: string;
@@ -31,5 +31,17 @@ export interface IQuest {
   points_amount: number;
   name: string;
   description: string;
+  call_to_action_url: string;
+  package_id: string;
+  module_name: string;
+  function_name: string;
+  arguments: string[];
   total_completed: number;
+  completed_users: any;
+}
+
+export interface ISpaceAdminCap {
+  id: string;
+  name: string;
+  space_id: string;
 }
