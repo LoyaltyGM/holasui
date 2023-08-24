@@ -33,7 +33,7 @@ interface Inputs {
 interface ISpaceAddressProps {
   spaceAddress: string;
 }
-
+// TODO: Solve how to put fetched img into image input
 export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
   const router = useRouter();
   const { wallet, status } = ethos.useWallet();
@@ -115,11 +115,11 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
     }
   };
   return status === EthosConnectStatus.NoConnection ? (
-    <NoConnectWallet title={"Create Company!"} />
+    <NoConnectWallet title={"Edit Company!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
-        New Company
+        Edit Company
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className={"flex w-full flex-col gap-5"}>
         <DragAndDropImageForm
@@ -139,6 +139,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Company name"
             maxLength={32}
+            disabled={isFetching}
           />
         </div>
         <div className="lg:max-w-[550px] xl:max-w-[700px] ">
@@ -153,6 +154,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             className="h-36 w-full resize-none rounded-md border border-grayColor bg-white px-4 py-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Company description"
             maxLength={180}
+            disabled={isFetching}
           />
         </div>
         <LabeledInput label="Website" className="lg:max-w-[550px] xl:max-w-[700px] ">
@@ -161,6 +163,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             type="url"
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Website"
+            disabled={isFetching}
           />
         </LabeledInput>
         <LabeledInput label="Twitter" className="lg:max-w-[550px] xl:max-w-[700px] ">
@@ -169,6 +172,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             type="url"
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Twitter"
+            disabled={isFetching}
           />
         </LabeledInput>
         <div className="mt-3 flex w-full gap-4 md:gap-5">
@@ -188,7 +192,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             size="sm-full"
             variant="button-primary-puprle"
           >
-            Create
+            Save
           </Button>
         </div>
       </form>
