@@ -1,17 +1,88 @@
 import { ethos, EthosConnectStatus } from "ethos-connect";
-import { NoConnectWallet, Container, DragAndDropImageForm, Button, Label } from "components";
-import { useState } from "react";
+import {
+  NoConnectWallet,
+  Container,
+  DragAndDropImageForm,
+  Button,
+  Label,
+  AlertSucceed,
+  AlertErrorMessage,
+  LabeledInput,
+} from "components";
+import { useState, useEffect } from "react";
+import { ISpaceAdminCap } from "types";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { REWARD_TYPE_NFT, REWARD_TYPE_SOULBOUND, convertDateToTimestamp } from "utils";
+import { toast } from "react-hot-toast";
+import { storeNFT } from "services/ipfs";
+import { signTransactionCreateJourney } from "services/sui";
+import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
+import { useRouter } from "next/router";
+import { NextPage } from "next";
+import { suiProvider } from "services/sui";
+import { getObjectFields } from "@mysten/sui.js";
+import { idText } from "typescript";
 
-interface Inputs {
-  image_url: string;
-  name: string;
-  description: string;
+interface ISpaceAddressProps {
+  spaceAddress: string;
 }
 
-export const CreateJourneyLayout = () => {
+interface Inputs {
+  reward_image_url: string;
+  name: string;
+  description: string;
+  reward_type: string;
+  reward_required_points: number;
+  start_time: string;
+  end_time: string;
+}
+
+export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
   const { wallet, status } = ethos.useWallet();
   const [image, setImage] = useState<File | null>(null);
+  const [isFetching, setFetching] = useState<boolean>(true);
+  // FIXME: now default value is 'mockup'. solve what to put instead of
+  const [adminCap, setAdminCap] = useState<string>("mockup");
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchAdminCap() {
+      if (isFetching && wallet) {
+        try {
+          const { address } = wallet;
+          // TODO: add logic for next cursor
+          const ownedObjects = await suiProvider.getOwnedObjects({
+            owner: address,
+          });
+          const nftIds: any = ownedObjects.data.map(({ data }) => data?.objectId);
+          const nftObjects = await suiProvider.multiGetObjects({
+            ids: nftIds,
+            options: { showContent: true },
+          });
+          const spaceNfts: ISpaceAdminCap[] = nftObjects
+            .map((object) => getObjectFields(object) as ISpaceAdminCap)
+            .filter(
+              (object) =>
+                object.hasOwnProperty("space_id") &&
+                object.hasOwnProperty("id") &&
+                object.hasOwnProperty("name"),
+            );
+          for (let i = 0; i < spaceNfts.length; i++) {
+            const { space_id } = spaceNfts[i];
+            if (space_id === spaceAddress) {
+              // FIXME: fix id.id
+              setAdminCap(spaceNfts[0].id.id);
+              break;
+            }
+          }
+          setFetching(false);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    fetchAdminCap().then();
+  }, [wallet]);
 
   const {
     register,
@@ -20,6 +91,52 @@ export const CreateJourneyLayout = () => {
     formState: { isValid, isSubmitting },
   } = useForm<Inputs>();
 
+  const rewardTypeChange = (selectedValue: string) => {
+    const rewardTypeValue = selectedValue === "NFT" ? REWARD_TYPE_NFT : REWARD_TYPE_SOULBOUND;
+    return rewardTypeValue;
+  };
+
+  const onSubmit: SubmitHandler<Inputs> = async (form) => {
+    if (!wallet) return;
+    try {
+      if (!image) {
+        toast.error("Please upload image");
+        return;
+      }
+
+      form.reward_image_url = await storeNFT(image);
+
+      const response = await wallet.signAndExecuteTransactionBlock({
+        transactionBlock: signTransactionCreateJourney({
+          admin_cap: adminCap,
+          space: spaceAddress,
+          reward_type: rewardTypeChange(form.reward_type),
+          reward_image_url: form.reward_image_url,
+          reward_required_points: form.reward_required_points,
+          name: form.name,
+          description: form.description,
+          start_time: convertDateToTimestamp(form.start_time),
+          end_time: convertDateToTimestamp(form.end_time),
+        }),
+        options: {
+          showEffects: true,
+        },
+      });
+      const status = getExecutionStatus(response);
+
+      if (status?.status === "failure") {
+        console.log(status.error);
+        const error_status = getExecutionStatusError(response);
+        if (error_status) AlertErrorMessage(error_status);
+      } else {
+        AlertSucceed("CreateJourney");
+        router.replace(`/spaces/${spaceAddress}`).then();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Add new journey!"} />
   ) : (
@@ -27,14 +144,14 @@ export const CreateJourneyLayout = () => {
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Journey
       </h1>
-      <form onSubmit={() => {}} className={"flex w-full flex-col gap-5"}>
+      <form onSubmit={handleSubmit(onSubmit)} className={"flex w-full flex-col gap-5"}>
         <DragAndDropImageForm
           label="Image"
           name="image"
           className="h-[140px] w-[140px] sm:h-40 sm:w-40 lg:h-[200px] lg:w-[200px]"
           handleChange={(file) => setImage(file)}
         />
-        <div className="lg:max-w-[550px] xl:max-w-[700px] ">
+        <div className="lg:max-w-[550px] xl:max-w-[700px]">
           <div className={"mb-[14px] flex items-end justify-between"}>
             <Label label="Name" />
             <p className={"text-sm text-black2Color"}>{`${watch("name")?.length ?? "0"}/32`}</p>
@@ -43,24 +160,70 @@ export const CreateJourneyLayout = () => {
             {...register("name", { required: true })}
             type="text"
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
-            placeholder="Company name"
+            placeholder="Joruney name"
             maxLength={32}
           />
         </div>
-        <div className="lg:max-w-[550px] xl:max-w-[700px] ">
+        <div className="lg:max-w-[550px] xl:max-w-[700px]">
           <div className={"mb-[14px] flex items-end justify-between"}>
-            <Label label="Description" />
+            <Label label="Joruney Description" />
             <p className={"text-sm text-black2Color"}>{`${
               watch("description")?.length ?? "0"
-            }/500`}</p>
+            }/180`}</p>
           </div>
           <textarea
             {...register("description", { required: true })}
             className="h-36 w-full resize-none rounded-md border border-grayColor bg-white px-4 py-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Company description"
-            maxLength={500}
+            maxLength={180}
           />
         </div>
+        <LabeledInput className="lg:max-w-[550px] xl:max-w-[700px]" label="Reward type">
+          <select
+            {...register("reward_type", { required: true })}
+            id="location"
+            name="location"
+            className="h-[48px] w-full cursor-pointer rounded-md border border-grayColor bg-white px-4 pr-10 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
+          >
+            <option>NFT</option>
+            <option>SOULBOUND</option>
+          </select>
+        </LabeledInput>
+        <LabeledInput
+          className="lg:max-w-[550px] xl:max-w-[700px]"
+          label="Required points to reward"
+        >
+          <input
+            {...register("reward_required_points", { required: true })}
+            type="number"
+            className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
+            placeholder="Required points to reward"
+            step="10"
+            min={0}
+          />
+        </LabeledInput>
+        <LabeledInput className="lg:max-w-[550px] xl:max-w-[700px]" label="Duration">
+          <div className="flex flex-col md:flex-row md:gap-7 lg:gap-8 xl:gap-9">
+            <div className="w-full">
+              <Label label="Start" className="mb-[12px] text-[16px]" />
+              <input
+                {...register("start_time", { required: true })}
+                type="date"
+                className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
+                placeholder="Company name"
+              />
+            </div>
+            <div className="w-full">
+              <Label label="End" className="mb-[12px] text-[16px]" />
+              <input
+                {...register("end_time", { required: true })}
+                type="date"
+                className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
+                placeholder="Company name"
+              />
+            </div>
+          </div>
+        </LabeledInput>
         <div className="mt-3 flex w-full gap-4 md:gap-5">
           <Button
             btnType="button"
@@ -72,7 +235,7 @@ export const CreateJourneyLayout = () => {
             Cancel
           </Button>
           <Button
-            disabled={!isValid || !image || isSubmitting}
+            disabled={!isValid || !image || isSubmitting || isFetching}
             btnType="button"
             type="submit"
             size="sm-full"

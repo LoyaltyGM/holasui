@@ -29,3 +29,46 @@ export const signTransactionCreateSpace = ({
   });
   return tx;
 };
+
+export const signTransactionCreateJourney = ({
+  admin_cap,
+  space,
+  reward_type,
+  reward_image_url,
+  reward_required_points,
+  name,
+  description,
+  start_time,
+  end_time,
+}: {
+  admin_cap: string;
+  space: string;
+  reward_type: number;
+  reward_image_url: string;
+  reward_required_points: number;
+  name: string;
+  description: string;
+  start_time: number;
+  end_time: number;
+}) => {
+  const tx = new TransactionBlock();
+  const [coin] = tx.splitCoins(tx.gas, [tx.pure(0, "u64")]);
+  console.log(coin);
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::create_journey`,
+    arguments: [
+      tx.pure(SPACE_HUB_ID),
+      coin,
+      tx.pure(admin_cap),
+      tx.pure(space),
+      tx.pure(reward_type),
+      tx.pure(reward_image_url),
+      tx.pure(reward_required_points),
+      tx.pure(name),
+      tx.pure(description),
+      tx.pure(start_time),
+      tx.pure(end_time),
+    ],
+  });
+  return tx;
+};
