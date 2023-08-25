@@ -17,4 +17,5 @@ export type AlertMessageType =
   | "CancelOffer"
   | "AcceptOffer"
   | "CreateDao"
-  | "CreateSpace";
+  | "CreateSpace"
+  | "CreateJourney";
