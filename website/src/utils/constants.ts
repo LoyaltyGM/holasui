@@ -69,5 +69,8 @@ export const DAO_PROPOSAL_STATUS_EXECUTED: number = 3;
 
 // ==== SPACES ====
 
+export const REWARD_TYPE_NFT = 0;
+export const REWARD_TYPE_SOULBOUND = 1;
+
 export const SPACE_HUB_ID = "0xc8bc5021315a36c545af21707d123c28079d8ae2c09b0e8be28bf49c797e6d8d";
 export const SPACE_PACKAGE = "0x3c9ca75fefcd70def5ced73a89f0f08445cb26fcd7c332b0056875128f909fa5";
