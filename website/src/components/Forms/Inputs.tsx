@@ -1,10 +1,18 @@
 import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
-import classNames from "classnames";
+import cn from "classnames";
 import { ReactNode } from "react";
 
-export const Label = ({ label, className }: { label: string; className?: string }) => (
+export const Label = ({
+  label,
+  textSize = "text-lg",
+  className,
+}: {
+  label: string;
+  textSize?: string;
+  className?: string;
+}) => (
   <label className="label">
-    <p className={classNames("text-lg font-semibold", className)}>{label}</p>
+    <p className={cn("font-semibold", className, textSize)}>{label}</p>
   </label>
 );
 export const LabeledInput = ({
