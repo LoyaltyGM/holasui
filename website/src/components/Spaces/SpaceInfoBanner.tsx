@@ -134,24 +134,26 @@ export const SpaceInfoBanner = ({
 
   const InfoPlates = () => (
     <div className="flex h-full flex-col items-center gap-[10px] lg:flex-row lg:gap-4">
-      <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white lg:mt-0 lg:flex-col lg:items-start">
+      <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-yellowColor px-3 py-4 text-start text-white md:min-h-[76px] lg:mt-0 lg:min-h-[130px] lg:flex-col lg:items-start">
         <p className="justify-between text-[18px] font-semibold leading-[22px] md:mt-0">
           Your Current XP Points
         </p>
         <div className="flex content-center items-center gap-2 lg:w-full">
+          {/* TODO:add logic for xp */}
           <p className="text-[26px] font-extrabold leading-8 md:text-3xl">{formatNumber(2345)}</p>
         </div>
       </div>
-      <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-pinkColor px-3 py-4 text-start text-white lg:mt-0 lg:h-full lg:flex-col lg:items-start">
+      <div className="flex h-full w-full content-center items-center justify-between rounded-xl bg-pinkColor px-3 py-4 text-start text-white md:min-h-[76px] lg:mt-0 lg:min-h-[130px] lg:flex-col lg:items-start">
         <p className={classNames("text-[18px] font-semibold leading-[22px]")}>Completed quests</p>
         <p className={classNames("text-[26px] font-extrabold leading-8 md:text-3xl")}>
-          4<span className="text-[22px] font-medium">/20</span>
+          {/* TODO: add logic for completed quests */}4
+          <span className="text-[22px] font-medium">/20</span>
         </p>
       </div>
     </div>
   );
   return (
-    <div className="flex min-h-[535px] flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 md:flex md:min-h-[483px] md:p-[25px] md:pt-[30px] lg:min-h-[365px]">
+    <div className="flex flex-col rounded-xl border-[1px] border-black2Color bg-[#FFFFFF] px-3 pb-6 pt-4 md:flex md:p-[25px] md:pt-[30px] lg:min-h-[365px]">
       <div className="flex flex-col items-center gap-8 rounded-2xl md:flex-row md:items-start md:gap-12">
         <div className="flex w-full flex-1 gap-4 lg:justify-between">
           <div className="flex flex-1 flex-col items-center gap-8 md:flex-row md:items-start">
