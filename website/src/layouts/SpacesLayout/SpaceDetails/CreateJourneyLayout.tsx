@@ -58,7 +58,6 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
       if (isFetching && wallet) {
         try {
           const ownedObjects = wallet?.contents?.objects!;
-          console.log("nfts", ownedObjects);
           const adminCap: ISpaceAdminCap | undefined = ownedObjects
             .map((object) => getObjectFields(object) as ISpaceAdminCap)
             .filter(
@@ -227,7 +226,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
             href="/spaces"
             type="reset"
             size="sm-full"
-            variant="button-secondary-puprle"
+            variant="button-secondary-purple"
           >
             Cancel
           </Button>
@@ -236,7 +235,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
             btnType="button"
             type="submit"
             size="sm-full"
-            variant="button-primary-puprle"
+            variant="button-primary-purple"
           >
             Create
           </Button>

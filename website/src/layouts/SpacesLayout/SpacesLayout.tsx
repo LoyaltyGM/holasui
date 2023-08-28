@@ -221,7 +221,7 @@ export const SpacesLayout = () => {
           href="spaces/create-company"
           className="w-full sm:w-max"
           size="sm-full"
-          variant="button-secondary-puprle"
+          variant="button-secondary-purple"
         >
           Create company
         </Button>

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "components";
 
 interface IPromotedCard {
@@ -37,7 +36,7 @@ export const PromotedCard = (props: IPromotedCard) => {
         <Button
           btnType="button"
           href={`spaces/${props.spaceAddress}`}
-          variant="button-primary-puprle"
+          variant="button-primary-purple"
           size="sm-full"
         >
           Complete quests

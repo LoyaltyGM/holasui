@@ -123,7 +123,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className={"flex w-full flex-col gap-5"}>
         <DragAndDropImageForm
-          label="Image"
+          label="New Image"
           name="image"
           className="h-[140px] w-[140px] sm:h-40 sm:w-40 lg:h-[200px] lg:w-[200px]"
           handleChange={(file) => setImage(file)}
@@ -181,7 +181,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             href={`/spaces/${spaceAddress}`}
             type="reset"
             size="sm-full"
-            variant="button-secondary-puprle"
+            variant="button-secondary-purple"
           >
             Cancel
           </Button>
@@ -190,7 +190,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             btnType="button"
             type="submit"
             size="sm-full"
-            variant="button-primary-puprle"
+            variant="button-primary-purple"
           >
             Save
           </Button>

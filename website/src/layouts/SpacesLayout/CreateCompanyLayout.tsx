@@ -99,7 +99,7 @@ export const CreateCompanyLayout = () => {
             <Label label="Description" />
             <p className={"text-sm text-black2Color"}>{`${
               watch("description")?.length ?? "0"
-            }/500`}</p>
+            }/180`}</p>
           </div>
           <textarea
             {...register("description", { required: true })}
@@ -130,7 +130,7 @@ export const CreateCompanyLayout = () => {
             href="/spaces"
             type="reset"
             size="sm-full"
-            variant="button-secondary-puprle"
+            variant="button-secondary-purple"
           >
             Cancel
           </Button>
@@ -139,7 +139,7 @@ export const CreateCompanyLayout = () => {
             btnType="button"
             type="submit"
             size="sm-full"
-            variant="button-primary-puprle"
+            variant="button-primary-purple"
           >
             Create
           </Button>

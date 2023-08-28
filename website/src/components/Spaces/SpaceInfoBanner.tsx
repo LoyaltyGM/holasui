@@ -87,7 +87,7 @@ export const SpaceInfoBanner = ({
       <div className={cn("relative text-center", className)}>
         <Button
           btnType="button"
-          variant="button-secondary-puprle"
+          variant="button-secondary-purple"
           size="sm-full"
           className="group flex items-center justify-center gap-1"
           onClick={() => setDropDownOpened(!dropDownOpened)}
@@ -111,7 +111,7 @@ export const SpaceInfoBanner = ({
         >
           <div className="dropdown-shadow absolute mt-[10px] min-h-[96px] w-full rounded-xl border-2 border-purpleColor bg-white text-center hover:border-purpleColor">
             <Button
-              variant="button-secondary-puprle"
+              variant="button-secondary-purple"
               href={`/spaces/${spaceAddress}/create-quest`}
               size="full"
               className="flex items-center justify-center border-none bg-transparent md:justify-start"
@@ -119,7 +119,7 @@ export const SpaceInfoBanner = ({
               Add new quest
             </Button>
             <Button
-              variant="button-secondary-puprle"
+              variant="button-secondary-purple"
               size="full"
               href={`/spaces/${spaceAddress}/create-journey`}
               className="flex items-center justify-center border-none bg-transparent md:justify-start"
