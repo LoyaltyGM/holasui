@@ -1,4 +1,4 @@
-import { Container, SpaceInfoBanner, JourneyCard, Carousel } from "components";
+import { Container, SpaceInfoBanner, JourneyCard, Carousel, NoConnectWallet } from "components";
 import { NextPage } from "next";
 import { useState, useEffect } from "react";
 import { IJourney, ISpace, ISpaceAdminCap } from "types";
@@ -13,12 +13,13 @@ interface ISpaceAddressProps {
 
 export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
   const [space, setSpace] = useState<ISpace>();
-  const [journeys, setJourneys] = useState<IJourney[] | IJourney>();
-  const [isFetching, setFetching] = useState<boolean>(true);
+  const [journeys, setJourneys] = useState<IJourney[]>();
   const [isAdmin, setAdmin] = useState<boolean>(false);
-  const [isAdminFetching, setIsAdminFetching] = useState<boolean>(false);
-  const { status, wallet } = ethos.useWallet();
+  const [isFetching, setFetching] = useState<boolean>(true);
+  const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
+  const [isJourneysFetching, setJourneysFetching] = useState<boolean>(false);
 
+  const { status, wallet } = ethos.useWallet();
   useEffect(() => {
     async function fetchSpace() {
       try {
@@ -32,7 +33,6 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
         const space = getObjectFields(spaceObject) as any;
         space.id = space.id.id;
         space.image_url = convertIPFSUrl(space.image_url);
-
         setSpace(getObjectFields(spaceObject) as ISpace);
       } catch (e) {
         console.log(e);
@@ -42,47 +42,71 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       .then()
       .finally(() => {
         setFetching(false);
-        setIsAdminFetching(true);
+        setAdminFetching(true);
+        setJourneysFetching(true);
       });
   }, []);
+
+  useEffect(() => {
+    async function fetchJourneys() {
+      const journeysFields = await suiProvider.getDynamicFields({
+        parentId: space!.journeys.fields.id.id,
+      });
+      const journeysObjects = await Promise.all(
+        journeysFields.data.map(({ objectId }) =>
+          suiProvider.getObject({
+            id: objectId,
+            options: {
+              showContent: true,
+            },
+          }),
+        ),
+      );
+      return journeysObjects.map((object) => {
+        const journey = getObjectFields(object);
+        if (journey) {
+          journey.reward_image_url = convertIPFSUrl(journey.reward_image_url);
+          journey.id = journey.id.id;
+        }
+        return journey as IJourney;
+      });
+    }
+    if (space && isJourneysFetching) {
+      try {
+        fetchJourneys()
+          .then((data) => setJourneys(data))
+          .finally(() => setJourneysFetching(false));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [space]);
 
   useEffect(() => {
     async function fetchIsAdmin() {
       if (isAdminFetching && wallet) {
         try {
-          const { address } = wallet;
-          const ownedObjects = await suiProvider.getOwnedObjects({
-            owner: "0xdf83a140f6be2498433e680933257fbf30af86dcc2168b1b392340b6259d507c",
-          });
-          console.log(ownedObjects);
-          const nftIds: any = ownedObjects.data.map(({ data }) => data?.objectId);
-          const nftObjects = await suiProvider.multiGetObjects({
-            ids: nftIds,
-            options: { showContent: true },
-          });
-          const spaceNfts: ISpaceAdminCap[] = nftObjects
+          const ownedObjects = wallet?.contents?.objects!;
+          const adminCap: ISpaceAdminCap | undefined = ownedObjects
             .map((object) => getObjectFields(object) as ISpaceAdminCap)
             .filter(
               (object) =>
-                object.hasOwnProperty("space_id") &&
-                object.hasOwnProperty("id") &&
-                object.hasOwnProperty("name"),
-            );
-          for (let i = 0; i < spaceNfts.length; i++) {
-            const { name, space_id } = spaceNfts[i];
-            if (name === space?.name && space_id === space?.id) {
-              setAdmin(true);
-              break;
-            }
+                object?.hasOwnProperty("space_id") &&
+                object?.hasOwnProperty("id") &&
+                object?.hasOwnProperty("name"),
+            )
+            .find(({ space_id }) => space_id === spaceAddress);
+          if (adminCap) {
+            setAdmin(true);
           }
-          setIsAdminFetching(false);
+          setAdminFetching(false);
         } catch (e) {
           console.log(e);
         }
       }
     }
     fetchIsAdmin().then();
-  }, [wallet, isAdminFetching]);
+  }, [isAdminFetching, wallet]);
 
   const Info = () => (
     <div className="mt-10 text-blackColor md:mt-[50px] lg:mt-[70px]">
@@ -94,20 +118,42 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       </div>
     </div>
   );
-  return (
+
+  const NoJourneys = () => (
+    <div className="mt-16 flex items-center justify-center text-lg font-medium text-blackColor md:mt-28">
+      <p>There are no journeys and quests yet</p>
+    </div>
+  );
+  return status === EthosConnectStatus.NoConnection ? (
+    <NoConnectWallet title={"Space!"} />
+  ) : (
     <Container className="mb-[100px] overflow-x-hidden font-inter">
       {!isFetching ? (
         <>
           {space && <SpaceInfoBanner spaceAddress={spaceAddress} space={space} isAdmin={isAdmin} />}
-          <Info />
-          <div className="w-screen md:w-full">
-            <Carousel>
-              <JourneyCard color="orangeColor" />
-              <JourneyCard color="purpleColor" />
-              <JourneyCard color="yellowColor" />
-              <JourneyCard color="pinkColor" />
-            </Carousel>
-          </div>
+          {!isJourneysFetching && (
+            <>
+              {journeys && journeys.length > 0 ? (
+                <>
+                  <Info />
+                  <div className="w-screen md:w-full">
+                    <Carousel>
+                      {journeys.map((journey, index) => (
+                        <JourneyCard
+                          journey={journey}
+                          index={index}
+                          key={index}
+                          totalJourneys={journeys.length}
+                        />
+                      ))}
+                    </Carousel>
+                  </div>
+                </>
+              ) : (
+                <NoJourneys />
+              )}
+            </>
+          )}
         </>
       ) : (
         <SkeletonSpaceDetails />
