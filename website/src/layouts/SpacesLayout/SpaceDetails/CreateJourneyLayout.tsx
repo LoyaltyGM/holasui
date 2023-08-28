@@ -12,16 +12,19 @@ import {
 import { useState, useEffect } from "react";
 import { ISpaceAdminCap } from "types";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { REWARD_TYPE_NFT, REWARD_TYPE_SOULBOUND, convertDateToTimestamp } from "utils";
+import {
+  REWARD_TYPE_NFT,
+  REWARD_TYPE_SOULBOUND,
+  convertDateToTimestamp,
+  getTodayDate,
+} from "utils";
 import { toast } from "react-hot-toast";
 import { storeNFT } from "services/ipfs";
 import { signTransactionCreateJourney } from "services/sui";
 import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 import { useRouter } from "next/router";
 import { NextPage } from "next";
-import { suiProvider } from "services/sui";
 import { getObjectFields } from "@mysten/sui.js";
-import { idText } from "typescript";
 
 interface ISpaceAddressProps {
   spaceAddress: string;
@@ -31,10 +34,15 @@ interface Inputs {
   reward_image_url: string;
   name: string;
   description: string;
-  reward_type: string;
+  reward_type: RewardTypes;
   reward_required_points: number;
   start_time: string;
   end_time: string;
+}
+
+enum RewardTypes {
+  "NFT" = REWARD_TYPE_NFT,
+  "SOULBOUND" = REWARD_TYPE_SOULBOUND,
 }
 
 export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
@@ -49,31 +57,19 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
     async function fetchAdminCap() {
       if (isFetching && wallet) {
         try {
-          const { address } = wallet;
-          // TODO: add logic for next cursor
-          const ownedObjects = await suiProvider.getOwnedObjects({
-            owner: address,
-          });
-          const nftIds: any = ownedObjects.data.map(({ data }) => data?.objectId);
-          const nftObjects = await suiProvider.multiGetObjects({
-            ids: nftIds,
-            options: { showContent: true },
-          });
-          const spaceNfts: ISpaceAdminCap[] = nftObjects
+          const ownedObjects = wallet?.contents?.objects!;
+          console.log("nfts", ownedObjects);
+          const adminCap: ISpaceAdminCap | undefined = ownedObjects
             .map((object) => getObjectFields(object) as ISpaceAdminCap)
             .filter(
               (object) =>
-                object.hasOwnProperty("space_id") &&
-                object.hasOwnProperty("id") &&
-                object.hasOwnProperty("name"),
-            );
-          for (let i = 0; i < spaceNfts.length; i++) {
-            const { space_id } = spaceNfts[i];
-            if (space_id === spaceAddress) {
-              // FIXME: fix id.id
-              setAdminCap(spaceNfts[0].id.id);
-              break;
-            }
+                object?.hasOwnProperty("space_id") &&
+                object?.hasOwnProperty("id") &&
+                object?.hasOwnProperty("name"),
+            )
+            .find(({ space_id }) => space_id === spaceAddress);
+          if (adminCap) {
+            setAdminCap(adminCap.id.id);
           }
           setFetching(false);
         } catch (e) {
@@ -91,9 +87,8 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
     formState: { isValid, isSubmitting },
   } = useForm<Inputs>();
 
-  const rewardTypeChange = (selectedValue: string) => {
-    const rewardTypeValue = selectedValue === "NFT" ? REWARD_TYPE_NFT : REWARD_TYPE_SOULBOUND;
-    return rewardTypeValue;
+  const rewardTypeChange = (selectedValue: RewardTypes): number => {
+    return selectedValue;
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (form) => {
@@ -103,7 +98,6 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
         toast.error("Please upload image");
         return;
       }
-
       form.reward_image_url = await storeNFT(image);
 
       const response = await wallet.signAndExecuteTransactionBlock({
@@ -198,28 +192,31 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
             type="number"
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
             placeholder="Required points to reward"
-            step="10"
+            step="1"
             min={0}
           />
         </LabeledInput>
         <LabeledInput className="lg:max-w-[550px] xl:max-w-[700px]" label="Duration">
           <div className="flex flex-col md:flex-row md:gap-7 lg:gap-8 xl:gap-9">
             <div className="w-full">
-              <Label label="Start" className="mb-[12px] text-[16px]" />
+              <Label label="Start" className="mb-[12px]" textSize="text-base" />
               <input
                 {...register("start_time", { required: true })}
                 type="date"
                 className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
                 placeholder="Company name"
+                min={getTodayDate()}
               />
             </div>
             <div className="w-full">
-              <Label label="End" className="mb-[12px] text-[16px]" />
+              <Label label="End" className="mb-[12px]" textSize="text-base" />
               <input
                 {...register("end_time", { required: true })}
                 type="date"
-                className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
+                className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor disabled:text-grayColor"
                 placeholder="Company name"
+                disabled={!watch("start_time")}
+                min={watch("start_time")}
               />
             </div>
           </div>
