@@ -12,14 +12,14 @@ export interface ISpace {
 
 export interface IJourney {
   id: string;
-  reward_type: number;
-  reward_required_points: number;
+  reward_type: string;
+  reward_required_points: string;
   reward_image_url: string;
   name: string;
   description: string;
-  start_time: number;
-  end_time: number;
-  total_completed: number;
+  start_time: string;
+  end_time: string;
+  total_completed: string;
   quests: any;
   completed_users: any;
   users_points: any;
@@ -41,7 +41,7 @@ export interface IQuest {
 }
 
 export interface ISpaceAdminCap {
-  id: string;
+  id: { id: string };
   name: string;
   space_id: string;
 }
