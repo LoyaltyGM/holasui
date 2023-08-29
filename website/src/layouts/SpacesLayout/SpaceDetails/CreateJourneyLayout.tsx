@@ -30,6 +30,8 @@ interface ISpaceAddressProps {
   spaceAddress: string;
 }
 
+type RewardTypes = "NFT" | "SOULBOUND";
+
 interface Inputs {
   reward_image_url: string;
   name: string;
@@ -38,11 +40,6 @@ interface Inputs {
   reward_required_points: number;
   start_time: string;
   end_time: string;
-}
-
-enum RewardTypes {
-  "NFT" = REWARD_TYPE_NFT,
-  "SOULBOUND" = REWARD_TYPE_SOULBOUND,
 }
 
 export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
@@ -87,7 +84,14 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
   } = useForm<Inputs>();
 
   const rewardTypeChange = (selectedValue: RewardTypes): number => {
-    return selectedValue;
+    switch (selectedValue) {
+      case "NFT":
+        return REWARD_TYPE_NFT;
+      case "SOULBOUND":
+        return REWARD_TYPE_SOULBOUND;
+      default:
+        throw new Error(`Unknown reward type: ${selectedValue}`);
+    }
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (form) => {
