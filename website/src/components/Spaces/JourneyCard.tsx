@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Button } from "components";
 import Link from "next/link";
 import { IJourney } from "types";
-import { formatTimestampToDate } from "utils";
+import { formatTimestampToDate, getTodayDate } from "utils";
 
 type Color = "purpleColor" | "orangeColor" | "pinkColor";
 type ButtonVariant =
@@ -53,7 +53,11 @@ export const JourneyCard = ({
         {journey.name}
       </h2>
       <Link href={`SuiFrens/quests`}>
-        <Button btnType="button" variant={btnVariant}>
+        <Button
+          btnType="button"
+          variant={btnVariant}
+          disabled={getTodayDate() < journey.start_time}
+        >
           Complete quests
         </Button>
       </Link>
