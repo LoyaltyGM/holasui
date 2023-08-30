@@ -18,4 +18,5 @@ export type AlertMessageType =
   | "AcceptOffer"
   | "CreateDao"
   | "CreateSpace"
-  | "CreateJourney";
+  | "CreateJourney"
+  | "EditSpace";

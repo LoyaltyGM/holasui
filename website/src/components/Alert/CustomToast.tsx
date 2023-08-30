@@ -78,6 +78,9 @@ export function AlertSucceed(success_type: AlertMessageType) {
     case "CreateJourney":
       successTitle = "You have successfully created a Journey!";
       break;
+    case "EditSpace":
+      successTitle = "You have successfully edited your Space!";
+      break;
     default:
       successTitle = "Something went wrong";
       break;
