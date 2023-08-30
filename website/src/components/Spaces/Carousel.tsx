@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import { Dispatch } from "react";
 
 const MD_WIDTH = 768;
 const LG_WIDTH = 976;
@@ -22,7 +23,13 @@ const useWidth = (): number => {
   return width;
 };
 
-export const Carousel = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
+export const Carousel = ({
+  children,
+  setCurrentEvent,
+}: {
+  children: JSX.Element[] | JSX.Element;
+  setCurrentEvent: Dispatch<React.SetStateAction<number>>;
+}) => {
   const width = useWidth();
   const lastIndex: number = Array.isArray(children) ? children.length - 1 : 0;
   const [curPosition, setCurPosition] = useState<number>(0);
@@ -54,6 +61,10 @@ export const Carousel = ({ children }: { children: JSX.Element[] | JSX.Element }
       setMaxWidth(newMaxWidth);
     }
   }, [width]);
+
+  useEffect(() => {
+    setCurrentEvent(currentCardIdx + 1);
+  }, [currentCardIdx]);
 
   const slideRight = () => {
     if (curPosition <= -maxWidth) {

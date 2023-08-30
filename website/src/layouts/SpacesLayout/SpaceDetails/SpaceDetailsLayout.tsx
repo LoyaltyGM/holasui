@@ -18,6 +18,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
   const [isFetching, setFetching] = useState<boolean>(true);
   const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
   const [isJourneysFetching, setJourneysFetching] = useState<boolean>(false);
+  const [currentEvent, setCurrentEvent] = useState<number>(1);
 
   const { status, wallet } = ethos.useWallet();
   useEffect(() => {
@@ -113,7 +114,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       <div className="flex flex-wrap justify-between">
         <h2 className="mb-3 text-[26px] font-extrabold md:mb-5">Journeys from {space?.name}</h2>
         <p className="order-last mb-3 text-[22px] font-semibold text-purpleColor md:order-none">
-          Event 1
+          Event {currentEvent}
         </p>
       </div>
     </div>
@@ -137,7 +138,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
                 <>
                   <Info />
                   <div className="w-screen md:w-full">
-                    <Carousel>
+                    <Carousel setCurrentEvent={setCurrentEvent}>
                       {journeys.map((journey, index) => (
                         <JourneyCard
                           journey={journey}
