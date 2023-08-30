@@ -11,16 +11,17 @@ import {
 } from "components";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { storeNFT } from "services/ipfs";
 import { useRouter } from "next/router";
 import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
-import { signTransactionCreateSpace } from "services/sui";
+import { signTransactionEditSpace } from "services/sui";
 import { NextPage } from "next";
-import { ISpace } from "types";
+import { ISpace, ISpaceAdminCap } from "types";
 import { suiProvider } from "services/sui";
 import { getObjectFields } from "@mysten/sui.js";
 import { convertIPFSUrl } from "utils";
+
+type argumentKeys = "name" | "description" | "image_url" | "twitter_url" | "website_url";
 
 interface Inputs {
   image_url: string;
@@ -33,13 +34,16 @@ interface Inputs {
 interface ISpaceAddressProps {
   spaceAddress: string;
 }
-// TODO: Solve how to put fetched img into image input
+
 export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
   const router = useRouter();
   const { wallet, status } = ethos.useWallet();
   const [space, setSpace] = useState<ISpace>();
+  // FIXME: now default value is 'mockup'. solve what to put instead of
+  const [adminCap, setAdminCap] = useState<string>("mockup");
   const [image, setImage] = useState<File | null>(null);
   const [isFetching, setFetching] = useState<boolean>(true);
+  const [isAdminCapFetching, setAdminCapFetching] = useState<boolean>(false);
 
   const {
     register,
@@ -47,7 +51,34 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
     watch,
     formState: { isValid, isSubmitting },
     setValue,
+    getValues,
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    async function fetchAdminCap() {
+      if (isAdminCapFetching && wallet) {
+        try {
+          const ownedObjects = wallet?.contents?.objects!;
+          const adminCap: ISpaceAdminCap | undefined = ownedObjects
+            .map((object) => getObjectFields(object) as ISpaceAdminCap)
+            .filter(
+              (object) =>
+                object?.hasOwnProperty("space_id") &&
+                object?.hasOwnProperty("id") &&
+                object?.hasOwnProperty("name"),
+            )
+            .find(({ space_id }) => space_id === spaceAddress);
+          if (adminCap) {
+            setAdminCap(adminCap.id.id);
+          }
+          setAdminCapFetching(false);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    fetchAdminCap().then();
+  }, [wallet, isAdminCapFetching]);
 
   useEffect(() => {
     async function fetchSpace() {
@@ -72,6 +103,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
       .then()
       .finally(() => {
         setFetching(false);
+        setAdminCapFetching(true);
       });
   }, []);
 
@@ -87,28 +119,52 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
   const onSubmit: SubmitHandler<Inputs> = async (form) => {
     if (!wallet) return;
     try {
-      if (!image) {
-        toast.error("Please upload image");
-        return;
-      }
+      if (space) {
+        if (image) {
+          form.image_url = await storeNFT(image);
+        }
+        const args: Partial<Record<argumentKeys, string>> = {};
 
-      form.image_url = await storeNFT(image);
+        if (form.name !== space.name) {
+          args["name"] = form.name;
+        }
+        if (form.description !== space.description) {
+          args["description"] = form.description;
+        }
+        if (form.image_url && form.image_url !== space.image_url) {
+          args["image_url"] = form.image_url;
+        }
+        if (form.twitter_url !== space.twitter_url) {
+          args["twitter_url"] = form.twitter_url;
+        }
+        if (form.website_url !== space.website_url) {
+          args["website_url"] = form.website_url;
+        }
 
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionCreateSpace(form),
-        options: {
-          showEffects: true,
-        },
-      });
-      const status = getExecutionStatus(response);
+        if (Object.keys(args).length === 0) {
+          router.replace(`/spaces/${spaceAddress}`).then();
+          return;
+        }
+        const response = await wallet.signAndExecuteTransactionBlock({
+          transactionBlock: signTransactionEditSpace({
+            admin_cap: adminCap,
+            space: space.id,
+            ...args,
+          }),
+          options: {
+            showEffects: true,
+          },
+        });
+        const status = getExecutionStatus(response);
 
-      if (status?.status === "failure") {
-        console.log(status.error);
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("CreateSpace");
-        router.push("/spaces").then();
+        if (status?.status === "failure") {
+          console.log(status.error);
+          const error_status = getExecutionStatusError(response);
+          if (error_status) AlertErrorMessage(error_status);
+        } else {
+          AlertSucceed("EditSpace");
+          router.replace(`/spaces/${spaceAddress}`).then();
+        }
       }
     } catch (e) {
       console.log(e);
@@ -186,7 +242,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             Cancel
           </Button>
           <Button
-            disabled={!isValid || !image || isSubmitting}
+            disabled={!isValid || isSubmitting || isFetching || isAdminCapFetching}
             btnType="button"
             type="submit"
             size="sm-full"
