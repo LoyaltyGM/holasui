@@ -55,31 +55,31 @@ export const signTransactionEditSpace = ({
   if (name) {
     tx.moveCall({
       target: `${SPACE_PACKAGE}::quest::update_space_name`,
-      arguments: [tx.pure(admin_cap), tx.pure(space), tx.pure(name)],
+      arguments: [tx.object(admin_cap), tx.object(space), tx.pure(name)],
     });
   }
   if (description) {
     tx.moveCall({
       target: `${SPACE_PACKAGE}::quest::update_space_description`,
-      arguments: [tx.pure(admin_cap), tx.pure(space), tx.pure(description)],
+      arguments: [tx.object(admin_cap), tx.object(space), tx.pure(description)],
     });
   }
   if (image_url) {
     tx.moveCall({
       target: `${SPACE_PACKAGE}::quest::update_space_image_url`,
-      arguments: [tx.pure(admin_cap), tx.pure(space), tx.pure(image_url)],
+      arguments: [tx.object(admin_cap), tx.object(space), tx.pure(image_url)],
     });
   }
   if (twitter_url) {
     tx.moveCall({
       target: `${SPACE_PACKAGE}::quest::update_space_twitter_url`,
-      arguments: [tx.pure(admin_cap), tx.pure(space), tx.pure(twitter_url)],
+      arguments: [tx.object(admin_cap), tx.object(space), tx.pure(twitter_url)],
     });
   }
   if (website_url) {
     tx.moveCall({
       target: `${SPACE_PACKAGE}::quest::update_space_website_url`,
-      arguments: [tx.pure(admin_cap), tx.pure(space), tx.pure(website_url)],
+      arguments: [tx.object(admin_cap), tx.object(space), tx.pure(website_url)],
     });
   }
   return tx;
