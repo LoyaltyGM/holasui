@@ -227,7 +227,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
         <div className="mt-3 flex w-full gap-4 md:gap-5">
           <Button
             btnType="button"
-            href="/spaces"
+            href={`/spaces/${spaceAddress}`}
             type="reset"
             size="sm-full"
             variant="button-secondary-purple"
