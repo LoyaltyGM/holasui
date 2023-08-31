@@ -81,6 +81,9 @@ export function AlertSucceed(success_type: AlertMessageType) {
     case "EditSpace":
       successTitle = "You have successfully edited your Space!";
       break;
+    case "CreateQuest":
+      successTitle = "You have successfully created a Quest!";
+      break;
     default:
       successTitle = "Something went wrong";
       break;

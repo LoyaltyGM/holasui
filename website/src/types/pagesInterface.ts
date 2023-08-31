@@ -19,4 +19,5 @@ export type AlertMessageType =
   | "CreateDao"
   | "CreateSpace"
   | "CreateJourney"
-  | "EditSpace";
+  | "EditSpace"
+  | "CreateQuest";
