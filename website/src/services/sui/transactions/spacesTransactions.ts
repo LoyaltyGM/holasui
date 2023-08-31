@@ -183,9 +183,9 @@ export const signTransactionCreateQuest = ({
   tx.moveCall({
     target: `${SPACE_PACKAGE}::quest::create_quest`,
     arguments: [
-      tx.pure(admin_cap),
-      tx.pure(space),
-      tx.pure(journey_id),
+      tx.object(admin_cap),
+      tx.object(space),
+      tx.object(journey_id),
       tx.pure(points_amount),
       tx.pure(name),
       tx.pure(description),
