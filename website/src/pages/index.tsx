@@ -1,7 +1,5 @@
-import { StakingLayout } from 'layouts';
+import { HomeLayout } from "layouts";
 
-export default function Home(){
-  return(
-    <StakingLayout />
-  )
+export default function Home() {
+  return <HomeLayout />;
 }
