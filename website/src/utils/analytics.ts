@@ -3,7 +3,6 @@ import * as process from "process";
 import ReactGA from "react-ga4";
 
 ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || "");
-amplitude?.init(process.env.NEXT_PUBLIC_AMPLITUDE_ID || "");
 // export const FB_PIXEL_ID = process.env.NEXT_PUBLIC_PIXEL || "";
 
 export const enum AnalyticsEvent {
