@@ -7,6 +7,8 @@ import { SUI_RPC_URL, GOOGLE_ANALYTICS_ID } from "utils";
 import { Montserrat, Inter } from "next/font/google";
 import NextNProgress from "nextjs-progressbar";
 import Script from "next/script";
+import process from "process";
+import { useEffect } from "react";
 
 const font_montserrat = Montserrat({
   variable: "--montserrat-font",
@@ -18,6 +20,21 @@ const font_inter = Inter({
   subsets: ["latin"],
 });
 export default function App({ Component, pageProps }: AppProps) {
+  const initAmplitude = async () => {
+    const amplitude = await import("@amplitude/analytics-browser");
+    amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_ID!, undefined, {
+      logLevel: amplitude.Types.LogLevel.Warn,
+      defaultTracking: {
+        sessions: true,
+        formInteractions: true,
+      },
+    });
+  };
+
+  useEffect(() => {
+    initAmplitude().then();
+  }, []);
+
   return (
     <div className={`${font_montserrat.variable} ${font_inter.variable}`}>
       <Script
