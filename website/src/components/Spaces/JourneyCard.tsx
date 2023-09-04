@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Button } from "components";
-import Link from "next/link";
 import { IJourney } from "types";
 import { formatTimestampToDate, getTodayDate } from "utils";
+import { useRouter } from "next/router";
+import { useJourneyStore } from "store";
 
 type Color = "purpleColor" | "orangeColor" | "pinkColor";
 type ButtonVariant =
@@ -19,6 +20,9 @@ export const JourneyCard = ({
   index: number;
   totalJourneys: number;
 }) => {
+  const { setBgColor } = useJourneyStore();
+  const router = useRouter();
+
   const getColorForIndex = (index: number): [Color, ButtonVariant] => {
     const bgColors: Color[] = ["purpleColor", "orangeColor", "pinkColor"];
     const btnVariants: ButtonVariant[] = [
@@ -31,9 +35,12 @@ export const JourneyCard = ({
     const btnVariant = btnVariants[colorIndex];
     return [bgColor, btnVariant];
   };
-
   const [bgColor, btnVariant] = getColorForIndex(index);
-
+  const handleClickCompeleteQuests = () => {
+    setBgColor(bgColor);
+    router.push(`${router.asPath}/${journey.id}`);
+  };
+  console.log("journey bg", bgColor);
   const ImageInfoPlate = () => (
     <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
       <Image
@@ -52,15 +59,14 @@ export const JourneyCard = ({
       <h2 className="mb-6 line-clamp-1 text-[26px] font-bold md:text-[40px] md:font-extrabold md:leading-[48px] lg:mb-10 lg:text-6xl">
         {journey.name}
       </h2>
-      <Link href={`SuiFrens/quests`}>
-        <Button
-          btnType="button"
-          variant={btnVariant}
-          disabled={getTodayDate() < journey.start_time}
-        >
-          Complete quests
-        </Button>
-      </Link>
+      <Button
+        btnType="button"
+        variant={btnVariant}
+        disabled={getTodayDate() < journey.start_time}
+        onClick={handleClickCompeleteQuests}
+      >
+        Complete quests
+      </Button>
     </div>
   );
   const TimePlate = () => (
