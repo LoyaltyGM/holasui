@@ -7,6 +7,7 @@ import {
   LabeledInput,
   AlertSucceed,
   AlertErrorMessage,
+  Breadcrumbs,
 } from "components";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -48,6 +49,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
   // FIXME: now default value is 'mockup'. solve what to put instead of
   const [adminCap, setAdminCap] = useState<string>("mockup");
   const [journeys, setJourneys] = useState<JourneysType>({});
+  const [spaceName, setSpaceName] = useState<string>();
 
   const {
     register,
@@ -62,7 +64,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
     },
   });
   useEffect(() => {
-    async function fetchSpace() {
+    async function fetchJourneysAndSpaceName() {
       try {
         const spaceObject = await suiProvider.getObject({
           id: spaceAddress,
@@ -71,7 +73,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
           },
         });
         const space = getObjectFields(spaceObject) as any;
-
+        setSpaceName(space.name);
         const journeysFields = await suiProvider.getDynamicFields({
           parentId: space.journeys.fields.id.id,
         });
@@ -97,7 +99,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
         console.log(e);
       }
     }
-    fetchSpace()
+    fetchJourneysAndSpaceName()
       .then()
       .finally(() => {
         setAdminFetching(true);
@@ -177,6 +179,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
     <NoConnectWallet title={"Add new quest!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
+      <Breadcrumbs linkNames={`Spaces/${spaceName}/Edit company`} routerPath={router.asPath} />
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Quest
       </h1>

@@ -8,6 +8,7 @@ import {
   LabeledInput,
   NoConnectWallet,
   Label,
+  Breadcrumbs,
 } from "components";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -174,6 +175,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
     <NoConnectWallet title={"Edit Company!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
+      <Breadcrumbs linkNames={`Spaces/${space?.name}/Edit company`} routerPath={router.asPath} />
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         Edit Company
       </h1>

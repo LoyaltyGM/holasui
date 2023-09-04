@@ -44,7 +44,7 @@ export const SpacesLayout = () => {
           const space = getObjectFields(spaceObject) as any;
           space.id = space.id?.id;
           space.image = convertIPFSUrl(space.image);
-          // TODO: fix for invalid images
+          // TODO: temporary fix for invalid images when space doesn't have image
           if (!space.image_url.startsWith("https") || !space.image_url.startsWith("http")) {
             space.image_url =
               "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png";

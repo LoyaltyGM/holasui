@@ -1,4 +1,11 @@
-import { Container, SpaceInfoBanner, JourneyCard, Carousel, NoConnectWallet } from "components";
+import {
+  Container,
+  SpaceInfoBanner,
+  JourneyCard,
+  Carousel,
+  NoConnectWallet,
+  Breadcrumbs,
+} from "components";
 import { NextPage } from "next";
 import { useState, useEffect } from "react";
 import { IJourney, ISpace, ISpaceAdminCap } from "types";
@@ -7,6 +14,7 @@ import { getObjectFields } from "@mysten/sui.js";
 import { convertIPFSUrl } from "utils";
 import { SkeletonSpaceDetails } from "components";
 import { ethos, EthosConnectStatus } from "ethos-connect";
+import { useRouter } from "next/router";
 interface ISpaceAddressProps {
   spaceAddress: string;
 }
@@ -19,6 +27,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
   const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
   const [isJourneysFetching, setJourneysFetching] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<number>(1);
+  const router = useRouter();
 
   const { status, wallet } = ethos.useWallet();
   useEffect(() => {
@@ -119,7 +128,6 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       </div>
     </div>
   );
-
   const NoJourneys = () => (
     <div className="mt-16 flex items-center justify-center text-lg font-medium text-blackColor md:mt-28">
       <p>There are no journeys and quests yet</p>
@@ -129,6 +137,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
     <NoConnectWallet title={"Space!"} />
   ) : (
     <Container className="mb-[100px] overflow-x-hidden font-inter">
+      <Breadcrumbs linkNames={`Spaces/${space?.name}`} routerPath={router.asPath} />
       {!isFetching ? (
         <>
           {space && <SpaceInfoBanner spaceAddress={spaceAddress} space={space} isAdmin={isAdmin} />}

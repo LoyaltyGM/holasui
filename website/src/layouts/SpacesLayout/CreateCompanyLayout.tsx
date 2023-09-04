@@ -8,6 +8,7 @@ import {
   LabeledInput,
   NoConnectWallet,
   Label,
+  Breadcrumbs,
 } from "components";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -71,6 +72,7 @@ export const CreateCompanyLayout = () => {
     <NoConnectWallet title={"Create Company!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
+      <Breadcrumbs linkNames={"Spaces/New company"} routerPath={router.asPath} />
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Company
       </h1>

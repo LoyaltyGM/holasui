@@ -8,6 +8,7 @@ import {
   AlertSucceed,
   AlertErrorMessage,
   LabeledInput,
+  Breadcrumbs,
 } from "components";
 import { useState, useEffect } from "react";
 import { ISpaceAdminCap } from "types";
@@ -20,7 +21,7 @@ import {
 } from "utils";
 import { toast } from "react-hot-toast";
 import { storeNFT } from "services/ipfs";
-import { signTransactionCreateJourney } from "services/sui";
+import { signTransactionCreateJourney, suiProvider } from "services/sui";
 import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 import { useRouter } from "next/router";
 import { NextPage } from "next";
@@ -48,12 +49,21 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
   const [isFetching, setFetching] = useState<boolean>(true);
   // FIXME: now default value is 'mockup'. solve what to put instead of
   const [adminCap, setAdminCap] = useState<string>("mockup");
+  const [spaceName, setSpaceName] = useState<string>();
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchAdminCap() {
+    async function fetchAdminCapAndSpaceName() {
       if (isFetching && wallet) {
         try {
+          const spaceObject = await suiProvider.getObject({
+            id: spaceAddress,
+            options: {
+              showContent: true,
+            },
+          });
+          const space = getObjectFields(spaceObject) as any;
+          setSpaceName(space.name);
           const ownedObjects = wallet?.contents?.objects!;
           const adminCap: ISpaceAdminCap | undefined = ownedObjects
             .map((object) => getObjectFields(object) as ISpaceAdminCap)
@@ -73,7 +83,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
         }
       }
     }
-    fetchAdminCap().then();
+    fetchAdminCapAndSpaceName().then();
   }, [wallet]);
 
   const {
@@ -138,6 +148,8 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
     <NoConnectWallet title={"Add new journey!"} />
   ) : (
     <Container className="mb-[100px] font-inter">
+      <Breadcrumbs linkNames={`Spaces/${spaceName}/Edit company`} routerPath={router.asPath} />
+
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Journey
       </h1>
