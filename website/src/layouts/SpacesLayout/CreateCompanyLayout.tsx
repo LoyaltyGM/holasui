@@ -71,7 +71,7 @@ export const CreateCompanyLayout = () => {
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Create Company!"} />
   ) : (
-    <Container className="mb-[100px] font-inter">
+    <Container>
       <Breadcrumbs linkNames={"Spaces/New company"} routerPath={router.asPath} />
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Company

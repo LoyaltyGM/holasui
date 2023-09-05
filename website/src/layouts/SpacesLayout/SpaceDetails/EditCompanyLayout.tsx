@@ -174,7 +174,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Edit Company!"} />
   ) : (
-    <Container className="mb-[100px] font-inter">
+    <Container>
       <Breadcrumbs linkNames={`Spaces/${space?.name}/Edit company`} routerPath={router.asPath} />
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         Edit Company

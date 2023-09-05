@@ -136,7 +136,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Space!"} />
   ) : (
-    <Container className="mb-[100px] overflow-x-hidden font-inter">
+    <Container className="overflow-x-hidden">
       <Breadcrumbs linkNames={`Spaces/${space?.name}`} routerPath={router.asPath} />
       {!isFetching ? (
         <>

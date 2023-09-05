@@ -213,7 +213,7 @@ export const SpacesLayout = () => {
   return status === EthosConnectStatus.NoConnection ? (
     <NoConnectWallet title={"Spaces!"} />
   ) : (
-    <Container className="mb-[100px] font-inter">
+    <Container>
       <div className="mb-5 flex  flex-wrap justify-between lg:mb-10">
         <h1 className="mb-5 text-[26px] font-extrabold sm:mb-0 lg:text-3xl">Hola, Spaces</h1>
         <Button
