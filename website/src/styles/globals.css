@@ -190,18 +190,23 @@
   box-shadow: 0.25rem 0.25rem var(--black);
 }
 
+.proposal-card-shadow:active {
+  transform: translate(0);
+  box-shadow: none;
+}
+
 .card-shadow {
+  cursor: pointer;
   transition: 0.2s;
+  border: solid 2px;
 }
 
 .card-shadow:hover {
-  border: solid 2px;
-  transition: 0.2s;
   transform: translate(-4px, -4px);
   box-shadow: 4px 4px black;
 }
 
-.proposal-card-shadow:active {
-  transform: translate(0);
+.card-shadow:active {
+  transform: translate(0px, 0px);
   box-shadow: none;
 }
