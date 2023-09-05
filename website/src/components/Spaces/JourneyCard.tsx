@@ -40,7 +40,6 @@ export const JourneyCard = ({
     setBgColor(bgColor);
     router.push(`${router.asPath}/${journey.id}`);
   };
-  console.log("journey bg", bgColor);
   const ImageInfoPlate = () => (
     <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
       <Image
