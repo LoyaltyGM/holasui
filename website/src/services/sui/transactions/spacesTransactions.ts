@@ -1,7 +1,5 @@
 import { TransactionBlock } from "@mysten/sui.js";
-import { space } from "postcss/lib/list";
-import { SPACE_HUB_ID, SPACE_PACKAGE } from "utils";
-import { suiProvider } from "../suiProvider";
+import { CLOCK, SPACE_HUB_ID, SPACE_PACKAGE } from "utils";
 
 // ==== SPACES ====
 
@@ -195,6 +193,44 @@ export const signTransactionCreateQuest = ({
       tx.pure(function_name),
       tx.pure(func_arguments),
     ],
+  });
+  return tx;
+};
+
+export const signTransactionRemoveQuest = ({
+  admin_cap,
+  space,
+  journey_id,
+  quest_id,
+}: {
+  admin_cap: string;
+  space: string;
+  journey_id: string;
+  quest_id: string;
+}) => {
+  const tx = new TransactionBlock();
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::remove_quest`,
+    arguments: [tx.object(admin_cap), tx.object(space), tx.pure(journey_id), tx.pure(quest_id)],
+  });
+  return tx;
+};
+
+export const signTransactionStartQuest = ({
+  space,
+  journey_id,
+  quest_id,
+}: {
+  space: string;
+  journey_id: string;
+  quest_id: string;
+}) => {
+  const tx = new TransactionBlock();
+  // TODO: fix gas
+  const [coin] = tx.splitCoins(tx.gas, [tx.pure(0, "u64")]);
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::remove_quest`,
+    arguments: [coin, tx.object(space), tx.pure(journey_id), tx.pure(quest_id), tx.pure(CLOCK)],
   });
   return tx;
 };
