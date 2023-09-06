@@ -36,6 +36,8 @@ const buttonVariants = cva(
         "default-purple": "button-default-purple",
         "default-orange": "button-default-orange",
         "default-yellow": "button-default-yellow",
+        "dangerous-primary": "dangerous-primary",
+        "dangerous-secondary": "dangerous-secondary",
       },
       size: {
         default: "min-w-[176px] max-w-[176px]",

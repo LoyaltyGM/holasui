@@ -4,14 +4,23 @@ import CrystalDisabled from "/public/img/CrystalDisabled.png";
 import CloseCircleIcon from "/public/img/CloseCircleIcon.svg";
 import { IQuest } from "types";
 import { useJourneyStore } from "store";
+import { Dispatch, SetStateAction } from "react";
+
+interface IQuestCard {
+  quest: IQuest;
+  editingJourneyMode: boolean;
+  setRemovingQuest: Dispatch<SetStateAction<boolean>>;
+  setQuestOpened: Dispatch<SetStateAction<boolean>>;
+  setSelectedQuest: Dispatch<SetStateAction<IQuest | undefined>>;
+}
 
 export const QuestCard = ({
   quest,
   editingJourneyMode,
-}: {
-  quest: IQuest;
-  editingJourneyMode: boolean;
-}) => {
+  setRemovingQuest,
+  setQuestOpened,
+  setSelectedQuest,
+}: IQuestCard) => {
   const { bgColor } = useJourneyStore();
   const Title = () => <h3 className="text-lg font-bold">{quest.name}</h3>;
   const Reward = () => {
@@ -46,20 +55,27 @@ export const QuestCard = ({
     );
   };
   const RemoveQuestBtn = () => (
-    <button>
+    <button
+      onClick={() => {
+        setSelectedQuest(quest);
+        setRemovingQuest(true);
+      }}
+    >
       <Image src={CloseCircleIcon} alt="Remove icon" width={30} height={30} />
     </button>
   );
   const PeopleCompleted = () => {
-    const UserIcon = ({ color }: { color: string }) => (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21">
-        <circle cx="9.99996" cy="5.50002" r="3.33333" className={`fill-${color}`} />
-        <path
-          d="M16.6667 15.0833C16.6667 17.1544 16.6667 18.8333 10 18.8333C3.33337 18.8333 3.33337 17.1544 3.33337 15.0833C3.33337 13.0122 6.31814 11.3333 10 11.3333C13.6819 11.3333 16.6667 13.0122 16.6667 15.0833Z"
-          className={`fill-${color}`}
-        />
-      </svg>
-    );
+    const UserIcon = ({ color }: { color: string }) => {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21">
+          <circle cx="9.99996" cy="5.50002" r="3.33333" className={`fill-${color}`} />
+          <path
+            d="M16.6667 15.0833C16.6667 17.1544 16.6667 18.8333 10 18.8333C3.33337 18.8333 3.33337 17.1544 3.33337 15.0833C3.33337 13.0122 6.31814 11.3333 10 11.3333C13.6819 11.3333 16.6667 13.0122 16.6667 15.0833Z"
+            className={`fill-${color}`}
+          />
+        </svg>
+      );
+    };
     return (
       <div className="flex items-center gap-1">
         <UserIcon color={bgColor} />
@@ -68,7 +84,15 @@ export const QuestCard = ({
     );
   };
   return (
-    <div className="card-shadow flex min-h-[130px] w-full flex-col justify-between rounded-xl border-[1px] border-black2Color bg-basicColor p-3 text-blackColor">
+    <div
+      className="card-shadow flex min-h-[130px] w-full flex-col justify-between rounded-xl border-[1px] border-black2Color bg-basicColor p-3 text-blackColor"
+      onClick={() => {
+        if (!editingJourneyMode) {
+          setSelectedQuest(quest);
+          setQuestOpened(true);
+        }
+      }}
+    >
       <div className="flex justify-between">
         <Title />
         {editingJourneyMode ? <RemoveQuestBtn /> : <CrystalIndicator />}
@@ -76,7 +100,7 @@ export const QuestCard = ({
       <div>
         <div className="flex content-center items-center justify-between lg:w-full">
           <Reward />
-          <PeopleCompleted />
+          {!editingJourneyMode && <PeopleCompleted />}
         </div>
       </div>
     </div>

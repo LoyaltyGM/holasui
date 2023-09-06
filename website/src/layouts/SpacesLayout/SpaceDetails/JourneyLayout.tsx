@@ -1,8 +1,8 @@
-import { Button, Container } from "components";
+import { Button, Container, RemoveQuestDialog } from "components";
 import Image from "next/image";
 import GroupIcon from "/public/img/GroupIcon.svg";
 import PlusIcon from "/public/img/PlusIcon.svg";
-import { QuestCard, Breadcrumbs, QuestDialog } from "components";
+import { QuestCard, Breadcrumbs, QuestDialog, AlertErrorMessage, AlertSucceed } from "components";
 import { useEffect, useState } from "react";
 import { IJourney, IQuest, ISpaceAdminCap } from "types";
 import { suiProvider } from "services/sui";
@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import { useJourneyStore } from "store";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Link from "next/link";
+import { signTransactionRemoveQuest } from "services/sui";
+import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 
 export const JourneyLayout = ({
   spaceAddress,
@@ -34,14 +36,42 @@ export const JourneyLayout = ({
   const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
   // Admin cap states
   const [isAdmin, setAdmin] = useState<boolean>(false);
-  // FIXME: now default value is 'mockup'. solve what to put instead of
+  // TODO: now default value is 'mockup'. solve what to put instead of
   const [adminCap, setAdminCap] = useState<string>("mockup");
   // Dialog states
   const [selectedQuest, setSelectedQuest] = useState<IQuest>();
   const [isQuestOpened, setQuestOpened] = useState<boolean>(false);
+  const [isQuestRemoving, setRemovingQuest] = useState<boolean>(false);
 
-  console.log("journey", journey);
-  console.log("quests", quests);
+  const removeQuest = async () => {
+    if (wallet) {
+      try {
+        const response = await wallet.signAndExecuteTransactionBlock({
+          transactionBlock: signTransactionRemoveQuest({
+            admin_cap: adminCap,
+            space: spaceAddress,
+            journey_id: journeyAddress,
+            quest_id: selectedQuest!.id,
+          }),
+          options: {
+            showEffects: true,
+          },
+        });
+        const status = getExecutionStatus(response);
+
+        if (status?.status === "failure") {
+          console.log(status.error);
+          const error_status = getExecutionStatusError(response);
+          if (error_status) AlertErrorMessage(error_status);
+        } else {
+          AlertSucceed("CreateQuest");
+          router.replace(`/spaces/${spaceAddress}/${journeyAddress}`).then();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   // Page color changing
   useEffect(() => {
     if (bgColor === "basicColor") {
@@ -256,7 +286,7 @@ export const JourneyLayout = ({
       </div>
       <div className="mb-10 flex flex-col items-center md:flex-row md:justify-between md:gap-10 lg:mb-[60px]">
         <JourneyImage />
-        <div className="lg:mt w-full flex-1 justify-between lg:mt-3 lg:flex">
+        <div className="lg:mt w-full flex-1 justify-between lg:mt-3 lg:flex lg:gap-20">
           <Info />
           {!editingJourneyMode && (
             <div className="flex items-start justify-between md:flex-row-reverse md:items-center lg:flex-col lg:justify-normal lg:gap-[30px]">
@@ -270,14 +300,14 @@ export const JourneyLayout = ({
         <div className="grid grid-cols-1 gap-[10px] md:grid-cols-2 md:gap-4 xl:grid-cols-3">
           {editingJourneyMode && <AddQuestButton />}
           {quests.map((quest) => (
-            <button
-              onClick={() => {
-                setSelectedQuest(quest);
-                setQuestOpened(true);
-              }}
-            >
-              <QuestCard key={quest.id} quest={quest} editingJourneyMode={editingJourneyMode} />
-            </button>
+            <QuestCard
+              key={quest.id}
+              quest={quest}
+              editingJourneyMode={editingJourneyMode}
+              setRemovingQuest={setRemovingQuest}
+              setQuestOpened={setQuestOpened}
+              setSelectedQuest={setSelectedQuest}
+            />
           ))}
         </div>
       ) : editingJourneyMode ? (
@@ -303,6 +333,12 @@ export const JourneyLayout = ({
         selectedQuest={selectedQuest!}
         isQuestOpened={isQuestOpened}
         setQuestOpened={setQuestOpened}
+      />
+      <RemoveQuestDialog
+        selectedQuest={selectedQuest!}
+        isQuestRemoving={isQuestRemoving}
+        removeQuest={removeQuest}
+        setRemovingQuest={setRemovingQuest}
       />
     </Container>
   );

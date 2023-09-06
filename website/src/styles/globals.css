@@ -101,6 +101,14 @@
     @apply border-blackColor bg-white text-blackColor hover:text-purpleColor active:text-purpleColor disabled:border-gray2Color disabled:text-grayColor;
   }
 
+  .dangerous-primary {
+    @apply bg-redColor text-white hover:bg-red-700 active:bg-redColor active:text-blackColor disabled:border-none disabled:bg-gray2Color disabled:text-grayColor;
+  }
+
+  .dangerous-secondary {
+    @apply border-redColor bg-white text-redColor hover:border-red-700 hover:text-red-700 active:border-blackColor active:text-blackColor disabled:border-gray2Color disabled:text-grayColor;
+  }
+
   .pinkColor-primary-state {
     @apply bg-pinkColor text-white hover:bg-[#B63364] active:bg-[#D6447A] disabled:cursor-not-allowed disabled:bg-gray2Color disabled:text-[#AAAAAA];
   }
