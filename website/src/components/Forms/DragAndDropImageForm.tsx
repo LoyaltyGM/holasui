@@ -80,7 +80,7 @@ export const DragAndDropImageForm = ({
                         alt={""}
                         src={preview}
                         fill={true}
-                        className={"rounded-xl object-contain"}
+                        className={"rounded-xl object-cover"}
                       />
                     </div>
                   </div>

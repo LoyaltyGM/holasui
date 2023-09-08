@@ -50,12 +50,10 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
   const [adminCap, setAdminCap] = useState<string>("mockup");
   const [journeys, setJourneys] = useState<JourneysType>({});
   const [spaceName, setSpaceName] = useState<string>();
-
   const {
     register,
     handleSubmit,
     watch,
-    getValues,
     formState: { isValid, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
@@ -99,12 +97,14 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
         console.log(e);
       }
     }
-    fetchJourneysAndSpaceName()
-      .then()
-      .finally(() => {
-        setAdminFetching(true);
-        setFetching(false);
-      });
+    if (isFetching) {
+      fetchJourneysAndSpaceName()
+        .then()
+        .finally(() => {
+          setAdminFetching(true);
+          setFetching(false);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -179,7 +179,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
     <NoConnectWallet title={"Add new quest!"} />
   ) : (
     <Container>
-      <Breadcrumbs linkNames={`Spaces/${spaceName}/Edit company`} routerPath={router.asPath} />
+      <Breadcrumbs linkNames={`Spaces/${spaceName}/New quest`} routerPath={router.asPath} />
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Quest
       </h1>
@@ -218,11 +218,12 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
             className="h-[48px] w-full cursor-pointer rounded-md border border-grayColor bg-white px-4 pr-10 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
           >
             <option hidden />
-            {Object.keys(journeys).map((journeyName, idx) => (
-              <option key={idx} value={journeys[journeyName]}>
-                {journeyName}
-              </option>
-            ))}
+            {Object.keys(journeys).length > 0 &&
+              Object.keys(journeys).map((journeyName, idx) => (
+                <option key={idx} value={journeys[journeyName]}>
+                  {journeyName}
+                </option>
+              ))}
           </select>
         </LabeledInput>
         <LabeledInput className="lg:max-w-[550px] xl:max-w-[700px]" label="Points amount">

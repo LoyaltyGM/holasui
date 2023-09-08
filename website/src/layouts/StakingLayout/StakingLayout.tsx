@@ -332,7 +332,7 @@ export const StakingLayout = () => {
           </div>
         </>
       )}
-      <p className={classNames("mb-12  mt-12  text-sm font-light", font_montserrat.className)}>
+      <p className={classNames("mt-12  text-sm font-light", font_montserrat.className)}>
         SuiFrens by Mysten Labs CC BY 4.0 license
       </p>
       <ObjectDetailDialog

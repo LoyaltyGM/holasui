@@ -21,7 +21,6 @@ export const SpacesLayout = () => {
   const [spaces, setSpaces] = useState<ISpace[]>([]);
   const [isFetching, setFetching] = useState<boolean>(true);
 
-  console.log(spaces);
   useEffect(() => {
     const fetchPromotedSpaces = async () => {
       try {
@@ -185,18 +184,12 @@ export const SpacesLayout = () => {
                 .map((space) => (
                   <SpaceCard
                     title={space.name}
-                    totalQuestsAmount={10}
                     image_url={space.image_url}
                     spaceAddress={space.id}
                   />
                 ))
             : spaces.map((space) => (
-                <SpaceCard
-                  title={space.name}
-                  totalQuestsAmount={10}
-                  image_url={space.image_url}
-                  spaceAddress={space.id}
-                />
+                <SpaceCard title={space.name} image_url={space.image_url} spaceAddress={space.id} />
               ))}
         </div>
       </>

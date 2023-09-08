@@ -148,7 +148,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
     <NoConnectWallet title={"Add new journey!"} />
   ) : (
     <Container>
-      <Breadcrumbs linkNames={`Spaces/${spaceName}/Edit company`} routerPath={router.asPath} />
+      <Breadcrumbs linkNames={`Spaces/${spaceName}/New journey`} routerPath={router.asPath} />
 
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Journey

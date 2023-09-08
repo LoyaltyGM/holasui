@@ -1,6 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { classNames } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { Button, StakingRules } from "components";

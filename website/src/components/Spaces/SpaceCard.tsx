@@ -3,7 +3,6 @@ import Link from "next/link";
 
 interface ISpaceCard {
   title: string;
-  totalQuestsAmount: number;
   image_url: string;
   spaceAddress: string;
 }
@@ -20,7 +19,6 @@ export const SpaceCard = (props: ISpaceCard) => {
         <h2 className="mb-[14px] line-clamp-2 text-lg font-semibold leading-[22px]">
           {props.title}
         </h2>
-        <p className="font-medium">{props.totalQuestsAmount} quests</p>
       </div>
       {/* TODO: Separate to the other component LINK or make it with tailwind classes?? */}
       <Link href={`spaces/${props.spaceAddress}`}>

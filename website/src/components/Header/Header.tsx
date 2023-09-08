@@ -134,7 +134,10 @@ export const Header = () => {
           </div>
           <div className="flex md:hidden">
             <Bars3Icon
-              className="z-10 h-10 w-10 cursor-pointer text-3xl text-black"
+              className={cn(
+                "z-10 h-10 w-10 cursor-pointer text-3xl",
+                isJourneyColor ? "text-white" : "text-blackColor",
+              )}
               onClick={() => setOpenMobileMenu(true)}
             />
           </div>
