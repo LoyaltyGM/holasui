@@ -20,4 +20,6 @@ export type AlertMessageType =
   | "CreateSpace"
   | "CreateJourney"
   | "EditSpace"
-  | "CreateQuest";
+  | "CreateQuest"
+  | "ClaimNft"
+  | "StartQuest";

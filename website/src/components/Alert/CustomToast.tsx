@@ -84,6 +84,12 @@ export function AlertSucceed(success_type: AlertMessageType) {
     case "CreateQuest":
       successTitle = "You have successfully created a Quest!";
       break;
+    case "ClaimNft":
+      successTitle = "You have successfully claimed Reward!";
+      break;
+    case "StartQuest":
+      successTitle = "You have successfully started quest!";
+      break;
     default:
       successTitle = "Something went wrong";
       break;
