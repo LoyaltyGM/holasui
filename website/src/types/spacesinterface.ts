@@ -13,7 +13,7 @@ export interface ISpace {
 export interface IJourney {
   id: string;
   reward_type: string;
-  reward_required_points: string;
+  reward_required_points: number;
   reward_image_url: string;
   name: string;
   description: string;

@@ -1,5 +1,6 @@
 import { TransactionBlock } from "@mysten/sui.js";
 import { CLOCK, SPACE_HUB_ID, SPACE_PACKAGE } from "utils";
+import { suiProvider } from "../suiProvider";
 
 // ==== SPACES ====
 
@@ -128,6 +129,63 @@ export const signTransactionCreateJourney = ({
   return tx;
 };
 
+export const signTransactionCompleteJourney = ({
+  space,
+  journey_id,
+}: {
+  space: string;
+  journey_id: string;
+}) => {
+  const tx = new TransactionBlock();
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::complete_journey`,
+    arguments: [tx.object(space), tx.pure(journey_id)],
+  });
+  return tx;
+};
+
+export const getJourneyUserPoints = async ({
+  space,
+  journey_id,
+  user,
+}: {
+  space: string;
+  journey_id: string;
+  user: string;
+}) => {
+  const tx = new TransactionBlock();
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::journey_user_points`,
+    arguments: [tx.object(space), tx.pure(journey_id), tx.pure(user)],
+  });
+  const response = await suiProvider.devInspectTransactionBlock({
+    transactionBlock: tx,
+    sender: user,
+  });
+  return response.results![0].returnValues![0]![0]![0]!;
+};
+
+export const getJourneyUserCompletedQuests = async ({
+  space,
+  journey_id,
+  user,
+}: {
+  space: string;
+  journey_id: string;
+  user: string;
+}) => {
+  const tx = new TransactionBlock();
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::journey_user_completed_quests`,
+    arguments: [tx.object(space), tx.pure(journey_id), tx.pure(user)],
+  });
+  const response = await suiProvider.devInspectTransactionBlock({
+    transactionBlock: tx,
+    sender: user,
+  });
+  return response.results![0].returnValues![0]![0]![0]!;
+};
+
 // TODO: rework
 // export const getJourney = async ({
 //   sender = "0xbfa592bb480ab82022b716ee1d754b36799d9890559620b64c30127695c87c13",
@@ -229,8 +287,61 @@ export const signTransactionStartQuest = ({
   // TODO: fix gas
   const [coin] = tx.splitCoins(tx.gas, [tx.pure(0, "u64")]);
   tx.moveCall({
-    target: `${SPACE_PACKAGE}::quest::remove_quest`,
-    arguments: [coin, tx.object(space), tx.pure(journey_id), tx.pure(quest_id), tx.pure(CLOCK)],
+    target: `${SPACE_PACKAGE}::quest::start_quest`,
+    arguments: [
+      tx.pure(SPACE_HUB_ID),
+      coin,
+      tx.object(space),
+      tx.pure(journey_id),
+      tx.pure(quest_id),
+      tx.pure(CLOCK),
+    ],
   });
   return tx;
+};
+
+export const getIsStartedQuest = async ({
+  space,
+  journey_id,
+  quest_id,
+  user,
+}: {
+  space: string;
+  journey_id: string;
+  quest_id: string;
+  user: string;
+}) => {
+  const tx = new TransactionBlock();
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::quest_started_user`,
+    arguments: [tx.object(space), tx.pure(journey_id), tx.pure(quest_id), tx.pure(user)],
+  });
+  const response = await suiProvider.devInspectTransactionBlock({
+    transactionBlock: tx,
+    sender: user,
+  });
+  return Boolean(response.results![0].returnValues![0]![0]![0]!);
+};
+
+export const getIsCompletedQuest = async ({
+  space,
+  journey_id,
+  quest_id,
+  user,
+}: {
+  space: string;
+  journey_id: string;
+  quest_id: string;
+  user: string;
+}) => {
+  const tx = new TransactionBlock();
+  tx.moveCall({
+    target: `${SPACE_PACKAGE}::quest::quest_completed_user`,
+    arguments: [tx.object(space), tx.pure(journey_id), tx.pure(quest_id), tx.pure(user)],
+  });
+  const response = await suiProvider.devInspectTransactionBlock({
+    transactionBlock: tx,
+    sender: user,
+  });
+  return Boolean(response.results![0].returnValues![0]![0]![0]!);
 };
