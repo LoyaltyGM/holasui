@@ -5,9 +5,18 @@ import PlusIcon from "/public/img/PlusIcon.svg";
 import { QuestCard, Breadcrumbs, QuestDialog, AlertErrorMessage, AlertSucceed } from "components";
 import { useEffect, useState } from "react";
 import { IJourney, IQuest, ISpaceAdminCap } from "types";
-import { suiProvider } from "services/sui";
+import {
+  getJourneyUserPoints,
+  getJourneyUserCompletedQuests,
+  getIsCompletedQuest,
+  getIsStartedQuest,
+  signTransactionClaimPoints,
+  signTransactionCompleteJourney,
+  signTransactionStartQuest,
+  suiProvider,
+} from "services/sui";
 import { getObjectFields } from "@mysten/sui.js";
-import { convertIPFSUrl } from "utils";
+import { BACKEND_URL, convertIPFSUrl } from "utils";
 import { useRouter } from "next/router";
 import { useJourneyStore } from "store";
 import { ethos, EthosConnectStatus } from "ethos-connect";
@@ -30,7 +39,10 @@ export const JourneyLayout = ({
   const [quests, setQuests] = useState<IQuest[]>();
   const [spaceName, setSpaceName] = useState<string>();
   const [editingJourneyMode, setEditingJourneyMode] = useState<boolean>(false);
+  const [userPoints, setUserPoints] = useState<number>(0);
+  const [userCompletedQuests, setUserCompletedQuests] = useState<number>(0);
   // Is fetching states
+  const [waitSui, setWaitSui] = useState<boolean>(false);
   const [isJourneyFetching, setJourneyFetching] = useState<boolean>(true);
   const [isQuestsFetching, setQuestsFetching] = useState<boolean>(true);
   const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
@@ -72,6 +84,78 @@ export const JourneyLayout = ({
       }
     }
   };
+  const startQuest = async () => {
+    if (wallet) {
+      setWaitSui(true);
+      try {
+        const response = await wallet.signAndExecuteTransactionBlock({
+          transactionBlock: signTransactionStartQuest({
+            space: spaceAddress,
+            journey_id: journeyAddress,
+            quest_id: selectedQuest!.id,
+          }),
+          options: {
+            showEffects: true,
+          },
+        });
+        const status = getExecutionStatus(response);
+
+        if (status?.status === "failure") {
+          console.log(status.error);
+          const error_status = getExecutionStatusError(response);
+          if (error_status) AlertErrorMessage(error_status);
+        } else {
+          AlertSucceed("StartQuest");
+          setWaitSui(false);
+        }
+      } catch (e) {
+        console.log(e);
+        setWaitSui(false);
+      }
+    }
+  };
+
+  const completeQuest = async () => {
+    if (wallet && selectedQuest) {
+      setWaitSui(true);
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/sui/completeQuest/${spaceAddress}/${journeyAddress}/${selectedQuest.id}/${wallet.address}`,
+        );
+        setWaitSui(false);
+      } catch (e) {
+        setWaitSui(false);
+        console.log(e);
+      }
+    }
+  };
+
+  const handleClaimNft = async () => {
+    if (!wallet) return;
+    try {
+      const response = await wallet.signAndExecuteTransactionBlock({
+        transactionBlock: signTransactionCompleteJourney({
+          space: spaceAddress,
+          journey_id: journeyAddress,
+        }),
+        options: {
+          showEffects: true,
+        },
+      });
+      const status = getExecutionStatus(response);
+      if (status?.status === "failure") {
+        console.log(status.error);
+        const error_status = getExecutionStatusError(response);
+        if (error_status) AlertErrorMessage(error_status);
+      } else {
+        AlertSucceed("ClaimNft");
+        router.replace(`/spaces/${spaceAddress}`).then();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // Page color changing
   useEffect(() => {
     if (bgColor === "basicColor") {
@@ -116,6 +200,21 @@ export const JourneyLayout = ({
         });
     }
   }, [isJourneyFetching]);
+  // Journey info fetch(user points and completed quests)
+  console.log(userPoints);
+  useEffect(() => {
+    if (!wallet) return;
+    getJourneyUserPoints({
+      space: spaceAddress,
+      journey_id: journeyAddress,
+      user: wallet.address,
+    }).then((data) => setUserPoints(data));
+    getJourneyUserCompletedQuests({
+      space: spaceAddress,
+      journey_id: journeyAddress,
+      user: wallet.address,
+    }).then((data) => setUserCompletedQuests(data));
+  }, [wallet]);
   // Quests fetch
   useEffect(() => {
     const fetchQuests = async () => {
@@ -182,6 +281,7 @@ export const JourneyLayout = ({
     }
     fetchIsAdmin().then();
   }, [isAdminFetching, wallet]);
+
   const PeopleStatusBadge = ({ className }: { className?: string }) => {
     return (
       <div
@@ -222,10 +322,12 @@ export const JourneyLayout = ({
     );
     return (
       <div>
-        <h1 className="mb-4 flex items-center gap-4 text-[26px] font-extrabold leading-8 md:max-w-[350px] md:text-4xl lg:max-w-none lg:text-5xl xl:text-6xl">
-          {journey?.name}
+        <div className="mb-4 flex items-center gap-4 md:max-w-[350px] md:text-4xl lg:max-w-fit">
+          <h1 className="text-[26px] font-extrabold leading-8 lg:text-5xl xl:text-6xl">
+            {journey?.name}
+          </h1>
           {isAdmin && !editingJourneyMode && <EditSpaceBtn />}
-        </h1>
+        </div>
         <p className="mb-8 font-medium md:min-h-[57px] lg:min-h-[100px]">
           {`Complete quests to get NFT reward. ${journey?.description}`}
         </p>
@@ -247,21 +349,29 @@ export const JourneyLayout = ({
   const QuestCount = () => (
     <div className="flex flex-col items-center justify-center">
       <p className="text-3xl font-extrabold">
-        {quests && quests.length > 0 ? `${journey?.total_completed}/${quests?.length}` : "0"}
+        {quests && quests.length > 0 ? `${userCompletedQuests}/${quests.length}` : "0"}
       </p>
       <p className="text-xl font-medium">quest</p>
     </div>
   );
-  const ClaimButtonAndInfo = () => (
-    <div className="text-right md:flex md:items-center md:gap-4 md:text-center lg:flex-col">
-      <Button btnType="button" variant="default-purple" className="mb-2 md:mb-0">
-        Claim NFT
-      </Button>
-      <p className="font-medium leading-5 md:max-w-[110px] lg:max-w-none">
-        2 quests left for claiming
-      </p>
-    </div>
-  );
+  const ClaimButtonAndInfo = () =>
+    journey && (
+      <div className="text-right md:flex md:items-center md:gap-4 md:text-center lg:flex-col">
+        <Button
+          btnType="button"
+          variant="default-purple"
+          className="mb-2 md:mb-0"
+          onClick={handleClaimNft}
+          disabled={userPoints < journey.reward_required_points}
+        >
+          Claim NFT
+        </Button>
+        <p className="font-medium leading-5 md:max-w-[110px] lg:max-w-none">
+          {userPoints < journey.reward_required_points &&
+            `${journey.reward_required_points - userPoints} XP left for claiming.`}
+        </p>
+      </div>
+    );
   const AddQuestButton = () => (
     <Link href={`/spaces/${spaceAddress}/create-quest`}>
       <div className="flex min-h-[130px] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-grayColor text-white hover:border-white">
@@ -296,7 +406,7 @@ export const JourneyLayout = ({
           )}
         </div>
       </div>
-      {quests && quests.length > 0 ? (
+      {quests && quests.length > 0 && wallet ? (
         <div className="grid grid-cols-1 gap-[10px] md:grid-cols-2 md:gap-4 xl:grid-cols-3">
           {editingJourneyMode && <AddQuestButton />}
           {quests.map((quest) => (
@@ -304,6 +414,9 @@ export const JourneyLayout = ({
               key={quest.id}
               quest={quest}
               editingJourneyMode={editingJourneyMode}
+              userAddress={wallet.address}
+              journeyAddress={journeyAddress}
+              spaceAddress={spaceAddress}
               setRemovingQuest={setRemovingQuest}
               setQuestOpened={setQuestOpened}
               setSelectedQuest={setSelectedQuest}
@@ -329,11 +442,20 @@ export const JourneyLayout = ({
           </Button>
         </div>
       )}
-      <QuestDialog
-        selectedQuest={selectedQuest!}
-        isQuestOpened={isQuestOpened}
-        setQuestOpened={setQuestOpened}
-      />
+      {wallet && (
+        <QuestDialog
+          selectedQuest={selectedQuest!}
+          isQuestOpened={isQuestOpened}
+          startQuest={startQuest}
+          spaceAddress={spaceAddress}
+          journeyAddress={journeyAddress}
+          userAddress={wallet.address}
+          waitSui={waitSui}
+          completeQuest={completeQuest}
+          setWaitSui={setWaitSui}
+          setQuestOpened={setQuestOpened}
+        />
+      )}
       <RemoveQuestDialog
         selectedQuest={selectedQuest!}
         isQuestRemoving={isQuestRemoving}
