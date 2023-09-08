@@ -4,11 +4,15 @@ import CrystalDisabled from "/public/img/CrystalDisabled.png";
 import CloseCircleIcon from "/public/img/CloseCircleIcon.svg";
 import { IQuest } from "types";
 import { useJourneyStore } from "store";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { getIsCompletedQuest } from "services/sui";
 
 interface IQuestCard {
   quest: IQuest;
   editingJourneyMode: boolean;
+  userAddress: string;
+  journeyAddress: string;
+  spaceAddress: string;
   setRemovingQuest: Dispatch<SetStateAction<boolean>>;
   setQuestOpened: Dispatch<SetStateAction<boolean>>;
   setSelectedQuest: Dispatch<SetStateAction<IQuest | undefined>>;
@@ -17,10 +21,26 @@ interface IQuestCard {
 export const QuestCard = ({
   quest,
   editingJourneyMode,
+  userAddress,
+  journeyAddress,
+  spaceAddress,
   setRemovingQuest,
   setQuestOpened,
   setSelectedQuest,
 }: IQuestCard) => {
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [isCompletedQuest, setIsCompleted] = useState<boolean>(false);
+  useEffect(() => {
+    getIsCompletedQuest({
+      space: spaceAddress,
+      journey_id: journeyAddress,
+      quest_id: quest.id,
+      user: userAddress,
+    })
+      .then((data) => setIsCompleted(data))
+      .catch((e) => console.log(e))
+      .finally(() => setLoading(false));
+  }, []);
   const { bgColor } = useJourneyStore();
   const Title = () => <h3 className="text-lg font-bold">{quest.name}</h3>;
   const Reward = () => {
@@ -47,10 +67,16 @@ export const QuestCard = ({
     );
   };
   const CrystalIndicator = () => {
-    // TODO: add disabled logic
+    const SkeletonCrystal = () => <div className="bg-gray h-7 w-7 animate-pulse" />;
     return (
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-        <Image src={Crystal} alt={"crystal"} width={28} height={28} />
+        {isLoading ? (
+          <SkeletonCrystal />
+        ) : isCompletedQuest ? (
+          <Image src={CrystalDisabled} alt={"crystal disabled"} width={28} height={28} />
+        ) : (
+          <Image src={Crystal} alt={"crystal"} width={28} height={28} />
+        )}
       </div>
     );
   };
