@@ -1,12 +1,6 @@
 import Image from "next/image";
 import { Button } from "components";
-
-interface IPromotedCard {
-  title: string;
-  description: string;
-  image_url: string;
-  spaceAddress: string;
-}
+import { IPromotedCard } from "types";
 
 export const PromotedCard = (props: IPromotedCard) => {
   const CompanyImage = () => {
@@ -21,10 +15,9 @@ export const PromotedCard = (props: IPromotedCard) => {
       </div>
     );
   };
-  const CompanyInfo = () => {
+  const CompanyInfoAndButton = () => {
     return (
       <div className="flex flex-1 flex-col justify-between">
-        {/* TODO: fix overflow title width. description overflow height. maybe add dynamic height of promoted card */}
         <div className="mb-5 md:mb-4">
           <h2 className="max-w mb-3 line-clamp-2 text-lg font-semibold leading-[22px] lg:text-[22px] lg:leading-[27px]">
             Journeys from {props.title}
@@ -47,7 +40,7 @@ export const PromotedCard = (props: IPromotedCard) => {
   return (
     <div className="flex max-h-[402px] min-h-[380px] w-full flex-col rounded-xl border border-blackColor bg-white px-4 py-5 sm:max-h-[376px] sm:min-h-[354px] md:max-h-[394px] md:min-h-[368px] lg:max-h-[418px] lg:min-h-[391px] lg:p-5 xl:max-h-[268px] xl:min-h-[241px] xl:flex-row-reverse xl:justify-between xl:gap-4">
       <CompanyImage />
-      <CompanyInfo />
+      <CompanyInfoAndButton />
     </div>
   );
 };

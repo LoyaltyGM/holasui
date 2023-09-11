@@ -1,11 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-interface ISpaceCard {
-  title: string;
-  image_url: string;
-  spaceAddress: string;
-}
+import { ISpaceCard } from "types";
 
 export const SpaceCard = (props: ISpaceCard) => {
   const CompanyImage = () => (
@@ -13,7 +8,7 @@ export const SpaceCard = (props: ISpaceCard) => {
       <Image src={props.image_url} alt={"Company image"} fill className="rounded-xl object-cover" />
     </div>
   );
-  const CompanyInfo = () => (
+  const CompanyInfoAndButton = () => (
     <div className="flex flex-col justify-between">
       <div>
         <h2 className="mb-[14px] line-clamp-2 text-lg font-semibold leading-[22px]">
@@ -34,7 +29,7 @@ export const SpaceCard = (props: ISpaceCard) => {
   return (
     <div className="card-shadow flex max-h-[150px] w-full gap-5 rounded-[20px] border border-blackColor bg-white p-[15px] text-blackColor lg:max-h-[180px]">
       <CompanyImage />
-      <CompanyInfo />
+      <CompanyInfoAndButton />
     </div>
   );
 };

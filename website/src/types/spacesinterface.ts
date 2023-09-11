@@ -45,3 +45,13 @@ export interface ISpaceAdminCap {
   name: string;
   space_id: string;
 }
+
+export interface ISpaceCard {
+  title: string;
+  image_url: string;
+  spaceAddress: string;
+}
+
+export interface IPromotedCard extends ISpaceCard {
+  description: string;
+}
