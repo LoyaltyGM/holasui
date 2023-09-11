@@ -9,7 +9,7 @@ import {
 import { NextPage } from "next";
 import { useState, useEffect } from "react";
 import { IJourney, ISpace, ISpaceAdminCap } from "types";
-import { suiProvider } from "services/sui";
+import { getSpaceUserPoints, suiProvider } from "services/sui";
 import { getObjectFields } from "@mysten/sui.js";
 import { convertIPFSUrl } from "utils";
 import { SkeletonSpaceDetails } from "components";
@@ -20,16 +20,25 @@ interface ISpaceAddressProps {
 }
 
 export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }) => {
+  const { status, wallet } = ethos.useWallet();
+  const router = useRouter();
+  // space states
   const [space, setSpace] = useState<ISpace>();
   const [journeys, setJourneys] = useState<IJourney[]>();
-  const [isAdmin, setAdmin] = useState<boolean>(false);
-  const [isFetching, setFetching] = useState<boolean>(true);
-  const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
-  const [isJourneysFetching, setJourneysFetching] = useState<boolean>(false);
-  const [currentEvent, setCurrentEvent] = useState<number>(1);
-  const router = useRouter();
 
-  const { status, wallet } = ethos.useWallet();
+  //admin states
+  const [isAdmin, setAdmin] = useState(false);
+
+  // fetching states
+  const [isFetching, setFetching] = useState(true);
+  const [isAdminFetching, setAdminFetching] = useState(false);
+  const [isJourneysFetching, setJourneysFetching] = useState(false);
+
+  //utils states
+  const [currentEvent, setCurrentEvent] = useState<number>(1);
+  const [userPoints, setUserPoints] = useState(0);
+
+  // space fetching
   useEffect(() => {
     async function fetchSpace() {
       try {
@@ -56,7 +65,14 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
         setJourneysFetching(true);
       });
   }, []);
-
+  //fetching user points in the space
+  useEffect(() => {
+    if (!wallet) return;
+    getSpaceUserPoints({ space: spaceAddress, user: wallet.address }).then((points) =>
+      setUserPoints(points),
+    );
+  }, [status]);
+  // journeys fetching
   useEffect(() => {
     async function fetchJourneys() {
       const journeysFields = await suiProvider.getDynamicFields({
@@ -91,7 +107,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       }
     }
   }, [space]);
-
+  // is admin fetching
   useEffect(() => {
     async function fetchIsAdmin() {
       if (isAdminFetching && wallet) {
@@ -140,7 +156,14 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       <Breadcrumbs linkNames={`Spaces/${space?.name}`} routerPath={router.asPath} />
       {!isFetching ? (
         <>
-          {space && <SpaceInfoBanner spaceAddress={spaceAddress} space={space} isAdmin={isAdmin} />}
+          {space && (
+            <SpaceInfoBanner
+              spaceAddress={spaceAddress}
+              space={space}
+              isAdmin={isAdmin}
+              userPoints={userPoints}
+            />
+          )}
           {!isJourneysFetching && (
             <>
               {journeys && journeys.length > 0 ? (
