@@ -1,28 +1,32 @@
-import { Button, Container, RemoveQuestDialog } from "components";
 import Image from "next/image";
 import GroupIcon from "/public/img/GroupIcon.svg";
 import PlusIcon from "/public/img/PlusIcon.svg";
-import { QuestCard, Breadcrumbs, QuestDialog, AlertErrorMessage, AlertSucceed } from "components";
+import {
+  QuestCard,
+  Breadcrumbs,
+  QuestDialog,
+  AlertErrorMessage,
+  AlertSucceed,
+  Button,
+  Container,
+  RemoveQuestDialog,
+} from "components";
 import { useEffect, useState } from "react";
 import { IJourney, IQuest, ISpaceAdminCap } from "types";
 import {
   getJourneyUserPoints,
   getJourneyUserCompletedQuests,
-  getIsCompletedQuest,
-  getIsStartedQuest,
-  signTransactionClaimPoints,
   signTransactionCompleteJourney,
   signTransactionStartQuest,
   suiProvider,
+  signTransactionRemoveQuest,
 } from "services/sui";
-import { getObjectFields } from "@mysten/sui.js";
+import { getObjectFields, getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 import { BACKEND_URL, convertIPFSUrl } from "utils";
 import { useRouter } from "next/router";
 import { useJourneyStore } from "store";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Link from "next/link";
-import { signTransactionRemoveQuest } from "services/sui";
-import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 
 export const JourneyLayout = ({
   spaceAddress,
@@ -34,128 +38,30 @@ export const JourneyLayout = ({
   const { status, wallet } = ethos.useWallet();
   const router = useRouter();
   const { setDefaultBgColor, setBgColor, bgColor } = useJourneyStore();
+
   // Space states
   const [journey, setJourney] = useState<IJourney>();
   const [quests, setQuests] = useState<IQuest[]>();
   const [spaceName, setSpaceName] = useState<string>();
-  const [editingJourneyMode, setEditingJourneyMode] = useState<boolean>(false);
-  const [userPoints, setUserPoints] = useState<number>(0);
-  const [userCompletedQuests, setUserCompletedQuests] = useState<number>(0);
+  const [userPoints, setUserPoints] = useState(0);
+  const [userCompletedQuests, setUserCompletedQuests] = useState(0);
+
   // Is fetching states
-  const [waitSui, setWaitSui] = useState<boolean>(false);
-  const [isJourneyFetching, setJourneyFetching] = useState<boolean>(true);
-  const [isQuestsFetching, setQuestsFetching] = useState<boolean>(true);
-  const [isAdminFetching, setAdminFetching] = useState<boolean>(false);
+  const [waitSui, setWaitSui] = useState(false);
+  const [isJourneyFetching, setJourneyFetching] = useState(true);
+  const [isQuestsFetching, setQuestsFetching] = useState(false);
+  const [isAdminFetching, setAdminFetching] = useState(false);
+
   // Admin cap states
-  const [isAdmin, setAdmin] = useState<boolean>(false);
+  const [isAdmin, setAdmin] = useState(false);
   // TODO: now default value is 'mockup'. solve what to put instead of
   const [adminCap, setAdminCap] = useState<string>("mockup");
+  const [editingJourneyMode, setEditingJourneyMode] = useState(false);
+
   // Dialog states
   const [selectedQuest, setSelectedQuest] = useState<IQuest>();
   const [isQuestOpened, setQuestOpened] = useState<boolean>(false);
   const [isQuestRemoving, setRemovingQuest] = useState<boolean>(false);
-
-  const removeQuest = async () => {
-    if (wallet) {
-      try {
-        const response = await wallet.signAndExecuteTransactionBlock({
-          transactionBlock: signTransactionRemoveQuest({
-            admin_cap: adminCap,
-            space: spaceAddress,
-            journey_id: journeyAddress,
-            quest_id: selectedQuest!.id,
-          }),
-          options: {
-            showEffects: true,
-          },
-        });
-        const status = getExecutionStatus(response);
-
-        if (status?.status === "failure") {
-          console.log(status.error);
-          const error_status = getExecutionStatusError(response);
-          if (error_status) AlertErrorMessage(error_status);
-        } else {
-          AlertSucceed("CreateQuest");
-          router.replace(`/spaces/${spaceAddress}/${journeyAddress}`).then();
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-  const startQuest = async () => {
-    if (wallet) {
-      setWaitSui(true);
-      try {
-        const response = await wallet.signAndExecuteTransactionBlock({
-          transactionBlock: signTransactionStartQuest({
-            space: spaceAddress,
-            journey_id: journeyAddress,
-            quest_id: selectedQuest!.id,
-          }),
-          options: {
-            showEffects: true,
-          },
-        });
-        const status = getExecutionStatus(response);
-
-        if (status?.status === "failure") {
-          console.log(status.error);
-          const error_status = getExecutionStatusError(response);
-          if (error_status) AlertErrorMessage(error_status);
-        } else {
-          AlertSucceed("StartQuest");
-          setWaitSui(false);
-        }
-      } catch (e) {
-        console.log(e);
-        setWaitSui(false);
-      }
-    }
-  };
-
-  const completeQuest = async () => {
-    if (wallet && selectedQuest) {
-      setWaitSui(true);
-      try {
-        const response = await fetch(
-          `${BACKEND_URL}/sui/completeQuest/${spaceAddress}/${journeyAddress}/${selectedQuest.id}/${wallet.address}`,
-        );
-        setWaitSui(false);
-      } catch (e) {
-        setWaitSui(false);
-        console.log(e);
-      }
-    }
-  };
-
-  const handleClaimNft = async () => {
-    if (!wallet) return;
-    try {
-      const response = await wallet.signAndExecuteTransactionBlock({
-        transactionBlock: signTransactionCompleteJourney({
-          space: spaceAddress,
-          journey_id: journeyAddress,
-        }),
-        options: {
-          showEffects: true,
-        },
-      });
-      const status = getExecutionStatus(response);
-      if (status?.status === "failure") {
-        console.log(status.error);
-        const error_status = getExecutionStatusError(response);
-        if (error_status) AlertErrorMessage(error_status);
-      } else {
-        AlertSucceed("ClaimNft");
-        router.replace(`/spaces/${spaceAddress}`).then();
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   // Page color changing
   useEffect(() => {
     if (bgColor === "basicColor") {
@@ -201,20 +107,23 @@ export const JourneyLayout = ({
     }
   }, [isJourneyFetching]);
   // Journey info fetch(user points and completed quests)
-  console.log(userPoints);
   useEffect(() => {
     if (!wallet) return;
     getJourneyUserPoints({
       space: spaceAddress,
       journey_id: journeyAddress,
       user: wallet.address,
-    }).then((data) => setUserPoints(data));
-    getJourneyUserCompletedQuests({
-      space: spaceAddress,
-      journey_id: journeyAddress,
-      user: wallet.address,
-    }).then((data) => setUserCompletedQuests(data));
-  }, [wallet]);
+    })
+      .then((points) => {
+        setUserPoints(points);
+        return getJourneyUserCompletedQuests({
+          space: spaceAddress,
+          journey_id: journeyAddress,
+          user: wallet.address,
+        });
+      })
+      .then((data) => setUserCompletedQuests(data));
+  }, [status]);
   // Quests fetch
   useEffect(() => {
     const fetchQuests = async () => {
@@ -280,8 +189,109 @@ export const JourneyLayout = ({
       }
     }
     fetchIsAdmin().then();
-  }, [isAdminFetching, wallet]);
+  }, [isAdminFetching, status]);
 
+  // utils functions
+  const startQuest = async () => {
+    if (wallet) {
+      setWaitSui(true);
+      try {
+        const response = await wallet.signAndExecuteTransactionBlock({
+          transactionBlock: signTransactionStartQuest({
+            space: spaceAddress,
+            journey_id: journeyAddress,
+            quest_id: selectedQuest!.id,
+          }),
+          options: {
+            showEffects: true,
+          },
+        });
+        const status = getExecutionStatus(response);
+
+        if (status?.status === "failure") {
+          console.log(status.error);
+          const error_status = getExecutionStatusError(response);
+          if (error_status) AlertErrorMessage(error_status);
+        } else {
+          AlertSucceed("StartQuest");
+          setWaitSui(false);
+        }
+      } catch (e) {
+        console.log(e);
+        setWaitSui(false);
+      }
+    }
+  };
+  const removeQuest = async () => {
+    if (wallet) {
+      try {
+        const response = await wallet.signAndExecuteTransactionBlock({
+          transactionBlock: signTransactionRemoveQuest({
+            admin_cap: adminCap,
+            space: spaceAddress,
+            journey_id: journeyAddress,
+            quest_id: selectedQuest!.id,
+          }),
+          options: {
+            showEffects: true,
+          },
+        });
+        const status = getExecutionStatus(response);
+
+        if (status?.status === "failure") {
+          console.log(status.error);
+          const error_status = getExecutionStatusError(response);
+          if (error_status) AlertErrorMessage(error_status);
+        } else {
+          AlertSucceed("CreateQuest");
+          router.replace(`/spaces/${spaceAddress}/${journeyAddress}`).then();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+  const completeQuest = async () => {
+    if (wallet && selectedQuest) {
+      setWaitSui(true);
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/sui/completeQuest/${spaceAddress}/${journeyAddress}/${selectedQuest.id}/${wallet.address}`,
+        );
+        setWaitSui(false);
+      } catch (e) {
+        setWaitSui(false);
+        console.log(e);
+      }
+    }
+  };
+  const handleClaimNft = async () => {
+    if (!wallet) return;
+    try {
+      const response = await wallet.signAndExecuteTransactionBlock({
+        transactionBlock: signTransactionCompleteJourney({
+          space: spaceAddress,
+          journey_id: journeyAddress,
+        }),
+        options: {
+          showEffects: true,
+        },
+      });
+      const status = getExecutionStatus(response);
+      if (status?.status === "failure") {
+        console.log(status.error);
+        const error_status = getExecutionStatusError(response);
+        if (error_status) AlertErrorMessage(error_status);
+      } else {
+        AlertSucceed("ClaimNft");
+        router.replace(`/spaces/${spaceAddress}`).then();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // components
   const PeopleStatusBadge = ({ className }: { className?: string }) => {
     return (
       <div
@@ -339,7 +349,7 @@ export const JourneyLayout = ({
       {journey && (
         <Image
           src={journey.reward_image_url}
-          alt={"company logo"}
+          alt={"Journey image"}
           fill
           className="rounded-full object-cover"
         />
@@ -375,7 +385,7 @@ export const JourneyLayout = ({
   const AddQuestButton = () => (
     <Link href={`/spaces/${spaceAddress}/create-quest`}>
       <div className="flex min-h-[130px] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-grayColor text-white hover:border-white">
-        <Image src={PlusIcon} alt="plus logo" width={20} height={20} />
+        <Image src={PlusIcon} alt="Plus icon" width={20} height={20} />
         <p className="text-xl font-medium">Add quest</p>
       </div>
     </Link>

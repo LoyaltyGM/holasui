@@ -36,15 +36,17 @@ export const JourneyCard = ({
     return [bgColor, btnVariant];
   };
   const [bgColor, btnVariant] = getColorForIndex(index);
+
   const handleClickCompeleteQuests = () => {
     setBgColor(bgColor);
     router.push(`${router.asPath}/${journey.id}`);
   };
+
   const ImageInfoPlate = () => (
     <div className="relative mb-1 h-[232px] w-full md:h-[196px] lg:h-[232px]">
       <Image
         src={journey.reward_image_url}
-        alt={"logo"}
+        alt={"Journey image"}
         fill
         className="rounded-t-lg object-cover md:rounded-tl-none"
       />
