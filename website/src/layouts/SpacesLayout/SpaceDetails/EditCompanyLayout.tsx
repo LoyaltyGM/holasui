@@ -79,7 +79,7 @@ export const EditCompanyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
       }
     }
     fetchAdminCap().then();
-  }, [wallet, isAdminCapFetching]);
+  }, [status, isAdminCapFetching]);
 
   useEffect(() => {
     async function fetchSpace() {

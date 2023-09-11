@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FolderIcon } from "@heroicons/react/24/solid";
 import { useJourneyStore } from "store";
 import cn from "classnames";
+import { HomeIcon } from "components/Icons";
 
 export const Breadcrumbs = ({
   linkNames,
@@ -17,18 +18,7 @@ export const Breadcrumbs = ({
   for (let i = 0; i < hrefParts.length; i++) {
     hrefs.push(hrefParts.slice(0, i + 1).join("/"));
   }
-  const HomePageLogo = ({ className }: { className?: string }) => (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-    </svg>
-  );
-  // TODO: add maybe spinner when page is loading for page names in breadcrumbs
+
   return (
     <nav className="mb-[70px] hidden font-medium lg:flex" aria-label="Breadcrumbs">
       <ol className="inline-flex items-center">
@@ -67,7 +57,7 @@ export const Breadcrumbs = ({
                       : "text-grayColor hover:text-black2Color",
                   )}
                 >
-                  <HomePageLogo className="mr-1.5 h-4 w-4 fill-current" />
+                  <HomeIcon className="mr-1.5 h-4 w-4 fill-current" />
                   {page}
                 </Link>
               </li>

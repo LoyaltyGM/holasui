@@ -1,5 +1,6 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dispatch } from "react";
+import { ArrowButtonIconLeft, ArrowButtonIconRight } from "components/Icons";
 
 const MD_WIDTH = 768;
 const LG_WIDTH = 976;
@@ -19,7 +20,7 @@ const useWidth = (): number => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return (): void => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount
+  }, []);
   return width;
 };
 
@@ -88,29 +89,6 @@ export const Carousel = ({
       setCurPosition(curPosition + 724);
     }
   };
-  // TODO: Make separate arrow(additional) button
-  const ArrowIconLeft = ({ disabled }: { disabled: boolean }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path
-        d="M12.5 4.16669L7.5 10L12.5 15.8334"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        className={disabled ? "stroke-grayColor" : "stroke-blackColor"}
-      />
-    </svg>
-  );
-  const ArrowIconRight = ({ disabled }: { disabled: boolean }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path
-        d="M7.5 4.16669L12.5 10L7.5 15.8334"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        className={disabled ? "stroke-grayColor" : "stroke-blackColor"}
-      />
-    </svg>
-  );
   return (
     <div className="h-max">
       {Array.isArray(children) && (
@@ -120,14 +98,14 @@ export const Carousel = ({
             disabled={currentCardIdx === 0}
             className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
           >
-            <ArrowIconLeft disabled={currentCardIdx === 0} />
+            <ArrowButtonIconLeft disabled={currentCardIdx === 0} />
           </button>
           <button
             onClick={slideRight}
             disabled={currentCardIdx === children.length - 1}
             className="flex h-[30px] w-10 items-center justify-center rounded-lg border border-blackColor bg-white disabled:border-grayColor"
           >
-            <ArrowIconRight disabled={currentCardIdx === children.length - 1} />
+            <ArrowButtonIconRight disabled={currentCardIdx === children.length - 1} />
           </button>
         </div>
       )}
