@@ -4,6 +4,10 @@ import { Button } from "components";
 import { IQuest } from "types";
 import { Dispatch, SetStateAction } from "react";
 import { useJourneyStore } from "store";
+import { Inter } from "next/font/google";
+import { classNames } from "utils";
+
+const font_inter = Inter({ subsets: ["latin"] });
 
 interface IQuestDialog {
   selectedQuest: IQuest;
@@ -42,8 +46,13 @@ export const RemoveQuestDialog = ({
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-auto">
-          <div className="flex min-h-full items-center justify-center">
-            <Dialog.Panel className="relative mx-4 w-full max-w-[418px] transform overflow-hidden rounded-xl border-2 border-blackColor bg-basicColor px-4 py-5 text-left font-inter shadow-black transition-all md:mx-0 md:min-w-[452px] md:p-[30px] md:pt-5 lg:min-w-[452px] lg:px-[40px]">
+          <div
+            className={classNames(
+              "flex min-h-full items-center justify-center",
+              font_inter.className,
+            )}
+          >
+            <Dialog.Panel className="relative mx-4 w-full max-w-[418px] transform overflow-hidden rounded-xl border-2 border-blackColor bg-basicColor px-4 py-5 text-left font-inter font-inter shadow-black transition-all md:mx-0 md:min-w-[452px] md:p-[30px] md:pt-5 lg:min-w-[452px] lg:px-[40px]">
               <Dialog.Title
                 as="h3"
                 className="mb-4 text-2xl font-bold leading-6 text-blackColor md:text-3xl lg:mb-5"
