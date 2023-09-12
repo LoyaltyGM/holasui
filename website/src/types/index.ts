@@ -4,3 +4,4 @@ export * from "./stakingInterface";
 export * from "./handlerType";
 export * from "./cookiesType";
 export * from "./localStorage";
+export * from "./spacesinterface";

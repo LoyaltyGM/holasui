@@ -14,6 +14,10 @@ import {
   SkeletonStakingProjectCard,
   StakingRules,
   UnstakeDetailDialog,
+  Container,
+  PointsBanner,
+  SkeletonStakingProjectCard,
+  Button,
 } from "components";
 import classnames from "classnames";
 import { Montserrat } from "next/font/google";
@@ -207,19 +211,21 @@ export const StakingLayout = () => {
                 </div>
               )}
               <div className="mt-4 flex gap-4 md:mt-0 md:items-center md:gap-5">
-                <button
-                  className={classNames(
-                    "button-shadow button-shadow:active button-secondary-yellow w-full",
-                  )}
+                <Button
+                  btnType="button"
+                  variant="button-secondary-yellow"
+                  size="sm-full"
                   onClick={() => {
                     batchStakeMode ? handleCancelStaking() : setBatchStakeMode(true);
                   }}
                 >
                   {batchStakeMode ? ButtonBatchText.cancel : ButtonBatchText.stake}
-                </button>
+                </Button>
                 {(!batchStakeMode || batchIdStake.length > 0) && (
-                  <button
-                    className="button-shadow button-shadow:active button-primary-yellow w-full"
+                  <Button
+                    btnType="button"
+                    variant="button-primary-yellow"
+                    size="sm-full"
                     onClick={() => {
                       batchStakeMode
                         ? stakeBatchCapy(
@@ -234,7 +240,7 @@ export const StakingLayout = () => {
                     }}
                   >
                     {batchIdStake.length === 0 ? ButtonBatchText.stakeAll : ButtonBatchText.confirm}
-                  </button>
+                  </Button>
                 )}
               </div>
             </>
@@ -291,19 +297,21 @@ export const StakingLayout = () => {
               </div>
             )}
             <div className="mt-4 flex gap-4 md:mt-0 md:items-center md:gap-5">
-              <button
-                className={classNames(
-                  "button-shadow button-shadow:active button-secondary-pink w-full",
-                )}
+              <Button
+                btnType="button"
+                variant="button-secondary-pink"
+                size="sm-full"
                 onClick={() => {
                   batchUnstakeMode ? handleCancelUnstaking() : setBatchUnstakeMode(true);
                 }}
               >
                 {batchUnstakeMode ? ButtonBatchText.cancel : ButtonBatchText.batchUnstake}
-              </button>
+              </Button>
               {(!batchUnstakeMode || batchIdUnstake.length > 0) && (
-                <button
-                  className="button-shadow button-shadow:active button-primary-pink w-full"
+                <Button
+                  btnType="button"
+                  variant="button-primary-pink"
+                  size="sm-full"
                   onClick={() => {
                     batchUnstakeMode
                       ? unstakeBatchCapy(
@@ -320,7 +328,7 @@ export const StakingLayout = () => {
                   {batchIdUnstake.length === 0
                     ? ButtonBatchText.unstakeAll
                     : ButtonBatchText.confirm}
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -331,7 +339,7 @@ export const StakingLayout = () => {
           </div>
         </>
       )}
-      <p className={classNames("mb-12  mt-12  text-sm font-light", font_montserrat.className)}>
+      <p className={classNames("mt-12  text-sm font-light", font_montserrat.className)}>
         SuiFrens by Mysten Labs CC BY 4.0 license
       </p>
       <ObjectDetailDialog

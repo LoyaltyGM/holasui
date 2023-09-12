@@ -9,3 +9,5 @@ export * from "./Dao";
 export * from "./Skeleton";
 export * from "./Header";
 export * from "./Sidebar";
+export * from "./Spaces";
+export * from "./Reusable";

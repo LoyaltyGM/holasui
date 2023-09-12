@@ -16,4 +16,10 @@ export type AlertMessageType =
   | "CreateOffer"
   | "CancelOffer"
   | "AcceptOffer"
-  | "CreateDao";
+  | "CreateDao"
+  | "CreateSpace"
+  | "CreateJourney"
+  | "EditSpace"
+  | "CreateQuest"
+  | "ClaimNft"
+  | "StartQuest";
