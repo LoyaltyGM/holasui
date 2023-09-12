@@ -87,7 +87,7 @@ export const signTransactionEditSpace = ({
 export const getSpaceUserPoints = async ({ space, user }: { space: string; user: string }) => {
   const tx = new TransactionBlock();
   tx.moveCall({
-    target: `${SPACE_PACKAGE}::quest::journey_user_points`,
+    target: `${SPACE_PACKAGE}::quest::space_user_points`,
     arguments: [tx.object(space), tx.pure(user)],
   });
   const response = await suiProvider.devInspectTransactionBlock({

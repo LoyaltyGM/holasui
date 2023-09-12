@@ -55,7 +55,7 @@ export const convertDateToTimestamp = (date: string): number => {
   return dateObject.getTime();
 };
 
-export const formatTimestampToDate = (timestamp: string): string => {
+export const formatTimestampToDate = (timestamp: number): string => {
   const dateObject = new Date(+timestamp);
   const monthNames = [
     "January",
@@ -82,3 +82,5 @@ export const getTodayDate = (): string => {
   const year = today.getFullYear();
   return `${year}-${month}-${day}`;
 };
+
+export const getTodayMilliseconds = () => Date.now();

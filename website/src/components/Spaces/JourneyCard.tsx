@@ -1,15 +1,17 @@
 import Image from "next/image";
-import { Button } from "components";
+import { Button, Spinner } from "components";
 import { IJourney } from "types";
-import { formatTimestampToDate, getTodayDate } from "utils";
+import { formatTimestampToDate, getTodayMilliseconds } from "utils";
 import { useRouter } from "next/router";
 import { useJourneyStore } from "store";
+import { useEffect, useState } from "react";
 
 type Color = "purpleColor" | "orangeColor" | "pinkColor";
 type ButtonVariant =
   | "button-secondary-purple"
   | "button-secondary-orange"
   | "button-secondary-pink";
+type JourneyStatus = "over" | "not started" | "active" | null;
 
 export const JourneyCard = ({
   journey,
@@ -22,6 +24,31 @@ export const JourneyCard = ({
 }) => {
   const { setBgColor } = useJourneyStore();
   const router = useRouter();
+  const [journeyStatus, setJourneyStatus] = useState<JourneyStatus>(null);
+  console.log(journey.start_time, getTodayMilliseconds());
+  useEffect(() => {
+    if (journey.end_time < getTodayMilliseconds()) {
+      setJourneyStatus("over");
+    }
+    if (journey.start_time > getTodayMilliseconds()) {
+      setJourneyStatus("not started");
+    } else {
+      setJourneyStatus("active");
+    }
+  }, []);
+
+  const getButtonTitle = () => {
+    switch (journeyStatus) {
+      case "active":
+        return "Complete quests";
+      case "not started":
+        return "Not started";
+      case "over":
+        return "Get reward";
+      default:
+        throw new Error(`Unknown journey status: ${journeyStatus}`);
+    }
+  };
 
   const getColorForIndex = (index: number): [Color, ButtonVariant] => {
     const bgColors: Color[] = ["purpleColor", "orangeColor", "pinkColor"];
@@ -57,16 +84,16 @@ export const JourneyCard = ({
   );
   const TitleAndBtn = () => (
     <div className="mx-4">
-      <h2 className="mb-6 line-clamp-1 text-[26px] font-bold md:text-[40px] md:font-extrabold md:leading-[48px] lg:mb-10 lg:text-6xl">
+      <h2 className="line-clamp-1text-[26px] mb-6 font-bold md:text-4xl md:font-extrabold lg:mb-10 lg:text-5xl lg:leading-tight">
         {journey.name}
       </h2>
       <Button
         btnType="button"
         variant={btnVariant}
-        disabled={getTodayDate() < journey.start_time}
+        disabled={getTodayMilliseconds() < journey.start_time}
         onClick={handleClickCompeleteQuests}
       >
-        Complete quests
+        {journeyStatus ? getButtonTitle() : <Spinner />}
       </Button>
     </div>
   );
@@ -74,14 +101,20 @@ export const JourneyCard = ({
     <div
       className={`bg-${bgColor} flex h-[108px] items-center gap-3 rounded-b-xl border-t-6 border-dashed border-basicColor p-4 md:order-first md:min-h-full md:w-[180px] md:items-end md:rounded-l-lg md:rounded-br-none md:border-r-6 md:border-t-0 lg:w-[220px]`}
     >
-      <div className="font-medium text-white">
-        <p className="mb-2">Start</p>
-        <p>End</p>
-      </div>
-      <div className="font-semibold text-white">
-        <p className="mb-2">{formatTimestampToDate(journey.start_time)}</p>
-        <p>{formatTimestampToDate(journey.end_time)}</p>
-      </div>
+      {journeyStatus === "over" ? (
+        <p className="font-medium text-white">Journey is over</p>
+      ) : (
+        <>
+          <div className="font-medium text-white">
+            <p className="mb-2">Start</p>
+            <p>End</p>
+          </div>
+          <div className="font-semibold text-white">
+            <p className="mb-2">{formatTimestampToDate(journey.start_time)}</p>
+            <p>{formatTimestampToDate(journey.end_time)}</p>
+          </div>
+        </>
+      )}
     </div>
   );
   return (

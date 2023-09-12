@@ -17,8 +17,8 @@ export interface IJourney {
   reward_image_url: string;
   name: string;
   description: string;
-  start_time: string;
-  end_time: string;
+  start_time: number;
+  end_time: number;
   total_completed: string;
   quests: any;
   completed_users: any;
@@ -50,8 +50,5 @@ export interface ISpaceCard {
   title: string;
   image_url: string;
   spaceAddress: string;
-}
-
-export interface IPromotedCard extends ISpaceCard {
   description: string;
 }
