@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { handleSetBatchIdStake, ICapy, IStakingTicket } from "types";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import Image from "next/image";
-import { classNames } from "utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import {
   BlueMoveButton,
+  Container,
   NoConnectWallet,
   ObjectDetailDialog,
+  PointsBanner,
   ProjectCard,
   RulesDialog,
+  SkeletonStakingProjectCard,
   StakingRules,
   UnstakeDetailDialog,
   Container,
@@ -175,16 +178,20 @@ export const StakingLayout = () => {
       {availablePointsToClaim > 100 && stakedFrens && (
         <PointsBanner
           availablePointsToClaim={availablePointsToClaim}
-          functionToClaimPoints={() =>
-            claimBatchPoints(
+          functionToClaimPoints={async () => {
+            await handleAnalyticsClick({
+              event_main: AnalyticsEvent.claimAllPoints,
+              page: AnalyticsCategory.staking,
+            });
+            await claimBatchPoints(
               stakedFrens.map((capy) => capy.id),
               wallet,
               setWaitSui,
               setBatchIdUnstake,
               setBatchUnstakeMode,
               setOpenedFrend,
-            )
-          }
+            );
+          }}
         />
       )}
       <div className="text my-10 md:mt-[50px] lg:mb-[50px] xl:mb-[70px] xl:mt-[70px]">

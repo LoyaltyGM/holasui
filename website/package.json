@@ -12,6 +12,7 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.2.3",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@mysten/sui.js": "^0.37.1",
@@ -37,6 +38,7 @@
     "react-confetti-explosion": "^2.1.2",
     "react-dom": "18.2.0",
     "react-drag-drop-files": "^2.3.10",
+    "react-ga4": "^2.1.0",
     "react-hook-form": "^7.45.1",
     "react-hot-toast": "^2.4.0",
     "sharp": "^0.32.2",

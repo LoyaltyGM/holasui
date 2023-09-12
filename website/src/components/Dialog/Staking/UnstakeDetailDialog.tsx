@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, SetStateAction } from "react";
-import { classNames } from "utils";
+import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import token from "/public/img/points.png";

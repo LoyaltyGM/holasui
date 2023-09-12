@@ -1,6 +1,7 @@
 import Image from "next/image";
 import TwitterIcon from "/public/img/twitterIcon.svg";
 import Link from "next/link";
+import { AnalyticsCategory, AnalyticsEvent, handleAnalyticsClick } from "../../utils";
 
 interface IDaoCard {
   title: string;
@@ -49,6 +50,14 @@ export const DaoCard = (props: IDaoCard) => {
               className={
                 "py-3 pr-4 font-medium text-pinkColor hover:underline hover:underline-offset-4"
               }
+              onClick={async () => {
+                await handleAnalyticsClick({
+                  event_main: AnalyticsEvent.openDetailsDAO,
+                  page: AnalyticsCategory.dao,
+                  label: "DAO Name",
+                  value: props.title,
+                });
+              }}
             >
               Learn more
             </button>

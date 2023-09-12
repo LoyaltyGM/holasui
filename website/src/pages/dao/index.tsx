@@ -1,5 +1,13 @@
 import { ethos, EthosConnectStatus } from "ethos-connect";
-import { classNames, convertIPFSUrl, DAO_HUB_ID, ORIGIN_CAPY_DAO_ID } from "utils";
+import {
+  AnalyticsCategory,
+  AnalyticsEvent,
+  classNames,
+  convertIPFSUrl,
+  DAO_HUB_ID,
+  handleAnalyticsClick,
+  ORIGIN_CAPY_DAO_ID,
+} from "utils";
 import { DaoCard, NoConnectWallet } from "components";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -99,6 +107,12 @@ const DAO = () => {
         <Link
           href={"dao/create-dao"}
           className={"button-primary button-shadow px-5 py-3 font-bold"}
+          onClick={async () => {
+            await handleAnalyticsClick({
+              event_main: AnalyticsEvent.createDAO,
+              page: AnalyticsCategory.dao,
+            });
+          }}
         >
           Create DAO
         </Link>

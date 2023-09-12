@@ -3,6 +3,11 @@ import { create } from "ipfs-http-client";
 
 export const SUI_RPC_URL = process.env.NEXT_PUBLIC_SUI_RPC_BLOCKVISION as string;
 
+// ==== ANALYTICS ====
+export const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true";
+export const GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || "";
+export const AMPLITUDE_ID = process.env.NEXT_PUBLIC_AMPLITUDE_ID || "";
+
 // ==== STAKING ====
 
 export const PACKAGE_ID_V0 = "0x3412f5d7819fddb9d504a422177e3cc62c029f08002a0d51c0f7cfd93cfdfbcc";
