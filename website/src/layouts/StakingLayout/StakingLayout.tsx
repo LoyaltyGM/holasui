@@ -14,9 +14,6 @@ import {
   SkeletonStakingProjectCard,
   StakingRules,
   UnstakeDetailDialog,
-  Container,
-  PointsBanner,
-  SkeletonStakingProjectCard,
   Button,
 } from "components";
 import classnames from "classnames";

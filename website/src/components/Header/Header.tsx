@@ -22,6 +22,7 @@ export const Header = () => {
       Socials
     </button>
   );
+
   return (
     <div className={`fixed-header flex w-full  justify-center font-inter bg-${bgColor}`}>
       <div
@@ -31,7 +32,6 @@ export const Header = () => {
         )}
       >
         <div className="flex flex-1 content-center items-center justify-between">
-
           <Link
             href="/"
             onClick={async () =>
@@ -93,12 +93,16 @@ export const Header = () => {
               >
                 Spaces
               </div>
-            <Link href="/swap" onClick={async () =>
+            </Link>
+            <Link
+              href="/swap"
+              onClick={async () =>
                 await handleAnalyticsClick({
                   event_main: AnalyticsEvent.clickToP2P,
                   page: AnalyticsCategory.main,
                 })
-              }>
+              }
+            >
               <div
                 className={cn(
                   "block rounded-md p-[10px]",
