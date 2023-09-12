@@ -186,10 +186,16 @@ export const SpacesLayout = () => {
                     title={space.name}
                     image_url={space.image_url}
                     spaceAddress={space.id}
+                    description={space.description}
                   />
                 ))
             : spaces.map((space) => (
-                <SpaceCard title={space.name} image_url={space.image_url} spaceAddress={space.id} />
+                <SpaceCard
+                  title={space.name}
+                  image_url={space.image_url}
+                  spaceAddress={space.id}
+                  description={space.description}
+                />
               ))}
         </div>
       </>

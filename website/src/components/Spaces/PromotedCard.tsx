@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Button } from "components";
-import { IPromotedCard } from "types";
+import { ISpaceCard } from "types";
 
-export const PromotedCard = (props: IPromotedCard) => {
+export const PromotedCard = (props: ISpaceCard) => {
   const CompanyImage = () => {
     return (
       <div className="relative mx-auto mb-4 flex min-h-[130px] min-w-[130px] justify-center rounded-full lg:min-h-[140px] lg:min-w-[140px] xl:mx-0 xl:max-h-[170px] xl:min-h-[170px] xl:min-w-[170px]">

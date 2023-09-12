@@ -11,9 +11,12 @@ export const SpaceCard = (props: ISpaceCard) => {
   const CompanyInfoAndButton = () => (
     <div className="flex flex-col justify-between">
       <div>
-        <h2 className="mb-[14px] line-clamp-2 text-lg font-semibold leading-[22px]">
+        <h2 className="line-clamp-2 text-lg font-semibold leading-[22px] lg:mb-[14px]">
           {props.title}
         </h2>
+        <p className="line-clamp-2 font-medium leading-[22px] text-black2Color">
+          {props.description}
+        </p>
       </div>
       {/* TODO: Separate to the other component LINK or make it with tailwind classes?? */}
       <Link href={`spaces/${props.spaceAddress}`}>
