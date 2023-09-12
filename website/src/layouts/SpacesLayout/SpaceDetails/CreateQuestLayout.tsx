@@ -20,6 +20,7 @@ import { signTransactionCreateQuest } from "services/sui";
 import { ISpaceAdminCap } from "types";
 import { getExecutionStatus, getExecutionStatusError } from "@mysten/sui.js";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 interface ISpaceAddressProps {
   spaceAddress: string;
@@ -169,7 +170,7 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
         if (error_status) AlertErrorMessage(error_status);
       } else {
         AlertSucceed("CreateQuest");
-        router.replace(`/spaces/${spaceAddress}`).then();
+        router.back();
       }
     } catch (e) {
       console.log(e);
@@ -183,6 +184,16 @@ export const CreateQuestLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress }
       <h1 className="mb-[30px] text-[26px] font-extrabold text-blackColor md:text-3xl">
         New Quest
       </h1>
+      {!isFetching && Object.keys(journeys).length === 0 && (
+        <div className="-mt-4 mb-4">
+          <Link
+            href={`../../spaces/${spaceAddress}/create-journey`}
+            className="font-medium text-red-500 underline underline-offset-4 hover:no-underline"
+          >
+            Create a journey before create quest.
+          </Link>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className={"flex w-full flex-col gap-5"}>
         <div className="lg:max-w-[550px] xl:max-w-[700px] ">
           <div className={"mb-[14px] flex items-end justify-between"}>
