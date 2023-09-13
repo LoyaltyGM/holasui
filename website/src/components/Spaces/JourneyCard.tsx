@@ -25,7 +25,6 @@ export const JourneyCard = ({
   const { setBgColor } = useJourneyStore();
   const router = useRouter();
   const [journeyStatus, setJourneyStatus] = useState<JourneyStatus>(null);
-  console.log(journey.start_time, getTodayMilliseconds());
   useEffect(() => {
     if (journey.end_time < getTodayMilliseconds()) {
       setJourneyStatus("over");
@@ -84,7 +83,7 @@ export const JourneyCard = ({
   );
   const TitleAndBtn = () => (
     <div className="mx-4">
-      <h2 className="line-clamp-1text-[26px] mb-6 font-bold md:text-4xl md:font-extrabold lg:mb-10 lg:text-5xl lg:leading-tight">
+      <h2 className="mb-6 line-clamp-1 text-[26px] font-bold md:text-4xl md:font-extrabold lg:mb-10 lg:text-5xl lg:leading-tight">
         {journey.name}
       </h2>
       <Button

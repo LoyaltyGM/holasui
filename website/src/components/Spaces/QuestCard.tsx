@@ -55,12 +55,15 @@ export const QuestCard = ({
     );
   };
   const CrystalIndicator = () => {
-    const SkeletonCrystal = () => <div className="bg-gray h-7 w-7 animate-pulse" />;
+    const SkeletonCrystal = () => (
+      <div className="h-10 w-10 animate-pulse rounded-full bg-gray2Color" />
+    );
+    if (isLoading) {
+      return <SkeletonCrystal />;
+    }
     return (
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-        {isLoading ? (
-          <SkeletonCrystal />
-        ) : isCompletedQuest ? (
+        {isCompletedQuest ? (
           <Image src={Crystal} alt={"crystal"} width={28} height={28} />
         ) : (
           <Image src={CrystalDisabled} alt={"crystal disabled"} width={28} height={28} />

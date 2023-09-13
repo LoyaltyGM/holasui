@@ -9,9 +9,9 @@ import {
 import { NextPage } from "next";
 import { useState, useEffect } from "react";
 import { IJourney, ISpace, ISpaceAdminCap } from "types";
-import { getSpaceUserPoints, suiProvider } from "services/sui";
+import { suiProvider } from "services/sui";
 import { getObjectFields } from "@mysten/sui.js";
-import { convertIPFSUrl } from "utils";
+import { SPACE_ADMIN_CAP_TYPE, convertIPFSUrl } from "utils";
 import { SkeletonSpaceDetails } from "components";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import { useRouter } from "next/router";
@@ -36,8 +36,6 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
 
   //utils states
   const [currentEvent, setCurrentEvent] = useState<number>(1);
-  const [userPoints, setUserPoints] = useState(0);
-
   // space fetching
   useEffect(() => {
     async function fetchSpace() {
@@ -65,13 +63,6 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
         setJourneysFetching(true);
       });
   }, []);
-  //fetching user points in the space
-  useEffect(() => {
-    if (!wallet) return;
-    getSpaceUserPoints({ space: spaceAddress, user: wallet.address }).then((points) =>
-      setUserPoints(points),
-    );
-  }, [wallet]);
   // journeys fetching
   useEffect(() => {
     async function fetchJourneys() {
@@ -113,15 +104,10 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       if (isAdminFetching && wallet) {
         try {
           const ownedObjects = wallet?.contents?.objects!;
-          const adminCap: ISpaceAdminCap | undefined = ownedObjects
-            .map((object) => getObjectFields(object) as ISpaceAdminCap)
-            .filter(
-              (object) =>
-                object?.hasOwnProperty("space_id") &&
-                object?.hasOwnProperty("id") &&
-                object?.hasOwnProperty("name"),
-            )
-            .find(({ space_id }) => space_id === spaceAddress);
+          const adminCap: any | undefined = ownedObjects.find(
+            (object) =>
+              object.type === SPACE_ADMIN_CAP_TYPE && object?.fields?.space_id === spaceAddress,
+          );
           if (adminCap) {
             setAdmin(true);
           }
@@ -156,14 +142,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
       <Breadcrumbs linkNames={`Spaces/${space?.name}`} routerPath={router.asPath} />
       {!isFetching ? (
         <>
-          {space && (
-            <SpaceInfoBanner
-              spaceAddress={spaceAddress}
-              space={space}
-              isAdmin={isAdmin}
-              userPoints={userPoints}
-            />
-          )}
+          {space && <SpaceInfoBanner spaceAddress={spaceAddress} space={space} isAdmin={isAdmin} />}
           {!isJourneysFetching && (
             <>
               {journeys && journeys.length > 0 ? (

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { classNames, formatNumber } from "utils";
 import Link from "next/link";
 import cn from "classnames";
 import { Button } from "components";
@@ -12,19 +11,16 @@ export const SpaceInfoBanner = ({
   spaceAddress,
   space,
   isAdmin,
-  userPoints,
 }: {
   spaceAddress: string;
   space: ISpace;
   isAdmin: boolean;
-  userPoints: number;
 }) => {
   const CompanyImage = () => (
     <div className="relative flex min-h-[150px] min-w-[150px] items-center xl:min-h-[160px] xl:min-w-[160px]">
       <Image src={space.image_url} alt={"space image"} fill className="rounded-xl object-cover" />
     </div>
   );
-
   const CompanyInfo = ({ className }: { className?: string }) => {
     const EditSpaceBtn = () => {
       return (
