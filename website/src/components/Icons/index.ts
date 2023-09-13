@@ -6,3 +6,4 @@ export * from "./RewardTIcketIcon";
 export * from "./HomeIcon";
 export * from "./ArrowDropdownIcon";
 export * from "./GlassIcon";
+export * from "./WhiteGearIcon";
