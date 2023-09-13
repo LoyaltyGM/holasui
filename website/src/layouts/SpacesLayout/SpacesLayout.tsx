@@ -18,17 +18,16 @@ export const SpacesLayout = () => {
   const { status } = ethos.useWallet();
 
   const [promotedSpaces, setPromotedSpaces] = useState<ISpace[]>([]);
-  const [spaces, setSpaces] = useState<ISpace[]>([]);
+  const [spaces, setSpaces] = useState<ISpace[] | undefined>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   useEffect(() => {
     setIsLoading(true);
     const fetchPromotedSpaces = async () => {
       try {
         // TODO: add promoted objects ids as separate const instead of this mockup
         const mockupPromotedArr = [
-          "0xa085103de3398a4f6b7eb8730d586e1ee30940c6fe871e1b65fdce1d2a47a7a4",
-          "0xf825a802853485880f245e636532d4913f362ec1ae5b2d3a137d7586787d3de7",
+          "0x90de390c69e20e74101bbbecf01db27c7134bbfe56906dd48c1ee451d45d5f90",
+          "0x0bc5e27af48970760844b79938995c25734514098697fa67dcea816b94a6c9c0",
         ];
         const promotedSpacesObjects = await Promise.all(
           mockupPromotedArr.map((id) =>
@@ -43,13 +42,7 @@ export const SpacesLayout = () => {
         const fixedPromotedSpaces = promotedSpacesObjects.map((spaceObject) => {
           const space = getObjectFields(spaceObject) as any;
           space.id = space.id?.id;
-          space.image = convertIPFSUrl(space.image);
-          // TODO: temporary fix for invalid images when space doesn't have image
-          if (!space.image_url.startsWith("https") || !space.image_url.startsWith("http")) {
-            space.image_url =
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png";
-          }
-
+          space.image_url = convertIPFSUrl(space.image_url);
           return space as ISpace;
         });
 
@@ -58,6 +51,7 @@ export const SpacesLayout = () => {
         console.log(e);
       }
     };
+
     const fetchSpaces = async () => {
       try {
         const spaceHubObject = await suiProvider.getObject({
@@ -66,7 +60,6 @@ export const SpacesLayout = () => {
             showContent: true,
           },
         });
-
         const spacesId = getObjectFields(spaceHubObject)!.spaces.fields.contents.fields.id.id;
 
         const response = await suiProvider.getDynamicFields({
@@ -80,7 +73,6 @@ export const SpacesLayout = () => {
                 options: { showContent: true },
               }),
             );
-
             const space = getObjectFields(
               await suiProvider.getObject({
                 id: dfObject?.value,
@@ -91,13 +83,6 @@ export const SpacesLayout = () => {
             )!;
             space.id = space.id?.id;
             space.image_url = convertIPFSUrl(space.image_url);
-
-            // TODO: fix for invalid images
-            if (!space.image_url.startsWith("https") || !space.image_url.startsWith("http")) {
-              space.image_url =
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png";
-            }
-
             return space as ISpace;
           }),
         );
@@ -108,7 +93,7 @@ export const SpacesLayout = () => {
 
     fetchPromotedSpaces().then();
     fetchSpaces()
-      .then((space) => setSpaces(space!))
+      .then((space) => setSpaces(space))
       .finally(() => {
         setIsLoading(false);
       });
@@ -161,29 +146,31 @@ export const SpacesLayout = () => {
     return (
       <>
         <SearchBar />
-        <div className="mt-5 grid min-h-[120px] gap-[10px] md:grid-cols-2 md:gap-4 lg:mt-[30px] lg:min-h-[150px] lg:gap-5 xl:grid-cols-3">
-          {searchInputValue.length > 0
-            ? spaces
-                .filter(({ name }) =>
-                  name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
-                )
-                .map((space) => (
+        {spaces && (
+          <div className="mt-5 grid min-h-[120px] gap-[10px] md:grid-cols-2 md:gap-4 lg:mt-[30px] lg:min-h-[150px] lg:gap-5 xl:grid-cols-3">
+            {searchInputValue.length > 0
+              ? spaces
+                  .filter(({ name }) =>
+                    name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
+                  )
+                  .map((space) => (
+                    <SpaceCard
+                      title={space.name}
+                      image_url={space.image_url}
+                      spaceAddress={space.id}
+                      description={space.description}
+                    />
+                  ))
+              : spaces.map((space) => (
                   <SpaceCard
                     title={space.name}
                     image_url={space.image_url}
                     spaceAddress={space.id}
                     description={space.description}
                   />
-                ))
-            : spaces.map((space) => (
-                <SpaceCard
-                  title={space.name}
-                  image_url={space.image_url}
-                  spaceAddress={space.id}
-                  description={space.description}
-                />
-              ))}
-        </div>
+                ))}
+          </div>
+        )}
       </>
     );
   };
@@ -196,6 +183,13 @@ export const SpacesLayout = () => {
     <div className="flex h-1/2 flex-col items-center justify-center font-medium text-blackColor md:text-lg">
       <p>There are no spaces yet</p>
       <p>Be the first and create something special</p>
+    </div>
+  );
+
+  const DataError = () => (
+    <div className="flex h-1/2 flex-col items-center justify-center font-medium text-blackColor md:text-lg">
+      <p>Sorry, can't load data</p>
+      <p>Please, refresh the page</p>
     </div>
   );
 
@@ -215,7 +209,8 @@ export const SpacesLayout = () => {
           Create company
         </Button>
       </div>
-      {spaces.length > 0 ? (
+      {spaces === undefined && <DataError />}
+      {spaces && spaces.length > 0 ? (
         <>
           <PromotedSpaces />
           <SpaceCards />
