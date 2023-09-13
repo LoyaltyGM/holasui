@@ -2,26 +2,26 @@ import {
   Container,
   NoConnectWallet,
   PromotedCard,
-  SkeletonPromotedSpace,
   SpaceCard,
+  Button,
+  SkeletonSpace,
 } from "components";
 import { ethos, EthosConnectStatus } from "ethos-connect";
-import { Button } from "components/Reusable/Button";
 import { useEffect, useState } from "react";
 import { ISpace } from "types";
 import { suiProvider } from "services/sui";
 import { getObjectFields } from "@mysten/sui.js";
-import { SPACE_HUB_ID } from "utils";
-import { convertIPFSUrl } from "utils";
+import { convertIPFSUrl, SPACE_HUB_ID } from "utils";
 
 export const SpacesLayout = () => {
   const { status } = ethos.useWallet();
 
   const [promotedSpaces, setPromotedSpaces] = useState<ISpace[]>([]);
   const [spaces, setSpaces] = useState<ISpace[]>([]);
-  const [isFetching, setFetching] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchPromotedSpaces = async () => {
       try {
         // TODO: add promoted objects ids as separate const instead of this mockup
@@ -71,7 +71,7 @@ export const SpacesLayout = () => {
         const response = await suiProvider.getDynamicFields({
           parentId: spacesId,
         });
-        Promise.all(
+        return Promise.all(
           response?.data?.map(async (df): Promise<ISpace> => {
             const dfObject = getObjectFields(
               await suiProvider.getObject({
@@ -99,7 +99,7 @@ export const SpacesLayout = () => {
 
             return space as ISpace;
           }),
-        ).then((spaces) => setSpaces(spaces));
+        );
       } catch (e) {
         console.log(e);
       }
@@ -107,9 +107,9 @@ export const SpacesLayout = () => {
 
     fetchPromotedSpaces().then();
     fetchSpaces()
-      .then()
+      .then((space) => setSpaces(space!))
       .finally(() => {
-        setFetching(false);
+        setIsLoading(false);
       });
   }, []);
 
@@ -137,6 +137,7 @@ export const SpacesLayout = () => {
           setHasInteracted(true);
         }
       };
+
       const GlassLogo = () => (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -146,8 +147,6 @@ export const SpacesLayout = () => {
           fill="none"
         >
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
             d="M9.65104 3.15104C6.06119 3.15104 3.15104 6.06119 3.15104 9.65104C3.15104 13.2409 6.06119 16.151 9.65104 16.151C13.2409 16.151 16.151 13.2409 16.151 9.65104C16.151 6.06119 13.2409 3.15104 9.65104 3.15104ZM0.984375 9.65104C0.984375 4.86457 4.86457 0.984375 9.65104 0.984375C14.4375 0.984375 18.3177 4.86457 18.3177 9.65104C18.3177 11.6538 17.6384 13.4979 16.4976 14.9655L22.3337 20.8017C22.7568 21.2247 22.7568 21.9107 22.3337 22.3337C21.9107 22.7568 21.2247 22.7568 20.8017 22.3337L14.9655 16.4976C13.4979 17.6384 11.6538 18.3177 9.65104 18.3177C4.86457 18.3177 0.984375 14.4375 0.984375 9.65104Z"
             className="fill-black2Color"
           />
@@ -202,6 +201,10 @@ export const SpacesLayout = () => {
     );
   };
 
+  if (isLoading) {
+    return <SkeletonSpace />;
+  }
+
   const NoSpaces = () => (
     <div className="flex h-1/2 flex-col items-center justify-center font-medium text-blackColor md:text-lg">
       <p>There are no spaces yet</p>
@@ -225,20 +228,13 @@ export const SpacesLayout = () => {
           Create company
         </Button>
       </div>
-      {!isFetching ? (
-        spaces.length > 0 ? (
-          <>
-            <PromotedSpaces />
-            <SpaceCards />
-          </>
-        ) : (
-          <NoSpaces />
-        )
+      {spaces.length > 0 ? (
+        <>
+          <PromotedSpaces />
+          <SpaceCards />
+        </>
       ) : (
-        <div className="mb-[30px] grid gap-4 md:mb-10 md:grid-cols-2 lg:mb-[70px]">
-          <SkeletonPromotedSpace />
-          <SkeletonPromotedSpace />
-        </div>
+        <NoSpaces />
       )}
     </Container>
   );
