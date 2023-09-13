@@ -41,7 +41,6 @@ export const Header = () => {
               })
             }
           >
-            {/* TODO:Fix sizing images */}
             <Image
               src={Logo}
               height={54}
@@ -59,7 +58,7 @@ export const Header = () => {
             )}
           >
             <Link
-              href="/"
+              href="/staking"
               onClick={async () =>
                 await handleAnalyticsClick({
                   event_main: AnalyticsEvent.clickToStaking,
@@ -70,7 +69,7 @@ export const Header = () => {
               <div
                 className={cn(
                   "block rounded-md p-[10px]",
-                  router.pathname === "/"
+                  router.pathname === "/staking"
                     ? "font-semibold text-blackColor"
                     : isJourneyColor
                     ? "hover:text-blackColor"
