@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
+import { AnalyticsCategory, AnalyticsEvent, handleAnalyticsClick } from "utils";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
 import { MobileMenuDialog, MenuDialog, SocialsDialog } from "components";

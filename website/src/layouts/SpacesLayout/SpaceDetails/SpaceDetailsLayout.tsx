@@ -71,7 +71,7 @@ export const SpaceDetailsLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress 
     getSpaceUserPoints({ space: spaceAddress, user: wallet.address }).then((points) =>
       setUserPoints(points),
     );
-  }, [status]);
+  }, [wallet]);
   // journeys fetching
   useEffect(() => {
     async function fetchJourneys() {

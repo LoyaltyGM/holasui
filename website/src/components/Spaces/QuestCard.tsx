@@ -61,9 +61,9 @@ export const QuestCard = ({
         {isLoading ? (
           <SkeletonCrystal />
         ) : isCompletedQuest ? (
-          <Image src={CrystalDisabled} alt={"crystal disabled"} width={28} height={28} />
-        ) : (
           <Image src={Crystal} alt={"crystal"} width={28} height={28} />
+        ) : (
+          <Image src={CrystalDisabled} alt={"crystal disabled"} width={28} height={28} />
         )}
       </div>
     );

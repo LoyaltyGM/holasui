@@ -1,6 +1,7 @@
 import { TransactionBlock } from "@mysten/sui.js";
 import { CLOCK, SPACE_HUB_ID, SPACE_PACKAGE } from "utils";
 import { suiProvider } from "../suiProvider";
+const { bcs } = require("@mysten/sui.js");
 
 // ==== SPACES ====
 
@@ -174,7 +175,12 @@ export const getJourneyUserPoints = async ({
     transactionBlock: tx,
     sender: user,
   });
-  return response.results![0].returnValues![0]![0]![0]!;
+
+  const encoded = response.results![0].returnValues![0]![0]!;
+  const type = response.results![0].returnValues![0]![1]!;
+  const value = bcs.de(type, Uint8Array.from(encoded));
+
+  return value;
 };
 
 export const getJourneyUserCompletedQuests = async ({
@@ -195,7 +201,12 @@ export const getJourneyUserCompletedQuests = async ({
     transactionBlock: tx,
     sender: user,
   });
-  return response.results![0].returnValues![0]![0]![0]!;
+  const encoded = response.results![0].returnValues![0]![0]!;
+  const type = response.results![0].returnValues![0]![1]!;
+  const value = bcs.de(type, Uint8Array.from(encoded));
+  // console.log(value);
+  // const value = bcs.de()
+  return value;
 };
 
 // TODO: rework
