@@ -5,6 +5,7 @@ import {
   SpaceCard,
   Button,
   SkeletonSpace,
+  GlassIcon,
 } from "components";
 import { ethos, EthosConnectStatus } from "ethos-connect";
 import { useEffect, useState } from "react";
@@ -138,25 +139,11 @@ export const SpacesLayout = () => {
         }
       };
 
-      const GlassLogo = () => (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 26 26"
-          fill="none"
-        >
-          <path
-            d="M9.65104 3.15104C6.06119 3.15104 3.15104 6.06119 3.15104 9.65104C3.15104 13.2409 6.06119 16.151 9.65104 16.151C13.2409 16.151 16.151 13.2409 16.151 9.65104C16.151 6.06119 13.2409 3.15104 9.65104 3.15104ZM0.984375 9.65104C0.984375 4.86457 4.86457 0.984375 9.65104 0.984375C14.4375 0.984375 18.3177 4.86457 18.3177 9.65104C18.3177 11.6538 17.6384 13.4979 16.4976 14.9655L22.3337 20.8017C22.7568 21.2247 22.7568 21.9107 22.3337 22.3337C21.9107 22.7568 21.2247 22.7568 20.8017 22.3337L14.9655 16.4976C13.4979 17.6384 11.6538 18.3177 9.65104 18.3177C4.86457 18.3177 0.984375 14.4375 0.984375 9.65104Z"
-            className="fill-black2Color"
-          />
-        </svg>
-      );
       return (
         <div className="md:w-1/2">
           <div className="relative rounded-lg">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <GlassLogo />
+              <GlassIcon />
             </div>
             <input
               autoFocus={hasInteracted}
