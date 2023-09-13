@@ -83,3 +83,5 @@ export const SPACE_PACKAGE = "0x9e12e57e4f8cc69fdbd219b43a6091db828bd6fc0ec490ef
 export const CLOCK = "0x6";
 
 export const BACKEND_URL = "https://backend-murex-ten.vercel.app";
+
+export const SPACE_ADMIN_CAP_TYPE = `${SPACE_PACKAGE}::quest::SpaceAdminCap`;

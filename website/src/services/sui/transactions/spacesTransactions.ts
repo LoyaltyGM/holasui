@@ -343,7 +343,10 @@ export const getIsStartedQuest = async ({
     transactionBlock: tx,
     sender: user,
   });
-  return Boolean(response.results![0].returnValues![0]![0]![0]!);
+  const encoded = response.results![0].returnValues![0]![0]!;
+  const type = response.results![0].returnValues![0]![1]!;
+  const value = bcs.de(type, Uint8Array.from(encoded));
+  return value;
 };
 
 export const getIsCompletedQuest = async ({
@@ -366,5 +369,8 @@ export const getIsCompletedQuest = async ({
     transactionBlock: tx,
     sender: user,
   });
-  return Boolean(response.results![0].returnValues![0]![0]![0]!);
+  const encoded = response.results![0].returnValues![0]![0]!;
+  const type = response.results![0].returnValues![0]![1]!;
+  const value = bcs.de(type, Uint8Array.from(encoded));
+  return value;
 };
