@@ -77,8 +77,11 @@ export const DAO_PROPOSAL_STATUS_EXECUTED: number = 3;
 export const REWARD_TYPE_NFT = 0;
 export const REWARD_TYPE_SOULBOUND = 1;
 
-export const SPACE_HUB_ID = "0x9b8fba1a722d73639e0a74012c8fd3d815ad9603a30bc796efb1748671e36e8a";
-export const SPACE_PACKAGE = "0x9e12e57e4f8cc69fdbd219b43a6091db828bd6fc0ec490ef16533a07f13b85bc";
+export const PRICE_CREATE_JOURNEY: number = 3; // 3 sui
+export const PRICE_START_QUEST: number = 0.01; // 0.01 sui
+
+export const SPACE_HUB_ID = "0x303cfce4a8e5d05867c2d63a7687a5eed0bfed1e6da5b3f8c2a8aae65b858b51";
+export const SPACE_PACKAGE = "0xbd1746e73f3af781571f57f496a38031297cea2151ba8e3b1785d15c29e1eda9";
 
 export const CLOCK = "0x6";
 

@@ -256,6 +256,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
             Create
           </Button>
         </div>
+        <p className={"font-medium"}>Create journey fee: 3 SUI</p>
       </form>
     </Container>
   );

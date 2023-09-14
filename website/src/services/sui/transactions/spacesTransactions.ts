@@ -1,5 +1,5 @@
 import { TransactionBlock } from "@mysten/sui.js";
-import { CLOCK, SPACE_HUB_ID, SPACE_PACKAGE } from "utils";
+import { CLOCK, PRICE_CREATE_JOURNEY, PRICE_START_QUEST, SPACE_HUB_ID, SPACE_PACKAGE } from "utils";
 import { suiProvider } from "../suiProvider";
 const { bcs } = require("@mysten/sui.js");
 
@@ -121,8 +121,7 @@ export const signTransactionCreateJourney = ({
   end_time: number;
 }) => {
   const tx = new TransactionBlock();
-  // TODO: fix gas
-  const [coin] = tx.splitCoins(tx.gas, [tx.pure(0, "u64")]);
+  const [coin] = tx.splitCoins(tx.gas, [tx.pure(PRICE_CREATE_JOURNEY! * 1e9, "u64")]);
   tx.moveCall({
     target: `${SPACE_PACKAGE}::quest::create_journey`,
     arguments: [
@@ -307,8 +306,7 @@ export const signTransactionStartQuest = ({
   quest_id: string;
 }) => {
   const tx = new TransactionBlock();
-  // TODO: fix gas
-  const [coin] = tx.splitCoins(tx.gas, [tx.pure(0, "u64")]);
+  const [coin] = tx.splitCoins(tx.gas, [tx.pure(PRICE_START_QUEST! * 1e9, "u64")]);
   tx.moveCall({
     target: `${SPACE_PACKAGE}::quest::start_quest`,
     arguments: [
