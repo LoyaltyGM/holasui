@@ -169,13 +169,13 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
             {...register("name", { required: true })}
             type="text"
             className="h-[48px] w-full rounded-md border border-grayColor bg-white px-4 font-medium text-black2Color placeholder:font-medium placeholder:text-grayColor focus:outline-1 focus:outline-blackColor"
-            placeholder="Joruney name"
+            placeholder="Journey name"
             maxLength={32}
           />
         </div>
         <div className="lg:max-w-[550px] xl:max-w-[700px]">
           <div className={"mb-[14px] flex items-end justify-between"}>
-            <Label label="Joruney Description" />
+            <Label label="Journey Description" />
             <p className={"text-sm text-black2Color"}>{`${
               watch("description")?.length ?? "0"
             }/180`}</p>
