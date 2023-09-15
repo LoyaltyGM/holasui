@@ -1,13 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { handleSetBatchIdForSwap, ICapy, ISwapCollectionDialog } from "types";
-import { Montserrat } from "next/font/google";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { Inter } from "next/font/google";
 import { classNames } from "utils";
 import Image from "next/image";
 import { fetchNFTObjects } from "services/sui";
+import { Button } from "components";
 
-const font_montserrat = Montserrat({ subsets: ["latin"] });
+const font_inter = Inter({ subsets: ["latin"] });
 
 export const MyCollectionDialog = ({
   wallet,
@@ -63,30 +63,28 @@ export const MyCollectionDialog = ({
           <div className="fixed inset-0 bg-[#5e5e5e] bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className={classNames("fixed inset-0 z-10 overflow-auto", font_montserrat.className)}>
+        <div className={classNames("fixed inset-0 z-10 overflow-auto", font_inter.className)}>
           <div className="flex min-h-full items-center justify-center">
-            <Dialog.Panel className="relative h-[70vh] w-full max-w-2xl transform overflow-auto rounded-lg bg-basicColor px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:p-6 md:h-[65vh]">
+            <Dialog.Panel className="relative mx-4 h-[614px] w-full max-w-2xl transform overflow-auto rounded-xl border-2 border-blackColor bg-basicColor px-4 pb-4 pt-5 text-left shadow-black transition-all sm:mx-16 sm:my-8 sm:w-full sm:p-6 md:h-[632px] md:w-[682px]">
               <Dialog.Title
                 as="h3"
-                className={classNames(
-                  "mb-2 flex justify-between text-center text-base font-bold leading-6 text-black2Color",
-                  font_montserrat.className,
-                )}
+                className="mb-7 text-center font-extrabold leading-6 text-blackColor"
               >
-                <p className="mt-3 hidden text-xs font-light md:flex">
-                  Selected ({batchIdTrade.length})
-                </p>
-                <p className="mt-1 text-lg md:text-xl">Choose from your collection</p>
-
-                <button onClick={() => setOpened(false)}>
-                  <XMarkIcon className="flex h-7 w-7" />
-                </button>
+                <p className="text-2xl lg:text-3xl">Select NFTs from your collection</p>
               </Dialog.Title>
+              <div className="mb-3 flex items-center justify-between text-lg font-semibold text-blackColor">
+                <p>Collection</p>
+                <p className="md:flex">
+                  <span className="text-black2Color">Selected</span> ({batchIdTrade.length})
+                </p>
+              </div>
               <div className="flex flex-col items-center justify-center">
-                <div className={"mt-2 flex flex-col items-center gap-2"}>
-                  <div className="flex flex-col">
+                <div className={"flex flex-col items-center gap-2"}>
+                  <div className="mb-6 flex max-h-[310px] min-h-[310px] flex-col overflow-y-auto md:max-h-[354px] md:min-h-[354px] xl:max-h-[362px] xl:min-h-[362px]">
                     {suifrens ? (
-                      <div className={"grid grid-cols-3 gap-2 md:mt-4 md:grid-cols-5 md:gap-4"}>
+                      <div
+                        className={"grid grid-cols-4 gap-[10px] md:grid-cols-5 md:gap-3 xl:gap-4"}
+                      >
                         {frens?.map((fren) => {
                           return (
                             <button
@@ -104,7 +102,7 @@ export const MyCollectionDialog = ({
                             >
                               <div
                                 className={classNames(
-                                  "flex max-h-[160px] min-h-[160px] cursor-pointer flex-col content-center items-center justify-center rounded-md border-2 border-black2Color bg-white  p-2",
+                                  "relative flex max-h-[70px] min-h-[70px] min-w-[70px] max-w-[70px] cursor-pointer flex-col content-center items-center justify-center rounded-md border-2 border-black2Color bg-white  md:max-h-[110px] md:min-h-[110px] md:min-w-[110px] md:max-w-[110px]",
                                   batchIdTrade.some((item) => item.id === fren.id)
                                     ? "border-yellowColor"
                                     : "border-blackColor",
@@ -113,13 +111,9 @@ export const MyCollectionDialog = ({
                                 <Image
                                   src={fren.url}
                                   alt="collection_img"
-                                  width={90}
-                                  height={130}
-                                  className="mt-1"
+                                  fill={true}
+                                  className="rounded-xl object-contain"
                                 />
-                                <p className="mt-1 max-h-[40px] min-h-[40px] text-clip text-xs">
-                                  {classNames(fren.description ? `${fren.description}` : "")}
-                                </p>
                               </div>
                             </button>
                           );
@@ -129,17 +123,27 @@ export const MyCollectionDialog = ({
                       <p>Loading..</p>
                     )}
                   </div>
-                  <button
-                    className={classNames(
-                      "mx-auto my-4 block w-full cursor-pointer rounded-md bg-purpleColor px-3 py-2 text-sm font-black text-white hover:bg-purpleColor/90 disabled:cursor-not-allowed disabled:opacity-50",
-                      font_montserrat.className,
-                    )}
+                </div>
+                <div className="flex w-full flex-col gap-[10px] md:flex-row">
+                  <Button
+                    variant="popup-primary-purple"
+                    className="md:order-last"
+                    size="sm-full"
                     onClick={() => {
                       setOpened(false);
                     }}
                   >
                     Confirm
-                  </button>
+                  </Button>
+                  <Button
+                    variant="popup-secondary-purple"
+                    size="sm-full"
+                    onClick={() => {
+                      setOpened(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
                 </div>
               </div>
             </Dialog.Panel>

@@ -1,14 +1,21 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { handleSetBatchIdForSwap, ICapy, ISwapRecipientCollectionDialog } from "types";
-import { Montserrat } from "next/font/google";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { classNames, convertIPFSUrl, formatSuiAddress, SUIFREN_CAPY_TYPE, SWAP_TYPES_LIST } from "utils";
+import {
+  classNames,
+  convertIPFSUrl,
+  formatSuiAddress,
+  SUIFREN_CAPY_TYPE,
+  SWAP_TYPES_LIST,
+} from "utils";
 import Image from "next/image";
 import { fetchNFTObjects, suiProvider } from "services/sui";
 import { LabeledInput } from "components/Forms/Inputs";
+import { Inter } from "next/font/google";
+import { Button } from "components/Reusable";
 
-const font_montserrat = Montserrat({ subsets: ["latin"] });
+const font_inter = Inter({ subsets: ["latin"] });
 
 function initializeSuifren(nftObject: any): ICapy {
   return {
@@ -33,7 +40,6 @@ export const RecipientCollectionDialog = ({
   typeSwap,
 }: ISwapRecipientCollectionDialog) => {
   if (!wallet) return <></>;
-  console.log("creator", creatorBatchIdTrade);
   const [frens, setFrens] = useState<ICapy[] | null>();
   const [tempSearchState, setTempSearchState] = useState<string>("");
 
@@ -92,49 +98,36 @@ export const RecipientCollectionDialog = ({
           <div className="fixed inset-0 bg-[#5e5e5e] bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-auto">
+        <div className={classNames("fixed inset-0 z-10 overflow-auto", font_inter.className)}>
           <div className="flex min-h-full items-center justify-center">
-            <Dialog.Panel className="relative  h-[70vh] w-full max-w-2xl transform overflow-auto rounded-lg bg-basicColor px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:p-6 md:h-[65vh]">
+            <Dialog.Panel className="relative mx-4 h-[614px] w-full max-w-2xl transform overflow-auto rounded-xl border-2 border-blackColor bg-basicColor px-4 pb-4 pt-5 text-left shadow-black transition-all sm:mx-16 sm:my-8 sm:w-full sm:p-6 md:h-[632px] md:w-[682px]">
               <Dialog.Title
                 as="h3"
-                className={classNames(
-                  "mb-2 flex content-center items-center justify-between text-center text-base font-bold leading-6 text-black2Color",
-                  font_montserrat.className,
-                )}
+                className="mb-7 text-center font-extrabold leading-6 text-blackColor"
               >
-                <p className="mt-1 hidden font-light md:flex md:text-xs">
-                  Selected ({batchIdTrade.length})
-                </p>
-                <p className="mt-1 text-sm md:text-xl">Select NFTs you want</p>
-
-                <button onClick={() => setOpened(false)}>
-                  <XMarkIcon className="flex h-7 w-7" />
-                </button>
+                <p className="text-2xl lg:text-3xl">Select NFTs you want</p>
               </Dialog.Title>
-              <div className="flex  w-full flex-col items-center justify-center">
-                <div className={"mt-2 flex w-full flex-col items-center gap-2"}>
-                  <div className={classNames("mt-2 w-full bg-white", font_montserrat.className)}>
-                    <LabeledInput>
-                      <div className="relative my-1 bg-white px-2">
-                        <input
-                          type={"text"}
-                          name="wallet_address"
-                          className={"input-field mr-4 w-full text-sm"}
-                          placeholder="Sui Wallet"
-                          onChange={(e) => setTempSearchState(e.target.value)}
-                        />
-                      </div>
-                    </LabeledInput>
-                  </div>
+              <div className="mb-3 flex items-center justify-between text-lg font-semibold text-blackColor">
+                <p>Collection</p>
+                <p className="md:flex">
+                  <span className="text-black2Color">Selected</span> ({batchIdTrade.length})
+                </p>
+              </div>
+              <div className="flex w-full flex-col items-center justify-center">
+                <div className="flex w-full flex-col items-center gap-2">
+                  <input
+                    type={"text"}
+                    name="wallet_address"
+                    className="input-field w-full rounded-lg border-[1px] border-grayColor px-3 py-2 text-sm font-medium"
+                    placeholder="Sui Wallet"
+                    onChange={(e) => setTempSearchState(e.target.value)}
+                  />
                   <div className={"flex w-full content-center items-center gap-1 py-2"}>
                     {walletAddressToSearch && (
                       <>
-                        <p
-                          className={classNames(
-                            "text-sm text-black2Color",
-                            font_montserrat.className,
-                          )}
-                        >{`Wallet Collection: ${formatSuiAddress(walletAddressToSearch)}`}</p>
+                        <p className="text-sm text-black2Color">{`Wallet Collection: ${formatSuiAddress(
+                          walletAddressToSearch,
+                        )}`}</p>
                         <XMarkIcon
                           className="h-5 w-5 cursor-pointer text-black2Color"
                           onClick={() => {
@@ -146,12 +139,10 @@ export const RecipientCollectionDialog = ({
                       </>
                     )}
                   </div>
-                  <div className="flex min-h-[32vh] flex-col">
+                  <div className="mb-6 flex max-h-[230px] min-h-[230px] flex-col overflow-y-auto md:max-h-[232px] md:min-h-[232px] xl:max-h-[236px] xl:min-h-[236px]">
                     {suifrens ? (
                       <div
-                        className={
-                          "grid grid-cols-3 gap-2 overflow-auto md:mt-4 md:grid-cols-5 md:gap-[1.25rem]"
-                        }
+                        className={"grid grid-cols-4 gap-[10px] md:grid-cols-5 md:gap-3 xl:gap-4"}
                       >
                         {frens?.map((fren) => {
                           return (
@@ -172,7 +163,7 @@ export const RecipientCollectionDialog = ({
                             >
                               <div
                                 className={classNames(
-                                  "flex max-h-[160px] min-h-[160px] cursor-pointer flex-col content-center items-center justify-center rounded-md border-2 bg-white p-2",
+                                  "relative flex max-h-[70px] min-h-[70px] min-w-[70px] max-w-[70px] cursor-pointer flex-col content-center items-center justify-center rounded-md border-2 border-black2Color bg-white  md:max-h-[110px] md:min-h-[110px] md:min-w-[110px] md:max-w-[110px]",
                                   batchIdTrade.some((item) => item.id === fren.id)
                                     ? "border-yellowColor"
                                     : "border-black2Color",
@@ -181,16 +172,10 @@ export const RecipientCollectionDialog = ({
                                 <Image
                                   src={fren.url}
                                   alt="collection_img"
-                                  width={90}
-                                  height={130}
-                                  className="mt-1"
+                                  fill={true}
+                                  className="rounded-xl object-contain"
                                 />
-                                <p
-                                  className={classNames(
-                                    "mt-1 max-h-[40px] min-h-[40px] text-xs",
-                                    font_montserrat.className,
-                                  )}
-                                >
+                                <p className="mt-1 max-h-[40px] min-h-[40px] text-xs">
                                   {classNames(fren.description ? `${fren.description}` : "")}
                                 </p>
                               </div>
@@ -202,23 +187,29 @@ export const RecipientCollectionDialog = ({
                       <p>Loading...</p>
                     )}
                   </div>
-
-                  <button
-                    className={classNames(
-                      "mx-auto mt-2 block w-full cursor-pointer rounded-md px-3 py-2 text-sm font-black  text-white disabled:cursor-not-allowed disabled:opacity-50",
-                      font_montserrat.className,
-                      batchIdTrade?.length === 0
-                        ? "bg-pinkColor hover:bg-pinkColor/95"
-                        : "bg-yellowColor hover:bg-[#e5a44a]",
-                    )}
-                    onClick={() => {
-                      batchIdTrade?.length === 0
-                        ? fetchRecipientWallet(tempSearchState)
-                        : setOpened(false);
-                    }}
-                  >
-                    {batchIdTrade?.length === 0 ? "Search" : "Confirm Items"}
-                  </button>
+                  <div className="flex w-full flex-col gap-[10px] md:flex-row">
+                    <Button
+                      variant="popup-primary-pink"
+                      className="md:order-last"
+                      size="sm-full"
+                      onClick={() => {
+                        batchIdTrade?.length === 0
+                          ? fetchRecipientWallet(tempSearchState)
+                          : setOpened(false);
+                      }}
+                    >
+                      {batchIdTrade?.length === 0 ? "Search" : "Confirm Items"}
+                    </Button>
+                    <Button
+                      variant="popup-secondary-pink"
+                      size="sm-full"
+                      onClick={() => {
+                        setOpened(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Dialog.Panel>

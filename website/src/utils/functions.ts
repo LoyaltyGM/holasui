@@ -49,3 +49,38 @@ export function formatSuiAddress(address: string, startLength = 3, endLength = 4
 export function formatSuiNumber(num: any): number {
   return num / 1000000000;
 }
+
+export const convertDateToTimestamp = (date: string): number => {
+  const dateObject = new Date(date);
+  return dateObject.getTime();
+};
+
+export const formatTimestampToDate = (timestamp: number): string => {
+  const dateObject = new Date(+timestamp);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const formattedDate = `${monthNames[dateObject.getMonth()]} ${dateObject.getDate()}`;
+  return formattedDate;
+};
+
+export const getTodayDate = (): string => {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+export const getTodayMilliseconds = () => Date.now();

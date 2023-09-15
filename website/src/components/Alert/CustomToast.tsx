@@ -72,6 +72,24 @@ export function AlertSucceed(success_type: AlertMessageType) {
     case "CreateDao":
       successTitle = "You have successfully created a DAO!";
       break;
+    case "CreateSpace":
+      successTitle = "You have successfully created a Space!";
+      break;
+    case "CreateJourney":
+      successTitle = "You have successfully created a Journey!";
+      break;
+    case "EditSpace":
+      successTitle = "You have successfully edited your Space!";
+      break;
+    case "CreateQuest":
+      successTitle = "You have successfully created a Quest!";
+      break;
+    case "ClaimNft":
+      successTitle = "You have successfully claimed Reward!";
+      break;
+    case "StartQuest":
+      successTitle = "You have successfully started quest!";
+      break;
     default:
       successTitle = "Something went wrong";
       break;

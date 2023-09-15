@@ -42,7 +42,7 @@ export const MobileMenuDialog = ({
               <XMarkIcon className="h-10 w-10 cursor-pointer text-black" onClick={toggleMenu} />
             </div>
           </div>
-          <div className="mt-[10px] w-full rounded-xl border-2 border-blackColor bg-basicColor px-4 py-10 text-center shadow-black">
+          <div className="mb-10 mt-[10px] w-full rounded-xl border-2 border-blackColor bg-basicColor px-4 py-10 text-center shadow-black sm:mb-20">
             <div className="mb-10 block text-2xl text-white">
               <ethos.components.AddressWidget />
             </div>
@@ -55,14 +55,14 @@ export const MobileMenuDialog = ({
                   Staking
                 </button>
               </Link>
-              {/*<Link href="/spaces">*/}
-              {/*  <button*/}
-              {/*    className="h-12 w-full rounded-lg bg-pinkColor text-lg font-semibold text-white hover:border-2 hover:border-pinkColor hover:bg-white hover:text-pinkColor active:border-blackColor active:text-blackColor"*/}
-              {/*    onClick={toggleMenu}*/}
-              {/*  >*/}
-              {/*    Spaces*/}
-              {/*  </button>*/}
-              {/*</Link>*/}
+              <Link href="/spaces">
+                <button
+                  className="h-12 w-full rounded-lg bg-pinkColor text-lg font-semibold text-white hover:border-2 hover:border-pinkColor hover:bg-white hover:text-pinkColor active:border-blackColor active:text-blackColor"
+                  onClick={toggleMenu}
+                >
+                  Spaces
+                </button>
+              </Link>
               <Link href="/swap">
                 <button
                   className="h-12 w-full rounded-lg bg-orangeColor text-lg font-semibold text-white hover:border-2 hover:border-orangeColor hover:bg-white hover:text-orangeColor active:border-blackColor active:text-blackColor"
@@ -92,14 +92,15 @@ export const MobileMenuDialog = ({
                   Twitter
                 </button>
               </Link>
-              {/* TODO: Add link and taget black */}
-              <Link href="#">
+              <Link
+                href="https://holasui-dev.notion.site/HolaSui-Documentation-bf4a999bc7ba41b3b887bab1c02b37b0?pvs=4"
+                target="_black"
+              >
                 <button className="h-12 w-full rounded-xl border-2 border-pinkColor bg-white font-medium text-pinkColor hover:bg-pinkColor hover:text-white active:text-black">
                   Documentation
                 </button>
               </Link>
-              {/* TODO: Add link and taget black */}
-              <Link href="#">
+              <Link href="https://github.com/orgs/LoyaltyGM/repositories" target="_black">
                 <button className="h-12 w-full rounded-xl border-2 border-yellowColor bg-white font-medium text-yellowColor hover:bg-yellowColor hover:text-white active:text-black">
                   GitHub
                 </button>

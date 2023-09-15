@@ -71,3 +71,20 @@ export const DAO_PROPOSAL_STATUS_ACTIVE: number = 0;
 export const DAO_PROPOSAL_STATUS_CANCELED: number = 1;
 export const DAO_PROPOSAL_STATUS_DEFEATED: number = 2;
 export const DAO_PROPOSAL_STATUS_EXECUTED: number = 3;
+
+// ==== SPACES ====
+
+export const REWARD_TYPE_NFT = 0;
+export const REWARD_TYPE_SOULBOUND = 1;
+
+export const PRICE_CREATE_JOURNEY: number = 3; // 3 sui
+export const PRICE_START_QUEST: number = 0.01; // 0.01 sui
+
+export const SPACE_HUB_ID = "0x303cfce4a8e5d05867c2d63a7687a5eed0bfed1e6da5b3f8c2a8aae65b858b51";
+export const SPACE_PACKAGE = "0xbd1746e73f3af781571f57f496a38031297cea2151ba8e3b1785d15c29e1eda9";
+
+export const CLOCK = "0x6";
+
+export const BACKEND_URL = "https://backend-murex-ten.vercel.app";
+
+export const SPACE_ADMIN_CAP_TYPE = `${SPACE_PACKAGE}::quest::SpaceAdminCap`;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
+import { AnalyticsCategory, AnalyticsEvent, handleAnalyticsClick } from "utils";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
 import { MobileMenuDialog, MenuDialog, SocialsDialog } from "components";
@@ -7,18 +7,28 @@ import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/router";
 import CustomWalletMenu from "../CustomWalletMenu/CustomWalletMenu";
 import { useState } from "react";
+import { useJourneyStore } from "store";
+import cn from "classnames";
 
 export const Header = () => {
+  const { bgColor, isJourneyColor } = useJourneyStore();
   const [openSocials, setOpenSocials] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
-
   const router = useRouter();
+
+  const SocialsButton = ({ className }: { className?: string }) => (
+    <button onClick={() => setOpenSocials(true)} className={className}>
+      Socials
+    </button>
+  );
+
   return (
-    <div className="fixed-header w-full font-inter">
+    <div className={`fixed-header flex w-full  justify-center font-inter bg-${bgColor}`}>
       <div
-        className={classNames(
-          "mx-4 mt-4 flex min-h-[60px] items-center rounded-xl border-2 border-blackColor bg-basicColor pl-3 pr-2.5 text-white md:mx-8 md:min-h-[76px] md:rounded-[20px] md:px-8 xl:min-h-[90px]",
+        className={cn(
+          `mx-4 mt-4 flex min-h-[60px] w-full max-w-[120rem] items-center rounded-xl border-2 border-blackColor bg-${bgColor} pl-3 pr-2.5 text-white md:mx-8 md:min-h-[76px] md:rounded-[20px] md:px-8 xl:min-h-[90px]`,
+          isJourneyColor ? "border-white" : "border-blackColor",
         )}
       >
         <div className="flex flex-1 content-center items-center justify-between">
@@ -31,7 +41,6 @@ export const Header = () => {
               })
             }
           >
-            {/* TODO:Fix sizing images */}
             <Image
               src={Logo}
               height={54}
@@ -43,12 +52,13 @@ export const Header = () => {
             />
           </Link>
           <div
-            className={classNames(
-              "hidden gap-10 font-medium text-black2Color md:mt-0 md:items-center md:justify-evenly xl:flex",
+            className={cn(
+              "hidden gap-10 font-medium  md:mt-0 md:items-center md:justify-evenly xl:flex",
+              isJourneyColor ? "text-white" : "text-black2Color",
             )}
           >
             <Link
-              href="/"
+              href="/staking"
               onClick={async () =>
                 await handleAnalyticsClick({
                   event_main: AnalyticsEvent.clickToStaking,
@@ -57,36 +67,32 @@ export const Header = () => {
               }
             >
               <div
-                className={classNames(
+                className={cn(
                   "block rounded-md p-[10px]",
-                  router.pathname === "/"
+                  router.pathname === "/staking"
                     ? "font-semibold text-blackColor"
+                    : isJourneyColor
+                    ? "hover:text-blackColor"
                     : "hover:text-yellowColor",
                 )}
               >
                 Staking
               </div>
             </Link>
-            {/*<Link*/}
-            {/*  href="/spaces"*/}
-            {/*  onClick={async () =>*/}
-            {/*    await handleAnalyticsClick({*/}
-            {/*      event_main: AnalyticsEvent.clickToSpace,*/}
-            {/*      page: AnalyticsCategory.main,*/}
-            {/*    })*/}
-            {/*  }*/}
-            {/*>*/}
-            {/*  <div*/}
-            {/*    className={classNames(*/}
-            {/*      "block rounded-md p-[10px]",*/}
-            {/*      router.pathname === "/spaces"*/}
-            {/*        ? "font-semibold text-blackColor"*/}
-            {/*        : "hover:text-pinkColor",*/}
-            {/*    )}*/}
-            {/*  >*/}
-            {/*    Spaces*/}
-            {/*  </div>*/}
-            {/*</Link>*/}
+            <Link href="/spaces">
+              <div
+                className={cn(
+                  "block rounded-md p-[10px]",
+                  router.pathname === "/spaces"
+                    ? "font-semibold text-blackColor"
+                    : isJourneyColor
+                    ? "hover:text-blackColor"
+                    : "hover:text-pinkColor",
+                )}
+              >
+                Spaces
+              </div>
+            </Link>
             <Link
               href="/swap"
               onClick={async () =>
@@ -97,10 +103,12 @@ export const Header = () => {
               }
             >
               <div
-                className={classNames(
+                className={cn(
                   "block rounded-md p-[10px]",
                   router.pathname === "/swap"
                     ? "font-semibold text-blackColor"
+                    : isJourneyColor
+                    ? "hover:text-blackColor"
                     : "hover:text-orangeColor",
                 )}
               >
@@ -117,10 +125,12 @@ export const Header = () => {
               }
             >
               <div
-                className={classNames(
+                className={cn(
                   "block rounded-md p-[10px]",
                   router.pathname === "/dao"
                     ? "font-semibold text-blackColor"
+                    : isJourneyColor
+                    ? "hover:text-blackColor"
                     : "hover:text-purpleColor",
                 )}
               >
@@ -131,32 +141,38 @@ export const Header = () => {
           <div className="hidden gap-10 md:flex xl:hidden">
             <button
               onClick={() => setOpenMenu(true)}
-              className="p-[10px] font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor "
+              className={cn(
+                "p-[10px] font-medium hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block",
+                isJourneyColor ? "text-white" : "text-black2Color",
+              )}
             >
               Menu
             </button>
-            <button
-              onClick={() => setOpenSocials(true)}
-              className="p-[10px] font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor"
-            >
-              Socials
-            </button>
+            <SocialsButton
+              className={cn(
+                "p-[10px] font-medium hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block",
+                isJourneyColor ? "text-white" : "text-black2Color",
+              )}
+            />
           </div>
           {/* TODO: Rewrite two socials */}
           <div className="mt-2 hidden h-12 items-center gap-8 md:mt-0 md:flex">
-            <button
-              onClick={() => setOpenSocials(true)}
-              className="hidden p-[10px] px-4 font-medium text-black2Color hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block"
-            >
-              Socials
-            </button>
+            <SocialsButton
+              className={cn(
+                "hidden p-[10px] font-medium hover:cursor-pointer hover:font-semibold hover:text-blackColor xl:block",
+                isJourneyColor ? "text-white" : "text-black2Color",
+              )}
+            />
             <div>
               <CustomWalletMenu />
             </div>
           </div>
           <div className="flex md:hidden">
             <Bars3Icon
-              className="z-10 h-10 w-10 cursor-pointer text-3xl text-black"
+              className={cn(
+                "z-10 h-10 w-10 cursor-pointer text-3xl",
+                isJourneyColor ? "text-white" : "text-blackColor",
+              )}
               onClick={() => setOpenMobileMenu(true)}
             />
           </div>

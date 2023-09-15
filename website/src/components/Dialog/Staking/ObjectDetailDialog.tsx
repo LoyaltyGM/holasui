@@ -3,11 +3,8 @@ import { Fragment } from "react";
 import { AnalyticsCategory, AnalyticsEvent, classNames, handleAnalyticsClick } from "utils";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { StakingRules } from "../../Staking/StakingRules";
+import { Button, StakingRules } from "components";
 import { IObjectDetailDialog } from "types";
-import { Montserrat } from "next/font/google";
-
-const font_montserrat = Montserrat({ subsets: ["latin"] });
 
 export const ObjectDetailDialog = ({
   selectedFrend,
@@ -21,7 +18,7 @@ export const ObjectDetailDialog = ({
     <Transition.Root show={openedFrend} as={Fragment}>
       <Dialog
         as="div"
-        className={classNames("relative z-10", font_montserrat.className)}
+        className="relative z-10"
         onClose={() => {
           setOpenedFrend(false);
         }}
@@ -40,51 +37,40 @@ export const ObjectDetailDialog = ({
 
         <div className="fixed inset-0 z-10 overflow-auto">
           <div className="flex min-h-full items-center justify-center">
-            <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-basicColor px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+            <Dialog.Panel className="relative mx-4 w-full max-w-[418px] transform overflow-hidden rounded-xl border-2 border-blackColor bg-basicColor px-4 py-5 text-left shadow-black transition-all md:mx-0 md:w-auto md:p-[30px] md:pt-5 xl:px-[50px]">
               <Dialog.Title
                 as="h3"
-                className={classNames(
-                  "mb-2 flex justify-between  text-center text-base font-bold leading-6 text-black2Color",
-                  font_montserrat.className,
-                )}
+                className="mb-4 text-center text-lg font-bold leading-6 text-blackColor xl:mb-5"
               >
-                <p className="mt-1"></p>
-                <p className="mt-1">Start staking</p>
-                <button onClick={() => setOpenedFrend(false)}>
-                  <XMarkIcon className="flex h-7 w-7 md:hidden" />
-                </button>
+                Start staking
               </Dialog.Title>
-              <div className="flex flex-col items-center justify-center">
-                <div className={"mt-2 flex flex-col items-center gap-2"}>
-                  <div className="rounded-2xl bg-white px-2 py-4">
-                    <Image
-                      className="h-[35vh] w-auto rounded-lg"
-                      src={selectedFrend.url}
-                      alt="Workflow"
-                      width={75}
-                      height={75}
-                      unoptimized={true}
-                      priority
-                    />
-                  </div>
-
-                  <button
-                    className={classNames(
-                      "mx-auto my-4 block w-full cursor-pointer rounded-md bg-yellowColor px-3 py-2 text-sm font-black text-white hover:bg-[#e5a44a] disabled:cursor-not-allowed disabled:opacity-50",
-                    )}
-                    onClick={async () => {
-                      stakeFunction(selectedFrend!).then();
-                      await handleAnalyticsClick({
-                        event_main: AnalyticsEvent.clickStakeOne,
-                        page: AnalyticsCategory.staking,
-                      });
-                    }}
-                    disabled={waitSui}
-                  >
-                    Stake
-                  </button>
-                  <StakingRules />
+              <button onClick={() => setOpenedFrend(false)} className="absolute right-5 top-5">
+                <XMarkIcon className="h-7 w-7 md:hidden" />
+              </button>
+              <div className="flex w-full flex-col items-center gap-4 xl:gap-5">
+                <div className="min-w-[228px] max-w-[228px] rounded-xl bg-white  px-2 py-4 xl:max-w-[268px]">
+                  <Image
+                    className="h-full w-full rounded-lg"
+                    src={selectedFrend.url}
+                    alt="Workflow"
+                    width={75}
+                    height={75}
+                    unoptimized={true}
+                    priority
+                  />
                 </div>
+
+                <Button
+                  variant="popup-secondary-yellow"
+                  size="full"
+                  onClick={() => {
+                    stakeFunction(selectedFrend!).then();
+                  }}
+                  disabled={waitSui}
+                >
+                  Stake
+                </Button>
+                <StakingRules isStakingDialog={true} />
               </div>
             </Dialog.Panel>
           </div>
