@@ -26,8 +26,8 @@ export const SpacesLayout = () => {
       try {
         // TODO: add promoted objects ids as separate const instead of this mockup
         const mockupPromotedArr = [
-          "0x90de390c69e20e74101bbbecf01db27c7134bbfe56906dd48c1ee451d45d5f90",
-          "0x0bc5e27af48970760844b79938995c25734514098697fa67dcea816b94a6c9c0",
+          "0xdd97b3015108ce270752357178e8427ddfbab17c368918f387c419e738812353",
+          "0xdd97b3015108ce270752357178e8427ddfbab17c368918f387c419e738812353",
         ];
         const promotedSpacesObjects = await Promise.all(
           mockupPromotedArr.map((id) =>
