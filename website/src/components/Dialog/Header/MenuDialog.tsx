@@ -36,7 +36,7 @@ export const MenuDialog = ({
               Menu
             </Dialog.Title>
             <div className="flex flex-col gap-5">
-              <Link href="/">
+              <Link href="/staking">
                 <button
                   className="h-12 w-[330px] rounded-xl bg-yellowColor text-lg font-semibold text-white hover:border-2 hover:border-yellowColor hover:bg-white hover:text-yellowColor active:border-blackColor active:text-blackColor"
                   onClick={() => setOpenMenu(false)}
