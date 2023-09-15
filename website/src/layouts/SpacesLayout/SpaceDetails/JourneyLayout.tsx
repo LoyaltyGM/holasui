@@ -317,12 +317,8 @@ export const JourneyLayout = ({
           {isAdmin && !editingJourneyMode && <EditSpaceBtn />}
         </div>
         <div className="mb-8 flex items-center font-medium md:min-h-[57px] lg:min-h-[100px]">
-          <p>Complete quests to get NFT reward.</p>
-          {isJourneyFetching ? (
-            <p className="h-3 w-12 animate-pulse rounded-2xl bg-grayColor" />
-          ) : (
-            journey?.description
-          )}
+          <p>Complete quests to get NFT reward. {!isJourneyFetching && journey?.description}</p>
+          {isJourneyFetching && <p className="h-3 w-12 animate-pulse rounded-2xl bg-grayColor" />}
         </div>
       </div>
     );
