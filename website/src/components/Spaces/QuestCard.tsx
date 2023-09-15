@@ -32,7 +32,6 @@ export const QuestCard = ({
   const [isLoading, setLoading] = useState(true);
   const [isCompletedQuest, setIsCompleted] = useState(false);
   useEffect(() => {
-    if (!isLoading) return;
     getIsCompletedQuest({
       space: spaceAddress,
       journey_id: journeyAddress,
@@ -42,7 +41,7 @@ export const QuestCard = ({
       .then((data) => setIsCompleted(data))
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
-  }, [isLoading]);
+  }, []);
   const { bgColor } = useJourneyStore();
 
   const Title = () => <h3 className="text-lg font-bold">{quest.name}</h3>;

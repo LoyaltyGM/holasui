@@ -84,7 +84,7 @@ export const CreateJourneyLayout: NextPage<ISpaceAddressProps> = ({ spaceAddress
       }
     }
     fetchAdminCapAndSpaceName().then();
-  }, [status]);
+  }, [wallet]);
 
   const {
     register,
